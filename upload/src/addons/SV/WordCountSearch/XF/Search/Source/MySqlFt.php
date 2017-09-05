@@ -1,7 +1,7 @@
 <?php
 namespace SV\WordCountSearch\XF\Search\Source;
 
-use SV\WordCountSearch\XF\Search\RangeMetadataConstraint;
+use SV\WordCountSearch\XF\Search\Query\RangeMetadataConstraint;
 use XF\Search\Query\Query;
 use XF\Search\IndexRecord;
 
@@ -68,14 +68,13 @@ class MySqlFt extends XFCP_MySqlFt
     {
         /** @var \SV\WordCountSearch\XF\Search\Query\Query $query */
         $query = clone $query; // do not allow others to see our manipulation for the query object
-
         // rewrite metadata range queries into search_index queries
         $constraints = $query->getMetadataConstraints();
-        foreach($constraints as $key => $oldConstraint)
+        foreach($constraints as $key => $constraint)
         {
-            if ($oldConstraint instanceof RangeMetadataConstraint)
+            if ($constraint instanceof RangeMetadataConstraint)
             {
-                $sqlConstraint = $oldConstraint->asSqlConstraint();
+                $sqlConstraint = $constraint->asSqlConstraint();
                 if ($sqlConstraint)
                 {
                     unset($constraints[$key]);

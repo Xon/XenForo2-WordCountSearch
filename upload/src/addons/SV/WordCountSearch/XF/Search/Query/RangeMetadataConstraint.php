@@ -1,6 +1,6 @@
 <?php
 
-namespace SV\WordCountSearch\XF\Search;
+namespace SV\WordCountSearch\XF\Search\Query;
 
 use XF\Search\Query\MetadataConstraint;
 use XF\Search\Query\SqlConstraint;
@@ -41,11 +41,11 @@ class RangeMetadataConstraint extends MetadataConstraint
         switch($this->matchType)
         {
             case self::MATCH_LESSER:
-                return new SqlConstraint("search_index.{$this->key} < %d ", $this->values);
+                return new SqlConstraint("search_index.{$this->key} <= %d ", $this->values);
             case self::MATCH_GREATER:
-                return new SqlConstraint("search_index.{$this->key} > %d ", $this->values);
+                return new SqlConstraint("search_index.{$this->key} >= %d ", $this->values);
             case self::MATCH_BETWEEN:
-                return new SqlConstraint("search_index.{$this->key} > %d and search_index.{$this->key} < %d ", $this->values);
+                return new SqlConstraint("search_index.{$this->key} >= %d and search_index.{$this->key} <= %d ", $this->values);
             default:
                 return null;
         }
