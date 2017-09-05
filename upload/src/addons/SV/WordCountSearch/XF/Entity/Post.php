@@ -36,7 +36,7 @@ class Post extends XFCP_Post
         if ($this->_wordCount)
         {
             $threadmark = $this->_getThreadmarkDataForWC();
-            if ($threadmark || $wordCountRepo->shouldRecordPostWordCount($this->get('post_id'), $this->_wordCount))
+            if ($threadmark || $wordCountRepo->shouldRecordPostWordCount($this->getEntityId(), $this->_wordCount))
             {
                 /** @var PostWords $words */
                 $words = $this->getRelationOrDefault('Words');
@@ -63,7 +63,7 @@ class Post extends XFCP_Post
 
     public function getRawWordCount()
     {
-        if (isset($this->Words))
+        if (!empty($this->Words))
         {
             return $this->Words->word_count;
         }

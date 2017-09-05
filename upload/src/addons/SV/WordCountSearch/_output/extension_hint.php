@@ -12,6 +12,16 @@ namespace SV\WordCountSearch\XF\Entity
 namespace SV\WordCountSearch\XF\Pub\Controller
 {
 	class XFCP_Forum extends \XF\Pub\Controller\Forum {}
-	class XFCP_Thread extends \XF\Pub\Controller\Thread {}
 	class XFCP_Search extends \XF\Pub\Controller\Search {}
+	class XFCP_Thread extends \XF\Pub\Controller\Thread {}
+}
+
+namespace SV\WordCountSearch\XF\Search\Data
+{
+	class XFCP_Post extends \XF\Search\Data\Post {}
+}
+
+namespace SV\WordCountSearch\XF\Search\Source
+{
+	class XFCP_MySqlFt extends \XF\Search\Source\MySqlFt {}
 }

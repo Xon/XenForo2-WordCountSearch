@@ -13,5 +13,17 @@
     },
     "XF-Pub-Controller-Thread_SV-WordCountSearch-XF-Pub-Controller-Thread.json": {
         "hash": "160ca84eb8cf0cf7e44e3112b4201400"
+    },
+    "XF-Search-Data-Post_SV-WordCountSearch-XF-Search-Data-Post.json": {
+        "hash": "acfc5f5dd4fb3599606a074db49376cf"
+    },
+    "XF-Search-Query-Query_SV-WordCountSearch-XF-Search-Query-Query.json": {
+        "hash": "583df7c139bbc294807aa675dad192b8"
+    },
+    "XF-Search-Search_SV-WordCountSearch-XF-Search-Search.json": {
+        "hash": "909031d508c2b2298c4af2a95d105584"
+    },
+    "XF-Search-Source-MySqlFt_SV-WordCountSearch-XF-Search-Source-MySqlFt.json": {
+        "hash": "fe14b87e2c61ffd32fec4127f6141111"
     }
 }

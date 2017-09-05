@@ -26,6 +26,13 @@ class Setup extends AbstractSetup
                 $table->addColumn('word_count', 'int');
             }
         );
+
+        $sm->alterTable(
+            'xf_search_index',
+            function (Alter $table) {
+                $table->addColumn('word_count', 'int')->nullable(true);
+            }
+        );
     }
 
     public function uninstallStep1()
@@ -33,5 +40,12 @@ class Setup extends AbstractSetup
         $sm = $this->schemaManager();
 
         $sm->dropTable('xf_post_words');
+
+        $sm->alterTable(
+            'xf_search_index',
+            function (Alter $table) {
+                $table->dropColumns(['word_count']);
+            }
+        );
     }
 }

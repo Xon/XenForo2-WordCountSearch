@@ -1,21 +1,9 @@
 {
-    "option.alwaysStoreWordCountWithMySQL.txt": {
-        "global_cache": false,
-        "version_id": 2000100,
-        "version_string": "2.0.0",
-        "hash": "cabd03575066523c1739e92b9b6164ea"
-    },
     "option.wordcountThreshold.txt": {
         "global_cache": false,
         "version_id": 2000100,
         "version_string": "2.0.0",
         "hash": "a463c8b02d1d42e794a62247aa319011"
-    },
-    "option_explain.alwaysStoreWordCountWithMySQL.txt": {
-        "global_cache": false,
-        "version_id": 2000100,
-        "version_string": "2.0.0",
-        "hash": "03db4387517b4cfe80d502c3839aec30"
     },
     "option_explain.wordcountThreshold.txt": {
         "global_cache": false,

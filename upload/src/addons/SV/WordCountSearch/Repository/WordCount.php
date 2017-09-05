@@ -19,37 +19,22 @@ class WordCount extends Repository
     public function hasRangeQuery()
     {
         //$this->app()->search()->getQuery();
+        if (self::$hasElasticSearch  === null)
+        {
+            self::$hasElasticSearch = false;
+            self::$hasMySQLSearch = true;
+        }
 
-        self::$hasElasticSearch = false;
-        self::$hasMySQLSearch = true;
-        return false;
+        return self::$hasElasticSearch || self::$hasMySQLSearch;
     }
 
     /** @var bool|null  */
     protected static $hasElasticSearch = null;
-    protected static $hasMySQLSearch = null;
+    protected static $hasMySQLSearch = true;
 
-    public function pushWordCountInIndex()
+    protected function getWordCountThreshold()
     {
-        if(self::$hasElasticSearch === null)
-        {
-            $this->hasRangeQuery();
-        }
-        return self::$hasElasticSearch;
-    }
-
-    public function getWordCountThreshold()
-    {
-        if(self::$hasElasticSearch === null)
-        {
-            $this->hasRangeQuery();
-        }
-        $options = \XF::app()->options();
-        if (self::$hasMySQLSearch && $options->alwaysStoreWordCountWithMySQL)
-        {
-            return 0;
-        }
-        return $options->wordcountThreshold;
+        return \XF::app()->options()->wordcountThreshold;
     }
 
     /**
