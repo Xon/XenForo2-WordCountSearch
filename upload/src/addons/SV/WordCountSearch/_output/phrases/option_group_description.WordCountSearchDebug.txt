@@ -1,0 +1,1 @@
+Debug config for word count search

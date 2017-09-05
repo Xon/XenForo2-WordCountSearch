@@ -6,7 +6,11 @@ use XF\Mvc\Entity\Repository;
 
 class WordCount extends Repository
 {
-    function str_word_count_utf8($str)
+    /**
+     * @param string $str
+     * @return int
+     */
+    protected function str_word_count_utf8($str)
     {
         // ref: http://php.net/manual/de/function.str-word-count.php#107363
         return count(preg_split('~[^\p{L}\p{N}\']+~u',$str));
@@ -14,8 +18,16 @@ class WordCount extends Repository
 
     public function hasRangeQuery()
     {
+        //$this->app()->search()->getQuery();
+
+        self::$hasElasticSearch = false;
+        self::$hasMySQLSearch = true;
         return false;
     }
+
+    /** @var bool|null  */
+    protected static $hasElasticSearch = null;
+    protected static $hasMySQLSearch = null;
 
     public function pushWordCountInIndex()
     {
@@ -32,13 +44,19 @@ class WordCount extends Repository
         {
             $this->hasRangeQuery();
         }
-        if (self::$hasMySQLSearch)
+        $options = \XF::app()->options();
+        if (self::$hasMySQLSearch && $options->alwaysStoreWordCountWithMySQL)
         {
             return 0;
         }
-        return \XF::app()->options()->wordcountThreshold;
+        return $options->wordcountThreshold;
     }
 
+    /**
+     * @param int $postId
+     * @param int $wordCount
+     * @return bool
+     */
     public function shouldRecordPostWordCount($postId, $wordCount)
     {
         if ($wordCount >= $this->getWordCountThreshold())
@@ -49,6 +67,10 @@ class WordCount extends Repository
         return false;
     }
 
+    /**
+     * @param string $message
+     * @return int
+     */
     public function getTextWordCount($message)
     {
         $strippedText = $this->app()->stringFormatter()->stripBbCode($message, ['stripQuote' => true]);
@@ -57,6 +79,10 @@ class WordCount extends Repository
         return $this->str_word_count_utf8($strippedText);
     }
 
+    /**
+     * @param int $WordCount
+     * @return string
+     */
     public function roundWordCount($WordCount)
     {
         $inexactWordCount = intval($WordCount);
@@ -93,6 +119,6 @@ class WordCount extends Repository
             $inexactWordCount = 10;
         }
 
-        return $inexactWordCount;
+        return strval($inexactWordCount);
     }
 }

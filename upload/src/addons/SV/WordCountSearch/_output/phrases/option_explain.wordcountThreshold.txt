@@ -1,0 +1,1 @@
+The minimum number of words before the word-count is stored in the database, it is still pushed to the search index. This helps reduce bloat by only recording significant amounts.

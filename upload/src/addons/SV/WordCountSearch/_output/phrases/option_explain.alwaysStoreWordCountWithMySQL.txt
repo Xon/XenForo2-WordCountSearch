@@ -1,0 +1,1 @@
+If using MySQL search, the word count will be stored outside the search index itself and thus needs to always be store

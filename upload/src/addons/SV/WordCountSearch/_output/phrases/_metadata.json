@@ -1,0 +1,38 @@
+{
+    "option.alwaysStoreWordCountWithMySQL.txt": {
+        "global_cache": false,
+        "version_id": 2000100,
+        "version_string": "2.0.0",
+        "hash": "cabd03575066523c1739e92b9b6164ea"
+    },
+    "option.wordcountThreshold.txt": {
+        "global_cache": false,
+        "version_id": 2000100,
+        "version_string": "2.0.0",
+        "hash": "a463c8b02d1d42e794a62247aa319011"
+    },
+    "option_explain.alwaysStoreWordCountWithMySQL.txt": {
+        "global_cache": false,
+        "version_id": 2000100,
+        "version_string": "2.0.0",
+        "hash": "03db4387517b4cfe80d502c3839aec30"
+    },
+    "option_explain.wordcountThreshold.txt": {
+        "global_cache": false,
+        "version_id": 2000100,
+        "version_string": "2.0.0",
+        "hash": "b56d99766d7e6c368eea121a3c6e6d45"
+    },
+    "option_group.WordCountSearchDebug.txt": {
+        "global_cache": false,
+        "version_id": 2000100,
+        "version_string": "2.0.0",
+        "hash": "caaa13ee3e05be15692520b29b545b95"
+    },
+    "option_group_description.WordCountSearchDebug.txt": {
+        "global_cache": false,
+        "version_id": 2000100,
+        "version_string": "2.0.0",
+        "hash": "a5055e6a6577999a3e9f652b8bb5c8c4"
+    }
+}
