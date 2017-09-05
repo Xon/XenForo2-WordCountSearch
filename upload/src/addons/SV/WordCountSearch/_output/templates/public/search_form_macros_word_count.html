@@ -1,0 +1,27 @@
+<xf:macro name="word_count" arg-input="{{ [] }}">
+	<xf:formrow label="{{ phrase('word_count') }}">
+		<div class="inputGroup">
+		<xf:textbox name="c[word_count][lower]" 
+					class="input--number" 
+					value="{$input.c.word_count.lower}" 
+					placeholder="{{ phrase('word_count_lower_bound') }}" /> 
+		&nbsp; - &nbsp;
+		<xf:textbox name="c[word_count][upper]" 
+					class="input--number" 
+					value="{$input.c.word_count.upper}" 
+					placeholder="{{ phrase('word_count_upper_bound') }}" />
+		</div>
+	</xf:formrow>
+</xf:macro>
+
+<xf:macro name="word_count_quick" arg-input="{{ [] }}">
+<div class="menu-row">
+	<div class="inputGroup">
+		<span class="inputGroup-text">{{ phrase('word_count') }}:</span>
+		<input class="input" 
+			   name="c[word_count][lower]" 
+			   value="{$input.c.word_count.lower}" 
+			   placeholder="{{ phrase('word_count_lower_bound') }}" /> 
+	</div>
+</div>
+</xf:macro>
