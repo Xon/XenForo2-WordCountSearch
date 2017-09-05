@@ -1,0 +1,17 @@
+{
+    "XF-Entity-Post_SV-WordCountSearch-XF-Entity-Post.json": {
+        "hash": "011bd944534714549f5ed6ad65913434"
+    },
+    "XF-Entity-Thread_SV-WordCountSearch-XF-Entity-Thread.json": {
+        "hash": "45d35c63b9a1d731b10922826b492525"
+    },
+    "XF-Pub-Controller-Forum_SV-WordCountSearch-XF-Pub-Controller-Forum.json": {
+        "hash": "19472107299ae21e8d71325d0374cb38"
+    },
+    "XF-Pub-Controller-Search_SV-WordCountSearch-XF-Pub-Controller-Search.json": {
+        "hash": "7aaf69d0a2da11e2f8c2aa77d0974082"
+    },
+    "XF-Pub-Controller-Thread_SV-WordCountSearch-XF-Pub-Controller-Thread.json": {
+        "hash": "160ca84eb8cf0cf7e44e3112b4201400"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\Entity\\Thread",
+    "to_class": "SV\\WordCountSearch\\XF\\Entity\\Thread",
+    "execute_order": 4763,
+    "active": true
+}

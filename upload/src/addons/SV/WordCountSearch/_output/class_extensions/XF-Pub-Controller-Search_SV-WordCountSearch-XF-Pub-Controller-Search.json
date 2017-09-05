@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\Pub\\Controller\\Search",
+    "to_class": "SV\\WordCountSearch\\XF\\Pub\\Controller\\Search",
+    "execute_order": 4763,
+    "active": true
+}

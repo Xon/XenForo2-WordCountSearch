@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\Entity\Post" to_class="SV\WordCountSearch\XF\Entity\Post" execute_order="4763" active="1"/>
+  <extension from_class="XF\Entity\Thread" to_class="SV\WordCountSearch\XF\Entity\Thread" execute_order="4763" active="1"/>
+  <extension from_class="XF\Pub\Controller\Forum" to_class="SV\WordCountSearch\XF\Pub\Controller\Forum" execute_order="4763" active="1"/>
+  <extension from_class="XF\Pub\Controller\Search" to_class="SV\WordCountSearch\XF\Pub\Controller\Search" execute_order="4763" active="1"/>
+  <extension from_class="XF\Pub\Controller\Thread" to_class="SV\WordCountSearch\XF\Pub\Controller\Thread" execute_order="4763" active="1"/>
+</class_extensions>
