@@ -54,10 +54,6 @@ class Post extends XFCP_Post
 
     public function getTypeOrder($order)
     {
-        if ($order == 'word_count')
-        {
-            return new \XF\Search\Query\SqlOrder('search_index.word_count DESC');
-        }
         return parent::getTypeOrder($order);
     }
 
