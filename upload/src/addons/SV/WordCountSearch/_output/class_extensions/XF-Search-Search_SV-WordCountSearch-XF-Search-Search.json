@@ -1,6 +1,0 @@
-{
-    "from_class": "XF\\Search\\Search",
-    "to_class": "SV\\WordCountSearch\\XF\\Search\\Search",
-    "execute_order": 4763,
-    "active": false
-}

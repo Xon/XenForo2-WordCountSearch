@@ -1,6 +1,6 @@
 <?php
 
-namespace SV\ThreadStarterAlerts;
+namespace SV\WordCountSearch;
 
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
