@@ -17,7 +17,9 @@ class Elasticsearch extends XFCP_Elasticsearch
     {
         $dsl = parent::getDslFromQuery($query, $maxResults);
         // rewrite order-by since getDslFromQuery is inflexible
-        if ($query->getOrder() instanceof Query\SqlOrder)
+        $orderByClause = $query->getOrder();
+        if ($orderByClause instanceof Query\SqlOrder &&
+            strpos($orderByClause->getOrder(), 'search_index.word_count') === 0)
         {
             $query->orderedBy('date');
             $dsl['sort'] = [
