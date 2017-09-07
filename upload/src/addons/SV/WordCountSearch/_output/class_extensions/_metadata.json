@@ -25,5 +25,8 @@
     },
     "XF-Search-Source-MySqlFt_SV-WordCountSearch-XF-Search-Source-MySqlFt.json": {
         "hash": "fe14b87e2c61ffd32fec4127f6141111"
+    },
+    "XFES-Search-Source-Elasticsearch_SV-WordCountSearch-XFES-Search-Source-Elasticsearch.json": {
+        "hash": "d941488f7b8f958866a612a5b14f9d00"
     }
 }
