@@ -1,0 +1,9 @@
+{
+    "event_id": "templater_macro_pre_render",
+    "execute_order": 10,
+    "callback_class": "SV\\WordCountSearch\\Listener",
+    "callback_method": "orderMacroPreRender",
+    "active": true,
+    "hint": "public:search_form_macros:order",
+    "description": "Add word-count sorting"
+}
