@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\Search\\Data\\Thread",
+    "to_class": "SV\\WordCountSearch\\XF\\Search\\Data\\Thread",
+    "execute_order": 10,
+    "active": true
+}

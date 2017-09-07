@@ -8,20 +8,22 @@ use XF\Mvc\Entity\Entity;
 use XF\Search\IndexRecord;
 use XF\Search\MetadataStructure;
 
-class Post extends XFCP_Post
+class Thread extends XFCP_Thread
 {
-    public function getEntityWith($forView = false)
+    protected function getMetaData(\XF\Entity\Thread $entity)
     {
-        $get = parent::getEntityWith($forView);
-        $get[] = 'Words';
-        return $get;
-    }
-
-    protected function getMetaData(\XF\Entity\Post $post)
-    {
-        /** @var \SV\WordCountSearch\XF\Entity\Post $post */
+        /** @var \SV\WordCountSearch\XF\Entity\Thread $entity */
         /** @var IndexRecord $index */
-        $metadata = parent::getMetaData($post);
+        $metadata = parent::getMetaData($entity);
+
+        // The firstPost isn't indexed as a post but as the thread.
+
+        /** @var \SV\WordCountSearch\XF\Entity\Post $post */
+        $post = $entity->FirstPost;
+        if (!$post)
+        {
+            return $metadata;
+        }
 
         $wordCountRepo = $this->getWordCountRepo();
 

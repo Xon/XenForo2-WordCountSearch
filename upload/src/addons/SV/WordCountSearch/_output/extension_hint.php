@@ -24,6 +24,7 @@ namespace SV\WordCountSearch\XF\Pub\Controller
 namespace SV\WordCountSearch\XF\Search\Data
 {
 	class XFCP_Post extends \XF\Search\Data\Post {}
+	class XFCP_Thread extends \XF\Search\Data\Thread {}
 }
 
 namespace SV\WordCountSearch\XF\Search\Source
