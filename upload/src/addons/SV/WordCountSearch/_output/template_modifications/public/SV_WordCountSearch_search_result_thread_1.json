@@ -1,0 +1,9 @@
+{
+    "template": "search_result_thread",
+    "description": "Inject Word count",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<li><xf:username",
+    "replace": "<xf:if is=\"{$thread.WordCount}\">\n\t<li>{{phrase('word_count')}}: <a class=\"wordcount\">{{$thread.WordCount}}</a></li>\n</xf:if>\n$0"
+}
