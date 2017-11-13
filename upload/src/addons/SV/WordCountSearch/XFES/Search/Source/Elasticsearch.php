@@ -62,6 +62,6 @@ class Elasticsearch extends XFCP_Elasticsearch
                     return;
             }
         }
-        parent::applyMetadataConstraint($metadata, $filters, $filtersNo);
+        parent::applyMetadataConstraint($metadata, $filters, $filtersNot);
     }
 }
