@@ -26,18 +26,21 @@ class Post extends XFCP_Post
         $wordCountRepo = $this->getWordCountRepo();
 
         $wordCount = $post->getRawWordCount();
-        if (empty($post->Words))
+        if ($wordCount !== null)
         {
-            if ($wordCountRepo->shouldRecordPostWordCount($post->getEntityId(), $wordCount))
+            $wordCount = intval($wordCount);
+            if (empty($post->Words))
             {
-                /** @var PostWords $words */
-                $words = $post->getRelationOrDefault('Words');
-                $words->word_count = $this->_wordCount;
-                $words->save();
+                if ($wordCountRepo->shouldRecordPostWordCount($post->getEntityId(), $wordCount))
+                {
+                    /** @var PostWords $words */
+                    $words = $post->getRelationOrDefault('Words');
+                    $words->word_count = $wordCount;
+                    $words->save();
+                }
             }
+            $metadata['word_count'] = $wordCount;
         }
-
-        $metadata['word_count'] = intval($wordCount);
 
         return $metadata;
     }
