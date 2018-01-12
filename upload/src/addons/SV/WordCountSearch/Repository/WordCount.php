@@ -75,7 +75,11 @@ class WordCount extends Repository
         {
             return 0;
         }
-        if ($inexactWordCount >= 1000000)
+        if ($inexactWordCount >= 1000000000)
+        {
+            $inexactWordCount = round($inexactWordCount / 1000000000, 1) . 'b';
+        }
+        else if ($inexactWordCount >= 1000000)
         {
             $inexactWordCount = round($inexactWordCount / 1000000, 1) . 'm';
         }
@@ -98,6 +102,10 @@ class WordCount extends Repository
         else if ($inexactWordCount >= 10)
         {
             $inexactWordCount = round($inexactWordCount / 10, 1) * 10;
+        }
+        else if ($inexactWordCount < 0)
+        {
+            $inexactWordCount = 0;
         }
         else
         {
