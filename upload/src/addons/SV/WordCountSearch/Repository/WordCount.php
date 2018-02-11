@@ -42,7 +42,7 @@ class WordCount extends Repository
      * @param int $wordCount
      * @return bool
      */
-    public function shouldRecordPostWordCount($postId, $wordCount)
+    public function shouldRecordPostWordCount(/** @noinspection PhpUnusedParameterInspection */ $postId, $wordCount)
     {
         if ($wordCount >= $this->getWordCountThreshold())
         {

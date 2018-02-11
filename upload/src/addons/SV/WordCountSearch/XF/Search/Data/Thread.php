@@ -4,7 +4,6 @@ namespace SV\WordCountSearch\XF\Search\Data;
 
 
 use SV\WordCountSearch\Entity\PostWords;
-use XF\Mvc\Entity\Entity;
 use XF\Search\IndexRecord;
 use XF\Search\MetadataStructure;
 
