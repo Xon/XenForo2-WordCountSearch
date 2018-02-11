@@ -1,6 +1,6 @@
 {
     "from_class": "XF\\Search\\Query\\Query",
     "to_class": "SV\\WordCountSearch\\XF\\Search\\Query\\Query",
-    "execute_order": 4763,
+    "execute_order": 5652,
     "active": false
 }

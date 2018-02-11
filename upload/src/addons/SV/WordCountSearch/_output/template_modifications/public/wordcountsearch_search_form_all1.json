@@ -1,7 +1,7 @@
 {
     "template": "search_form_all",
     "description": "Inject Word count filter",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:macro template=\"search_form_macros\" name=\"date\" arg-input=\"{$input}\" />",

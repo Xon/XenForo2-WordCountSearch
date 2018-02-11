@@ -1,7 +1,7 @@
 {
     "template": "search_result_thread",
     "description": "Inject Word count",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
     "find": "<li><xf:username",

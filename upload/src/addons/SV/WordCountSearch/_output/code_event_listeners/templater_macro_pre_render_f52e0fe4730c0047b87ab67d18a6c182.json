@@ -1,6 +1,6 @@
 {
     "event_id": "templater_macro_pre_render",
-    "execute_order": 10,
+    "execute_order": 5652,
     "callback_class": "SV\\WordCountSearch\\Listener",
     "callback_method": "orderMacroPreRender",
     "active": true,
