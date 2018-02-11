@@ -83,8 +83,7 @@ class MySqlFt extends XFCP_MySqlFt
             }
         }
         // XF\Search\Search & XF\Search\Query\Query aren't extendable
-        \SV\WordCountSearch\XF\Search\Query\Query::setMetadataConstraintsHack($query, $constraints);
-        //$query->setMetadataConstraints($constraints);
+        $query->setMetadataConstraints($constraints);
 
         return parent::search($query, $maxResults);
     }

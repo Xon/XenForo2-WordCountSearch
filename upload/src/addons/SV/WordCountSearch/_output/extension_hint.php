@@ -27,6 +27,11 @@ namespace SV\WordCountSearch\XF\Search\Data
 	class XFCP_Thread extends \XF\Search\Data\Thread {}
 }
 
+namespace SV\WordCountSearch\XF\Search\Query
+{
+	class XFCP_Query extends \XF\Search\Query\Query {}
+}
+
 namespace SV\WordCountSearch\XF\Search\Source
 {
 	class XFCP_MySqlFt extends \XF\Search\Source\MySqlFt {}
