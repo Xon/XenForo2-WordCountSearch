@@ -1,35 +1,35 @@
 {
     "XF-Entity-Post_SV-WordCountSearch-XF-Entity-Post.json": {
-        "hash": "011bd944534714549f5ed6ad65913434"
+        "hash": "673b1a65e922f4ad1c0448acb4ad1b55"
     },
     "XF-Entity-Thread_SV-WordCountSearch-XF-Entity-Thread.json": {
-        "hash": "45d35c63b9a1d731b10922826b492525"
+        "hash": "444beb64d2829568bf20511b6228824e"
     },
     "XF-Pub-Controller-Forum_SV-WordCountSearch-XF-Pub-Controller-Forum.json": {
-        "hash": "19472107299ae21e8d71325d0374cb38"
+        "hash": "247600b5fa780f7f0add87e50b949525"
     },
     "XF-Pub-Controller-Search_SV-WordCountSearch-XF-Pub-Controller-Search.json": {
-        "hash": "7aaf69d0a2da11e2f8c2aa77d0974082"
+        "hash": "7172d92e5164d9e62334b235a377978b"
     },
     "XF-Pub-Controller-Thread_SV-WordCountSearch-XF-Pub-Controller-Thread.json": {
-        "hash": "160ca84eb8cf0cf7e44e3112b4201400"
+        "hash": "04c042b87c0fecfd467d8001f0b15ee4"
     },
     "XF-Search-Data-Post_SV-WordCountSearch-XF-Search-Data-Post.json": {
-        "hash": "acfc5f5dd4fb3599606a074db49376cf"
+        "hash": "4d25ec0226124804d7fee12d43204015"
     },
     "XF-Search-Data-Thread_SV-WordCountSearch-XF-Search-Data-Thread.json": {
-        "hash": "f552ad51fbea8f125e05e8cdcc881d82"
+        "hash": "d6e5410ffe5cfe210018ba97f0fa3cc0"
     },
     "XF-Search-Query-Query_SV-WordCountSearch-XF-Search-Query-Query.json": {
-        "hash": "583df7c139bbc294807aa675dad192b8"
+        "hash": "2e8fc7237934e9bea289919723a6f0b5"
     },
     "XF-Search-Search_SV-WordCountSearch-XF-Search-Search.json": {
         "hash": "909031d508c2b2298c4af2a95d105584"
     },
     "XF-Search-Source-MySqlFt_SV-WordCountSearch-XF-Search-Source-MySqlFt.json": {
-        "hash": "fe14b87e2c61ffd32fec4127f6141111"
+        "hash": "b93b3129be8bfb2edb05229581b00b9c"
     },
     "XFES-Search-Source-Elasticsearch_SV-WordCountSearch-XFES-Search-Source-Elasticsearch.json": {
-        "hash": "d941488f7b8f958866a612a5b14f9d00"
+        "hash": "c09ea3152d75a20b6fc258d3f3d1183d"
     }
 }
