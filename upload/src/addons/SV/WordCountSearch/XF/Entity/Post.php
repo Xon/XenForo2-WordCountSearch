@@ -8,6 +8,9 @@ use XF\Mvc\Entity\Structure;
 /**
  * Extends \XF\Entity\Post
  *
+ * @property string    wordCount
+ * @property int       rawWordCount
+ *
  * @property PostWords Words
  */
 class Post extends XFCP_Post
@@ -77,7 +80,12 @@ class Post extends XFCP_Post
     {
         $structure = parent::getStructure($structure);
 
-        $structure->getters['WordCount'] = [
+        $structure->getters['wordCount'] = [
+            'getter' => true,
+            'cache' => true
+        ];
+
+        $structure->getters['rawWordCount'] = [
             'getter' => true,
             'cache' => true
         ];
