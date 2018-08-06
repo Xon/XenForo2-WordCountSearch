@@ -7,11 +7,12 @@ use XF\Mvc\Entity\Structure;
 
 
 /**
- * Extends \XF\Mvc\Entity\Entity
- *
+ * COLUMNS
  * @property int post_id
  * @property int word_count
- * @property Post Post
+ *
+ * RELATIONS
+ * @property \XF\Entity\Post Post
  */
 class PostWords extends Entity
 {
