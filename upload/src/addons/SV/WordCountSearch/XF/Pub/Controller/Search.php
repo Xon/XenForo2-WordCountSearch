@@ -28,13 +28,21 @@ class Search extends XFCP_Search
             'c.word_count.upper' => 'uint',
         ]);
 
+        $hasSearch = false;
         if (!empty($input['c.word_count.lower']))
         {
+            $hasSearch = true;
             $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.lower'], RangeMetadataConstraint::MATCH_GREATER));
         }
         if (!empty($input['c.word_count.upper']))
         {
+            $hasSearch = true;
             $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.upper'], RangeMetadataConstraint::MATCH_LESSER));
+        }
+
+        if($hasSearch && !$query->getKeywords())
+        {
+            $query->withKeywords('*', $query->getTitleOnly());
         }
 
         $urlConstraints = array_merge($urlConstraints, $input['c']);
