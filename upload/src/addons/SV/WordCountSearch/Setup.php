@@ -95,11 +95,11 @@ class Setup extends AbstractSetup
         $tables = [];
 
         $tables['xf_thread'] = function (Alter $table) {
-            $this->addOrChangeColumn($table,'word_count', 'int')->nullable(true)->setDefault(null);
+            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0);
         };
 
         $tables['xf_search_index'] = function (Alter $table) {
-            $this->addOrChangeColumn($table,'word_count', 'int')->nullable(true)->setDefault(null);
+            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0);
         };
 
         return $tables;

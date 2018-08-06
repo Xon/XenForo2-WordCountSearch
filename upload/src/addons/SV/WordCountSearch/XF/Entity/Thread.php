@@ -35,7 +35,7 @@ class Thread extends XFCP_Thread
     {
         $structure = parent::getStructure($structure);
 
-        $structure->columns['word_count'] = ['type' => self::UINT, 'default' => null, 'nullable' => true];
+        $structure->columns['word_count'] = ['type' => self::UINT, 'default' => 0];
 
         $structure->getters['WordCount'] = [
             'getter' => true,

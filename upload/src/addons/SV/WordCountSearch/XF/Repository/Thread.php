@@ -38,7 +38,7 @@ class Thread extends XFCP_Thread
 
         if ($threadmarkInstalled)
         {
-            $wordCount = $db->fetchOne('
+            $wordCount = intval($db->fetchOne('
                 SELECT IFNULL(SUM(post_words.word_count), 0)
                 FROM xf_sv_threadmark AS threadmark 
                 INNER JOIN xf_post_words AS post_words ON
@@ -47,7 +47,7 @@ class Thread extends XFCP_Thread
                   AND threadmark.container_id = ?
                   AND threadmark.message_state = ?
                   AND threadmark.threadmark_category_id = ?
-            ', ['post', 'thread', $threadId, 'visible', self::DEFAULT_THREADMARK_CATEGORY_ID]);
+            ', ['post', 'thread', $threadId, 'visible', self::DEFAULT_THREADMARK_CATEGORY_ID]));
         }
 
         $db->update('xf_thread', [
