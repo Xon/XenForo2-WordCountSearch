@@ -40,6 +40,16 @@ class Setup extends AbstractSetup
         );
     }
 
+    public function upgrade2010000Step1()
+    {
+        $sm = $this->schemaManager();
+
+        $sm->alterTable('xf_thread', function (Alter $table)
+        {
+            $table->addColumn('word_count', 'int')->nullable(true)->setDefault(null);
+        });
+    }
+
     public function uninstallStep1()
     {
         $sm = $this->schemaManager();
@@ -52,5 +62,15 @@ class Setup extends AbstractSetup
                 $table->dropColumns(['word_count']);
             }
         );
+    }
+
+    public function uninstallStep2()
+    {
+        $sm = $this->schemaManager();
+
+        $sm->alterTable('xf_thread', function (Alter $table)
+        {
+            $table->dropColumns('word_count');
+        });
     }
 }

@@ -1,4 +1,9 @@
 {
+    "admin/svWordCountSearch_tools_rebuild.html": {
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "c5e92fbd53ed03840c4d40b2698a42ef"
+    },
     "public/search_form_macros_word_count.html": {
         "version_id": 2000100,
         "version_string": "2.0.0",
@@ -7,7 +12,7 @@
     "public/svWordCountSearch_forum_filters_min_max_word_count.html": {
         "version_id": 2010000,
         "version_string": "2.1.0",
-        "hash": "cab48c120c09a8c0f0758d7b05167cf1"
+        "hash": "6684cc283d32f6595e45dca1fb18b589"
     },
     "public/svWordCountSearch_forum_filters_min_max_word_count.less": {
         "version_id": 2010000,

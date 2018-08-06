@@ -18,19 +18,25 @@ class Forum extends XFCP_Forum
     {
         $filters = parent::getForumFilterInput($forum);
 
-        $input = $this->filter([
-            'min_word_count' => 'int',
-            'max_word_count' => 'int'
-        ]);
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        if ($input['min_word_count'])
+        if ($wordCountRepo->getIsThreadmarksSupportEnabled($forum))
         {
-            $filters['min_word_count'] = $input['min_word_count'];
-        }
+            $input = $this->filter([
+                'min_word_count' => 'int',
+                'max_word_count' => 'int'
+            ]);
 
-        if ($input['max_word_count'])
-        {
-            $filters['max_word_count'] = $input['max_word_count'];
+            if ($input['min_word_count'])
+            {
+                $filters['min_word_count'] = $input['min_word_count'];
+            }
+
+            if ($input['max_word_count'])
+            {
+                $filters['max_word_count'] = $input['max_word_count'];
+            }
         }
 
         return $filters;
@@ -45,14 +51,20 @@ class Forum extends XFCP_Forum
     {
         parent::applyForumFilters($forum, $threadFinder, $filters);
 
-        if (!empty($filters['min_word_count']))
-        {
-            $threadFinder->where('word_count', '>=', $filters['min_word_count']);
-        }
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        if (!empty($filters['max_word_count']))
+        if ($wordCountRepo->getIsThreadmarksSupportEnabled($forum))
         {
-            $threadFinder->where('word_count', '<=', $filters['max_word_count']);
+            if (!empty($filters['min_word_count']))
+            {
+                $threadFinder->where('word_count', '>=', $filters['min_word_count']);
+            }
+
+            if (!empty($filters['max_word_count']))
+            {
+                $threadFinder->where('word_count', '<=', $filters['max_word_count']);
+            }
         }
     }
 }

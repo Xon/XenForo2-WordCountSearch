@@ -5,6 +5,9 @@
     "XF-Entity-Thread_SV-WordCountSearch-XF-Entity-Thread.json": {
         "hash": "444beb64d2829568bf20511b6228824e"
     },
+    "XF-Job-Thread_SV-WordCountSearch-XF-Job-Thread.json": {
+        "hash": "50b7e0b4fd9ee9651e3c747cdb3d36dc"
+    },
     "XF-Pub-Controller-Forum_SV-WordCountSearch-XF-Pub-Controller-Forum.json": {
         "hash": "247600b5fa780f7f0add87e50b949525"
     },
@@ -13,6 +16,9 @@
     },
     "XF-Pub-Controller-Thread_SV-WordCountSearch-XF-Pub-Controller-Thread.json": {
         "hash": "04c042b87c0fecfd467d8001f0b15ee4"
+    },
+    "XF-Repository-Thread_SV-WordCountSearch-XF-Repository-Thread.json": {
+        "hash": "b52704df38260215a35e5d9693b8f1d5"
     },
     "XF-Search-Data-Post_SV-WordCountSearch-XF-Search-Data-Post.json": {
         "hash": "4d25ec0226124804d7fee12d43204015"

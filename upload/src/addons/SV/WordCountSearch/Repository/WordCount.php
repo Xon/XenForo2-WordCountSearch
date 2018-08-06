@@ -125,4 +125,24 @@ class WordCount extends Repository
 
         return strval($inexactWordCount);
     }
+
+    /**
+     * @param \XF\Entity\Forum|null $forum
+     *
+     * @return bool
+     */
+    public function getIsThreadmarksSupportEnabled(\XF\Entity\Forum $forum = null)
+    {
+        /** @var \SV\Threadmarks\XF\Entity\Forum $forum */
+        if ($forum)
+        {
+            if (!$forum->canViewThreadmarks())
+            {
+                return false;
+            }
+        }
+
+        $addOns = \XF::app()->container('addon.cache');
+        return isset($addOns['SV/Threadmarks']);
+    }
 }

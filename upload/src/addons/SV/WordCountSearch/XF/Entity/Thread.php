@@ -7,8 +7,12 @@ use XF\Mvc\Entity\Structure;
 /**
  * Extends \XF\Entity\Thread
  *
- * @property string    wordCount
- * @property int       rawWordCount
+ * COLUMNS
+ * @property int|null word_count
+ * @property int|null word_count_
+ *
+ * GETTERS
+ * @property string    WordCount
  */
 class Thread extends XFCP_Thread
 {
@@ -19,16 +23,7 @@ class Thread extends XFCP_Thread
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        return $wordCountRepo->roundWordCount($this->getRawWordCount());
-    }
-
-    /**
-     * @return int
-     */
-    public function getRawWordCount()
-    {
-        //$this->word_count
-        return 0;
+        return $wordCountRepo->roundWordCount($this->word_count_);
     }
 
     /**
@@ -42,12 +37,7 @@ class Thread extends XFCP_Thread
 
         $structure->columns['word_count'] = ['type' => self::UINT, 'default' => null, 'nullable' => true];
 
-        $structure->getters['wordCount'] = [
-            'getter' => true,
-            'cache' => true
-        ];
-
-        $structure->getters['rawWordCount'] = [
+        $structure->getters['WordCount'] = [
             'getter' => true,
             'cache' => true
         ];

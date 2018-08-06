@@ -8,8 +8,7 @@ use XF\Mvc\Entity\Structure;
 /**
  * Extends \XF\Entity\Post
  *
- * @property string    wordCount
- * @property int       rawWordCount
+ * @property int       WordCount
  *
  * @property PostWords Words
  */
@@ -42,6 +41,7 @@ class Post extends XFCP_Post
         {
             $this->_wordCount = $wordCountRepo->getTextWordCount($this->message);
         }
+
         if ($this->_wordCount)
         {
             $threadmark = $this->_getThreadmarkDataForWC();
@@ -64,19 +64,9 @@ class Post extends XFCP_Post
     }
 
     /**
-     * @return string
-     */
-    public function getWordCount()
-    {
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        return $wordCountRepo->roundWordCount($this->getRawWordCount());
-    }
-
-    /**
      * @return int
      */
-    public function getRawWordCount()
+    public function getWordCount()
     {
         if (!empty($this->Words))
         {
@@ -89,6 +79,20 @@ class Post extends XFCP_Post
     }
 
     /**
+     * @throws \XF\PrintableException
+     */
+    public function rebuildPostWordCount()
+    {
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+
+        /** @var \SV\WordCountSearch\Entity\PostWords $words */
+        $words = $this->getRelationOrDefault('Words');
+        $words->word_count = $wordCountRepo->getTextWordCount($this->message);
+        $words->save();
+    }
+
+    /**
      * @param Structure $structure
      *
      * @return Structure
@@ -97,12 +101,7 @@ class Post extends XFCP_Post
     {
         $structure = parent::getStructure($structure);
 
-        $structure->getters['wordCount'] = [
-            'getter' => true,
-            'cache' => true
-        ];
-
-        $structure->getters['rawWordCount'] = [
+        $structure->getters['WordCount'] = [
             'getter' => true,
             'cache' => true
         ];

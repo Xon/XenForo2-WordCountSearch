@@ -47,6 +47,18 @@
         "version_string": "2.1.0",
         "hash": "9ce8167ce68bd22a22911df2aaeb5e67"
     },
+    "svWordCountSearch_post_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "35fe32058b41fc33b9b89312c69e974e"
+    },
+    "svWordCountSearch_rebuild_posts_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "df27d9cef4e704b8781f3a5c3d76b6c6"
+    },
     "svWordCountSearch_word_count.txt": {
         "global_cache": false,
         "version_id": 2010000,
