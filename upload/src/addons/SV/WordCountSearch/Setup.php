@@ -9,6 +9,11 @@ use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
 use XF\Db\Schema\Create;
 
+/**
+ * Class Setup
+ *
+ * @package SV\WordCountSearch
+ */
 class Setup extends AbstractSetup
 {
 	use StepRunnerInstallTrait;

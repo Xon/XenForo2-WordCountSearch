@@ -17,9 +17,12 @@ class Post extends XFCP_Post
 {
     protected $_wordCount = null;
 
+    /**
+     * @return bool
+     */
     protected function _getThreadmarkDataForWC()
     {
-        if (is_callable(array($this, '_getThreadmarkData')))
+        if (is_callable([$this, '_getThreadmarkData']))
         {
             /** @noinspection PhpUndefinedMethodInspection */
             return $this->_getThreadmarkData();
@@ -27,6 +30,9 @@ class Post extends XFCP_Post
         return false;
     }
 
+    /**
+     * @throws \XF\PrintableException
+     */
     public function _preSave()
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
@@ -57,6 +63,9 @@ class Post extends XFCP_Post
         parent::_preSave();
     }
 
+    /**
+     * @return string
+     */
     public function getWordCount()
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
@@ -64,6 +73,9 @@ class Post extends XFCP_Post
         return $wordCountRepo->roundWordCount($this->getRawWordCount());
     }
 
+    /**
+     * @return int
+     */
     public function getRawWordCount()
     {
         if (!empty($this->Words))
@@ -76,6 +88,11 @@ class Post extends XFCP_Post
         return $wordCountRepo->getTextWordCount($this->message);
     }
 
+    /**
+     * @param Structure $structure
+     *
+     * @return Structure
+     */
     public static function getStructure(Structure $structure)
     {
         $structure = parent::getStructure($structure);

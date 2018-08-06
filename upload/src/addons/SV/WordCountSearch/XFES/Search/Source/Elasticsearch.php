@@ -5,14 +5,32 @@ namespace SV\WordCountSearch\XFES\Search\Source;
 use SV\WordCountSearch\XF\Search\Query\RangeMetadataConstraint;
 use XF\Search\Query;
 
+/**
+ * Class Elasticsearch
+ *
+ * @package SV\WordCountSearch\XFES\Search\Source
+ */
 class Elasticsearch extends XFCP_Elasticsearch
 {
+    /**
+     * @param Query\Query $query
+     * @param             $maxResults
+     *
+     * @return array
+     * @throws \XF\PrintableException
+     */
     public function search(Query\Query $query, $maxResults)
     {
         $query = clone $query;
         return parent::search($query, $maxResults);
     }
 
+    /**
+     * @param Query\Query $query
+     * @param             $maxResults
+     *
+     * @return array
+     */
     protected function getDslFromQuery(Query\Query $query, $maxResults)
     {
         $dsl = parent::getDslFromQuery($query, $maxResults);
@@ -30,6 +48,11 @@ class Elasticsearch extends XFCP_Elasticsearch
         return $dsl;
     }
 
+    /**
+     * @param Query\MetadataConstraint $metadata
+     * @param array                    $filters
+     * @param array                    $filtersNot
+     */
     protected function applyMetadataConstraint(Query\MetadataConstraint $metadata, array &$filters, array &$filtersNot)
     {
         if ($metadata instanceof RangeMetadataConstraint)

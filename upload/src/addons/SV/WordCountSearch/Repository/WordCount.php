@@ -4,6 +4,11 @@ namespace SV\WordCountSearch\Repository;
 
 use XF\Mvc\Entity\Repository;
 
+/**
+ * Class WordCount
+ *
+ * @package SV\WordCountSearch\Repository
+ */
 class WordCount extends Repository
 {
     /**
@@ -16,6 +21,9 @@ class WordCount extends Repository
         return count(preg_split('~[^\p{L}\p{N}\']+~u',$str));
     }
 
+    /**
+     * @return bool
+     */
     public function hasRangeQuery()
     {
         //$this->app()->search()->getQuery();
@@ -32,6 +40,9 @@ class WordCount extends Repository
     protected static $hasElasticSearch = null;
     protected static $hasMySQLSearch = true;
 
+    /**
+     * @return mixed
+     */
     protected function getWordCountThreshold()
     {
         return \XF::app()->options()->wordcountThreshold;

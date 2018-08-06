@@ -5,12 +5,20 @@ namespace SV\WordCountSearch\XF\Search\Query;
 use XF\Search\Query\MetadataConstraint;
 use XF\Search\Query\SqlConstraint;
 
+/**
+ * Class RangeMetadataConstraint
+ *
+ * @package SV\WordCountSearch\XF\Search\Query
+ */
 class RangeMetadataConstraint extends MetadataConstraint
 {
     const MATCH_LESSER  = -42;
     const MATCH_GREATER = -41;
     const MATCH_BETWEEN = -40;
 
+    /**
+     * @param $match
+     */
     public function setMatchType($match)
     {
         switch($match)
@@ -36,6 +44,9 @@ class RangeMetadataConstraint extends MetadataConstraint
         }
     }
 
+    /**
+     * @return null|SqlConstraint
+     */
     public function asSqlConstraint()
     {
         switch($this->matchType)

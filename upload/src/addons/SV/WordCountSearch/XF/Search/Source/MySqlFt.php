@@ -5,10 +5,18 @@ use SV\WordCountSearch\XF\Search\Query\RangeMetadataConstraint;
 use XF\Search\Query\Query;
 use XF\Search\IndexRecord;
 
+/**
+ * Class MySqlFt
+ *
+ * @package SV\WordCountSearch\XF\Search\Source
+ */
 class MySqlFt extends XFCP_MySqlFt
 {
     protected $_last_word_count = null;
 
+    /**
+     * @param IndexRecord $record
+     */
     public function index(IndexRecord $record)
     {
         $this->_last_word_count = empty($record->metadata['word_count']) ? null : $record->metadata['word_count'];
@@ -64,6 +72,12 @@ class MySqlFt extends XFCP_MySqlFt
         $this->bulkIndexRecords = [];
     }
 
+    /**
+     * @param Query $query
+     * @param       $maxResults
+     *
+     * @return array
+     */
     public function search(Query $query, $maxResults)
     {
         /** @var \SV\WordCountSearch\XF\Search\Query\Query $query */

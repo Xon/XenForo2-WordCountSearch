@@ -11,6 +11,12 @@ use XF\Search\Query\SqlOrder;
  */
 class Search extends XFCP_Search
 {
+    /**
+     * @param array $data
+     * @param array $urlConstraints
+     *
+     * @return \XF\Search\Query\Query
+     */
     protected function prepareSearchQuery(array $data, &$urlConstraints = [])
     {
         $query = parent::prepareSearchQuery( $data, $urlConstraints);

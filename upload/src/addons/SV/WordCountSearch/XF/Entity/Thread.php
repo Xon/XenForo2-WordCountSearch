@@ -12,6 +12,9 @@ use XF\Mvc\Entity\Structure;
  */
 class Thread extends XFCP_Thread
 {
+    /**
+     * @return string
+     */
     public function getWordCount()
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
@@ -19,15 +22,25 @@ class Thread extends XFCP_Thread
         return $wordCountRepo->roundWordCount($this->getRawWordCount());
     }
 
+    /**
+     * @return int
+     */
     public function getRawWordCount()
     {
         //$this->word_count
         return 0;
     }
 
+    /**
+     * @param Structure $structure
+     *
+     * @return Structure
+     */
     public static function getStructure(Structure $structure)
     {
         $structure = parent::getStructure($structure);
+
+        $structure->columns['word_count'] = ['type' => self::UINT, 'default' => null, 'nullable' => true];
 
         $structure->getters['wordCount'] = [
             'getter' => true,
