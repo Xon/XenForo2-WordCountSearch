@@ -1,4 +1,5 @@
-addon-*.zip
 _releases
+_data
 hashes.json
 /.idea/
+.DS_Store
