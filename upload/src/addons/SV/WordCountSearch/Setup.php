@@ -85,7 +85,7 @@ class Setup extends AbstractSetup
         };
 
         return $tables;
-    };
+    }
 
     /**
      * @return array
