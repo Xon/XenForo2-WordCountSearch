@@ -5,6 +5,12 @@
     "public/SV_WordCountSearch_search_result_thread_1.json": {
         "hash": "df83a3e0f5901d80b11f022cd3c00005"
     },
+    "public/svWordCountSearch_forum_filters_min_max_word_count.json": {
+        "hash": "910f2a28c7ddedf662497d426d81f530"
+    },
+    "public/svWordCountSearch_forum_filters_sort_by.json": {
+        "hash": "710f800d55aa206690faf093288f34d0"
+    },
     "public/wordcountsearch_page_container1.json": {
         "hash": "c0efb59b7f661f2c6cc30a9dd0e8070e"
     },

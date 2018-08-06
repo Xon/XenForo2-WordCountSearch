@@ -35,6 +35,24 @@
         "version_string": "2.0.0",
         "hash": "a5055e6a6577999a3e9f652b8bb5c8c4"
     },
+    "svWordCountSearch_maximum_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "80cfc254597c11169b6b783ebc4f0510"
+    },
+    "svWordCountSearch_minimum_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "9ce8167ce68bd22a22911df2aaeb5e67"
+    },
+    "svWordCountSearch_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "9c715f0e523e7e1d00d538db7b78615b"
+    },
     "word_count.txt": {
         "global_cache": false,
         "version_id": 2000100,

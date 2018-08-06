@@ -1,0 +1,9 @@
+{
+    "template": "forum_filters",
+    "description": "Add \"Minimum word count\" and \"Maximum word count\" in filter menu",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<!--[XF:above_sort_by]-->",
+    "replace": "<xf:include template=\"svWordCountSearch_forum_filters_min_max_word_count\" />\n$0"
+}
