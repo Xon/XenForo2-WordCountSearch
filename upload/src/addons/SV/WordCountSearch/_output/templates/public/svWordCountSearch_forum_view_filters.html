@@ -1,0 +1,13 @@
+<xf:if is="$filters.min_word_count">
+	<li><a href="{{ link('forums', $forum, $filters|replace('min_word_count', null)) }}"
+		   class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+		<span class="filterBar-filterToggle-label">{{ phrase('svWordCountSearch_minimum_word_count:') }}</span>
+		{$filters.min_word_count}</a></li>
+</xf:if>
+
+<xf:if is="$filters.max_word_count">
+	<li><a href="{{ link('forums', $forum, $filters|replace('max_word_count', null)) }}"
+		   class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+		<span class="filterBar-filterToggle-label">{{ phrase('svWordCountSearch_maximum_word_count:') }}</span>
+		{$filters.max_word_count}</a></li>
+</xf:if>

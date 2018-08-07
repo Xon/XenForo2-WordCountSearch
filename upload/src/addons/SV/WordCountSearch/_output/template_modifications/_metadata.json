@@ -14,6 +14,9 @@
     "public/svWordCountSearch_forum_filters_sort_by.json": {
         "hash": "710f800d55aa206690faf093288f34d0"
     },
+    "public/svWordCountSearch_forum_view_filters.json": {
+        "hash": "465cd3da28d7ef4bff865bcafc4f63be"
+    },
     "public/wordcountsearch_page_container1.json": {
         "hash": "c0efb59b7f661f2c6cc30a9dd0e8070e"
     },

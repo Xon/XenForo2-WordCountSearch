@@ -1,0 +1,9 @@
+{
+    "template": "forum_view",
+    "description": "Add filter UI for word count",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<xf:if is=\"$filters.prefix_id\">",
+    "replace": "<xf:include template=\"svWordCountSearch_forum_view_filters\" />\n$0"
+}

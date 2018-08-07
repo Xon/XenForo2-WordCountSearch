@@ -9,6 +9,15 @@ namespace SV\WordCountSearch\XF\Pub\Controller;
  */
 class Forum extends XFCP_Forum
 {
+    protected function getAvailableForumSorts(\XF\Entity\Forum $forum)
+    {
+        $sorts = parent::getAvailableForumSorts($forum);
+
+        $sorts['word_count'] = 'word_count';
+
+        return $sorts;
+    }
+
     /**
      * @param \XF\Entity\Forum $forum
      *

@@ -18,5 +18,10 @@
         "version_id": 2010000,
         "version_string": "2.1.0",
         "hash": "0de063d5ea342a452e75f73ce8ff5dcc"
+    },
+    "public/svWordCountSearch_forum_view_filters.html": {
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "b889e4e84aa0f08d88eeb2f134b5595a"
     }
 }

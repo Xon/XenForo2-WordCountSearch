@@ -1,1 +1,1 @@
-Maxium word count
+Maximum word count
