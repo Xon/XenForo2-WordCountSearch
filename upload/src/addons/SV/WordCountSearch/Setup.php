@@ -153,4 +153,43 @@ class Setup extends AbstractSetup
 
         }
     }
+
+    protected function rebuildWordCount()
+    {
+        $this->app->jobManager()->enqueueUnique(
+            'svWCSPostWordCountRebuild',
+            'SV\WordCountSearch:PostWordCount'
+        );
+
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        if ($wordCountRepo->getIsThreadmarksSupportEnabled())
+        {
+            $this->app->jobManager()->enqueueUnique(
+                'svWCSThreadWordCountRebuild',
+                'SV\WordCountSearch:ThreadWordCount'
+            );
+        }
+    }
+
+    /**
+     * @param array $stateChanges
+     */
+    public function postInstall(array &$stateChanges)
+    {
+        $this->rebuildWordCount();
+    }
+
+    /**
+     * @param       $previousVersion
+     * @param array $stateChanges
+     */
+    public function postUpgrade($previousVersion, array &$stateChanges)
+    {
+        // v2.0.0 or any version less than v2.1.0
+        if ($previousVersion && $previousVersion >= 2000100 && $previousVersion < 2010000)
+        {
+            $this->rebuildWordCount();
+        }
+    }
 }
