@@ -1,0 +1,6 @@
+{
+    "from_class": "SV\\Threadmarks\\Repository\\ThreadmarkCategory",
+    "to_class": "SV\\WordCountSearch\\SV\\Threadmarks\\Repository\\ThreadmarkCategory",
+    "execute_order": 10,
+    "active": true
+}
