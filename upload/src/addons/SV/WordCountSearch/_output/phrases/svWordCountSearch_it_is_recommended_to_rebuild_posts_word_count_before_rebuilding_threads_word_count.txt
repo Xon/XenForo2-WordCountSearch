@@ -1,0 +1,1 @@
+It is recommended to rebuild posts word count before rebuilding threads word count.

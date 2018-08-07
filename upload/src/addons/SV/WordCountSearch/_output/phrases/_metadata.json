@@ -35,6 +35,12 @@
         "version_string": "2.0.0",
         "hash": "a5055e6a6577999a3e9f652b8bb5c8c4"
     },
+    "svWordCountSearch_it_is_recommended_to_rebuild_posts_word_count_before_rebuilding_threads_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "7ce8980d0beaa1bbf819d00826587f77"
+    },
     "svWordCountSearch_maximum_word_count.txt": {
         "global_cache": false,
         "version_id": 2010000,
@@ -58,6 +64,12 @@
         "version_id": 2010000,
         "version_string": "2.1.0",
         "hash": "df27d9cef4e704b8781f3a5c3d76b6c6"
+    },
+    "svWordCountSearch_rebuild_threads_word_count.txt": {
+        "global_cache": false,
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "cf9891a2c5dcc14b53a66a85bfdfd5c8"
     },
     "svWordCountSearch_word_count.txt": {
         "global_cache": false,
