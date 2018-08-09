@@ -2,6 +2,7 @@
 
 namespace SV\WordCountSearch\Repository;
 
+use SV\WordCountSearch\XF\Entity\Post;
 use XF\Mvc\Entity\Repository;
 
 /**
@@ -49,12 +50,17 @@ class WordCount extends Repository
     }
 
     /**
-     * @param int $postId
+     * @param Post $post
      * @param int $wordCount
      * @return bool
      */
-    public function shouldRecordPostWordCount(/** @noinspection PhpUnusedParameterInspection */ $postId, $wordCount)
+    public function shouldRecordPostWordCount(/** @noinspection PhpUnusedParameterInspection */ $post, $wordCount)
     {
+        if (isset($post->Threadmark))
+        {
+            return true;
+        }
+
         if ($wordCount >= $this->getWordCountThreshold())
         {
             return true;

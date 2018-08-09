@@ -42,13 +42,7 @@ class Thread extends XFCP_Thread
             $wordCount = intval($wordCount);
             if (empty($post->Words))
             {
-                if ($wordCountRepo->shouldRecordPostWordCount($post->getEntityId(), $wordCount))
-                {
-                    /** @var PostWords $words */
-                    $words = $post->getRelationOrDefault('Words');
-                    $words->word_count = $wordCount;
-                    $words->save();
-                }
+                $post->rebuildPostWordCount($wordCount);
             }
 
             //$metadata['word_count'] = $wordCount;

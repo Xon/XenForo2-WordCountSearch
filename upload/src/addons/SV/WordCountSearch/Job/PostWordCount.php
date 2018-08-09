@@ -25,7 +25,8 @@ class PostWordCount extends AbstractRebuildJob
             "
 				SELECT post_id
 				FROM xf_post
-				WHERE post_id > ?
+				LEFT JOIN xf_post_words ON (xf_post_words.post_id = xf_post.post_id)
+				WHERE post_id > ? AND xf_post_words.post_id IS NULL
 				ORDER BY post_id
 			", $batch
         ), $start);
@@ -46,6 +47,21 @@ class PostWordCount extends AbstractRebuildJob
         }
 
         $post->rebuildPostWordCount();
+    }
+
+    public function complete()
+    {
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        if ($wordCountRepo->getIsThreadmarksSupportEnabled())
+        {
+            $this->app->jobManager()->enqueueUnique(
+                'svWCSThreadWordCountRebuild',
+                'SV\WordCountSearch:ThreadWordCount'
+            );
+        }
+
+        return parent::complete();
     }
 
     /**

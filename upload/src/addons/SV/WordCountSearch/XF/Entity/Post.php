@@ -18,22 +18,9 @@ class Post extends XFCP_Post
     protected $_wordCount = null;
 
     /**
-     * @return bool
-     */
-    protected function _getThreadmarkDataForWC()
-    {
-        if (is_callable([$this, '_getThreadmarkData']))
-        {
-            /** @noinspection PhpUndefinedMethodInspection */
-            return $this->_getThreadmarkData();
-        }
-        return false;
-    }
-
-    /**
      * @throws \XF\PrintableException
      */
-    public function _preSave()
+    protected function _preSave()
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
@@ -45,20 +32,7 @@ class Post extends XFCP_Post
 
         if ($this->_wordCount)
         {
-            $threadmark = $this->_getThreadmarkDataForWC();
-            if ($threadmark || $wordCountRepo->shouldRecordPostWordCount($this->getEntityId(), $this->_wordCount))
-            {
-                /** @var PostWords $words */
-                $words = $this->getRelationOrDefault('Words');
-                $words->word_count = $this->_wordCount;
-            }
-            else
-            {
-                if (!empty($this->Words))
-                {
-                    $this->Words->delete();
-                }
-            }
+            $this->rebuildPostWordCount($this->_wordCount, false);
         }
 
         parent::_preSave();
@@ -90,17 +64,37 @@ class Post extends XFCP_Post
     }
 
     /**
+     * @param int|null $wordCount
+     * @param bool     $doSave
      * @throws \XF\PrintableException
      */
-    public function rebuildPostWordCount()
+    public function rebuildPostWordCount($wordCount = null, $doSave = true)
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        /** @var \SV\WordCountSearch\Entity\PostWords $words */
-        $words = $this->getRelationOrDefault('Words');
-        $words->word_count = $wordCountRepo->getTextWordCount($this->message);
-        $words->save();
+        if ($wordCount)
+        {
+            $wordCount = $wordCountRepo->getTextWordCount($this->message);
+        }
+
+        if ($wordCountRepo->shouldRecordPostWordCount($this, $wordCount))
+        {
+            /** @var PostWords $words */
+            $words = $this->getRelationOrDefault('Words');
+            $words->word_count = $wordCount;
+            if ($doSave)
+            {
+                $words->saveIfChanged();
+            }
+        }
+        else
+        {
+            if (!empty($this->Words))
+            {
+                $this->Words->delete();
+            }
+        }
     }
 
     /**

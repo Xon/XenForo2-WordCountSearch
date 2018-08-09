@@ -160,16 +160,6 @@ class Setup extends AbstractSetup
             'svWCSPostWordCountRebuild',
             'SV\WordCountSearch:PostWordCount'
         );
-
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-        if ($wordCountRepo->getIsThreadmarksSupportEnabled())
-        {
-            $this->app->jobManager()->enqueueUnique(
-                'svWCSThreadWordCountRebuild',
-                'SV\WordCountSearch:ThreadWordCount'
-            );
-        }
     }
 
     /**
@@ -187,9 +177,17 @@ class Setup extends AbstractSetup
     public function postUpgrade($previousVersion, array &$stateChanges)
     {
         // v2.0.0 or any version less than v2.1.0
-        if ($previousVersion && $previousVersion >= 2000100 && $previousVersion < 2010000)
+        if ($previousVersion >= 2000100 && $previousVersion < 2010000)
         {
-            $this->rebuildWordCount();
+            /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+            $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+            if ($wordCountRepo->getIsThreadmarksSupportEnabled())
+            {
+                $this->app->jobManager()->enqueueUnique(
+                    'svWCSThreadWordCountRebuild',
+                    'SV\WordCountSearch:ThreadWordCount'
+                );
+            }
         }
     }
 }

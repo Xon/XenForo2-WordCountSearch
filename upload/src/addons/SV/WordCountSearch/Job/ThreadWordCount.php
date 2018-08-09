@@ -25,7 +25,7 @@ class ThreadWordCount extends AbstractRebuildJob
             "
 				SELECT thread_id
 				FROM xf_thread
-				WHERE thread_id > ?
+				WHERE thread_id > ? and threadmark_count > 0
 				ORDER BY thread_id
 			", $batch
         ), $start);
