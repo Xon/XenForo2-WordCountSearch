@@ -36,8 +36,8 @@ class Thread extends XFCP_Thread
 
         $wordCountRepo = $this->getWordCountRepo();
 
-        $wordCount = $post->WordCount;
-        if ($wordCount !== null)
+        $wordCount = $post->RawWordCount;
+        if ($wordCount)
         {
             $wordCount = intval($wordCount);
             if (empty($post->Words))

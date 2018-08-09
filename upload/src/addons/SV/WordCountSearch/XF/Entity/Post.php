@@ -8,7 +8,8 @@ use XF\Mvc\Entity\Structure;
 /**
  * Extends \XF\Entity\Post
  *
- * @property int       WordCount
+ * @property string    WordCount
+ * @property int|null  RawWordCount
  *
  * @property PostWords Words
  */
@@ -64,9 +65,19 @@ class Post extends XFCP_Post
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getWordCount()
+    {
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+        return $wordCountRepo->roundWordCount($this->RawWordCount);
+    }
+
+    /**
+     * @return int
+     */
+    public function getRawWordCount()
     {
         if (!empty($this->Words))
         {
@@ -102,6 +113,11 @@ class Post extends XFCP_Post
         $structure = parent::getStructure($structure);
 
         $structure->getters['WordCount'] = [
+            'getter' => true,
+            'cache' => true
+        ];
+
+        $structure->getters['RawWordCount'] = [
             'getter' => true,
             'cache' => true
         ];

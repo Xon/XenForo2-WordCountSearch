@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<li><xf:username",
-    "replace": "<xf:if is=\"{$thread.wordCount}\">\n\t<li>{{phrase('word_count')}}: <a class=\"wordcount\">{{$thread.wordCount}}</a></li>\n</xf:if>\n$0"
+    "replace": "<xf:if is=\"{$thread.WordCount}\">\n\t<li>{{phrase('word_count')}}: <a class=\"wordcount\" data-word_count=\"{{$thread.RawWordCount}}\">{{$thread.WordCount}}</a></li>\n</xf:if>\n$0"
 }
