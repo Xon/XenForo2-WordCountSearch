@@ -133,6 +133,12 @@ class WordCount extends Repository
      */
     public function getIsThreadmarksSupportEnabled(\XF\Entity\Forum $forum = null)
     {
+        $addOns = \XF::app()->container('addon.cache');
+        if (empty($addOns['SV/Threadmarks']))
+        {
+            return false;
+        }
+
         /** @var \SV\Threadmarks\XF\Entity\Forum $forum */
         if ($forum)
         {
@@ -142,7 +148,6 @@ class WordCount extends Repository
             }
         }
 
-        $addOns = \XF::app()->container('addon.cache');
-        return isset($addOns['SV/Threadmarks']);
+        return true;
     }
 }
