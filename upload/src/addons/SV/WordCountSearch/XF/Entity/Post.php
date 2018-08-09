@@ -25,7 +25,7 @@ class Post extends XFCP_Post
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        if ($this->isChanged('message') || $this->isInsert())
+        if ($this->isChanged('message') || ($this->isInsert() && !$this->Words))
         {
             $this->_wordCount = $wordCountRepo->getTextWordCount($this->message);
         }
@@ -73,7 +73,7 @@ class Post extends XFCP_Post
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        if ($wordCount)
+        if ($wordCount === null)
         {
             $wordCount = $wordCountRepo->getTextWordCount($this->message);
         }
@@ -95,6 +95,8 @@ class Post extends XFCP_Post
                 $this->Words->delete();
             }
         }
+        $this->clearCache('WordCount');
+        $this->clearCache('RawWordCount');
     }
 
     /**

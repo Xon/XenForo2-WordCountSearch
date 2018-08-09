@@ -12,6 +12,11 @@ class Thread extends XFCP_Thread
     /** @var int */
     const DEFAULT_THREADMARK_CATEGORY_ID = 1;
 
+    public function getDefaultCategoryId()
+    {
+        return self::DEFAULT_THREADMARK_CATEGORY_ID;
+    }
+
     /**
      * @param $threadId
      */
@@ -49,7 +54,7 @@ class Thread extends XFCP_Thread
                   AND threadmark.container_id = ?
                   AND threadmark.message_state = ?
                   AND threadmark.threadmark_category_id = ?
-            ', ['post', 'thread', $threadId, 'visible', self::DEFAULT_THREADMARK_CATEGORY_ID]));
+            ', ['post', 'thread', $threadId, 'visible', $this->getDefaultCategoryId()]));
         }
 
         if ($thread)

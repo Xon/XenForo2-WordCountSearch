@@ -18,6 +18,21 @@ use XF\Mvc\Entity\Structure;
  */
 class Thread extends XFCP_Thread
 {
+    protected function updateThreadmarkCategoryData()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        parent::updateThreadmarkCategoryData();
+
+        /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
+        $threadRepo = $this->repository('XF:Thread');
+        $defaultCategoryId = $threadRepo->getDefaultCategoryId();
+
+        $this->word_count = isset($this->threadmark_category_data[$defaultCategoryId]) ? $this->threadmark_category_data[$defaultCategoryId]['word_count'] : 0;
+        $this->clearCache('WordCount');
+        $this->clearCache('RawWordCount');
+        $this->clearCache('hasThreadmarks');
+    }
+
     /**
      * @return string
      */
@@ -53,6 +68,7 @@ class Thread extends XFCP_Thread
     {
         $structure = parent::getStructure($structure);
 
+        $structure->behaviors['XF:Indexable']['checkForUpdates'] = 'word_count';
         $structure->columns['word_count'] = ['type' => self::UINT, 'default' => 0];
 
         $structure->getters['WordCount'] = [
