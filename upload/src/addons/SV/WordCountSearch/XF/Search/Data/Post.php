@@ -40,7 +40,7 @@ class Post extends XFCP_Post
 
         $wordCountRepo = $this->getWordCountRepo();
 
-        $wordCount = $post->getRawWordCount();
+        $wordCount = $post->WordCount;
         if ($wordCount !== null)
         {
             $wordCount = intval($wordCount);
