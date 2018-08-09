@@ -37,6 +37,10 @@ class Setup extends AbstractSetup
 
         foreach ($this->getAlterTables() as $tableName => $callback)
         {
+            $alter = $sm->newAlter($tableName);
+            $callback($alter);
+            var_export($alter->getQueries());
+
             $sm->alterTable($tableName, $callback);
         }
     }
@@ -48,6 +52,10 @@ class Setup extends AbstractSetup
 
     public function upgrade2010000Step2()
     {
+        $db = $this->db();
+        $db->query('update xf_thread set word_count = 0 where word_count is null');
+        $db->query('update xf_search_index set word_count = 0 where word_count is null');
+
         $this->installStep2();
     }
 
@@ -95,11 +103,11 @@ class Setup extends AbstractSetup
         $tables = [];
 
         $tables['xf_thread'] = function (Alter $table) {
-            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0);
+            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0)->nullable(false);
         };
 
         $tables['xf_search_index'] = function (Alter $table) {
-            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0);
+            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0)->nullable(false);
         };
 
         return $tables;
