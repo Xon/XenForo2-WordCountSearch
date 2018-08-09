@@ -18,14 +18,12 @@ class Thread extends XFCP_Thread
     public function rebuildThreadWordCount($threadId)
     {
         $wordCount = 0;
-        $forum = null;
-
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        $threadmarkInstalled = $wordCountRepo->getIsThreadmarksSupportEnabled();
+        /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
+        $thread = null;
 
         if ($threadId instanceof \XF\Entity\Thread)
         {
+            $thread = $threadId;
             $threadId = $threadId->thread_id;
         }
 
@@ -33,6 +31,10 @@ class Thread extends XFCP_Thread
         {
             return;
         }
+
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+        $threadmarkInstalled = $wordCountRepo->getIsThreadmarksSupportEnabled();
 
         $db = $this->db();
 
@@ -50,8 +52,18 @@ class Thread extends XFCP_Thread
             ', ['post', 'thread', $threadId, 'visible', self::DEFAULT_THREADMARK_CATEGORY_ID]));
         }
 
-        $db->update('xf_thread', [
-            'word_count' => $wordCount
-        ], 'thread_id = ?', $threadId);
+        if ($thread)
+        {
+            $thread->fastUpdate('word_count', $wordCount);
+            $thread->clearCache('WordCount');
+            $thread->clearCache('RawWordCount');
+            $thread->clearCache('hasThreadmarks');
+        }
+        else
+        {
+            $db->update('xf_thread', [
+                'word_count' => $wordCount
+            ], 'thread_id = ?', $threadId);
+        }
     }
 }

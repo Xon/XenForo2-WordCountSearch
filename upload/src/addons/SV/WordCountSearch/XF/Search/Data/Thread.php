@@ -51,6 +51,24 @@ class Thread extends XFCP_Thread
                 }
             }
 
+            //$metadata['word_count'] = $wordCount;
+        }
+
+        $threadmarkInstalled = $wordCountRepo->getIsThreadmarksSupportEnabled();
+        $wordCount = $entity->RawWordCount;
+        if ($threadmarkInstalled)
+        {
+            if ($entity->threadmark_count && !$wordCount ||
+                !$entity->threadmark_count && $wordCount)
+            {
+                /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
+                $threadRepo = \XF::app()->repository('XF:Thread');
+                $threadRepo->rebuildThreadWordCount($entity);
+                $wordCount = $entity->RawWordCount;
+            }
+        }
+        if ($wordCount)
+        {
             $metadata['word_count'] = $wordCount;
         }
 
