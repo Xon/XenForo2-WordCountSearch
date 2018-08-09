@@ -1,0 +1,9 @@
+{
+    "template": "svThreadmarks_macros",
+    "description": "Inject word count into threadmark list",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "{$threadmark.label}",
+    "replace": "$0 <xf:if is=\"$threadmark.WordCount\">({$threadmark.WordCount})</xf:if>"
+}

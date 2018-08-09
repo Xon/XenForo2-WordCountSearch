@@ -3,6 +3,11 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
+namespace SV\WordCountSearch\SV\Threadmarks\Entity
+{
+	class XFCP_Threadmark extends \SV\Threadmarks\Entity\Threadmark {}
+}
+
 namespace SV\WordCountSearch\SV\Threadmarks\Repository
 {
 	class XFCP_ThreadmarkCategory extends \SV\Threadmarks\Repository\ThreadmarkCategory {}
