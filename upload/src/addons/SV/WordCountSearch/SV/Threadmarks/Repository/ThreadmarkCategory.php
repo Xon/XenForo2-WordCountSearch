@@ -26,7 +26,7 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
         $db = $this->db();
 
         return $db->fetchAllKeyed('
-            SELECT threadmark.threadmark_category_id, MAX(threadmark.position) AS position, SUM(COALESCE(post_word.word_count, 0)) AS word_count
+            SELECT MAX(threadmark.position) AS position, SUM(COALESCE(post_word.word_count, 0)) AS word_count
             FROM xf_sv_threadmark AS threadmark
             LEFT JOIN xf_post_words AS post_word ON (threadmark.content_id = post_word.post_id AND threadmark.content_type = ?)
             WHERE threadmark.container_id = ?
