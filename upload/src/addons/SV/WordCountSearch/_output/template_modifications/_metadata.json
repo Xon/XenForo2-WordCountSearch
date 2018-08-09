@@ -20,6 +20,9 @@
     "public/svWordCountSearch_forum_view_filters.json": {
         "hash": "465cd3da28d7ef4bff865bcafc4f63be"
     },
+    "public/thread_list_macros_wordcount.json": {
+        "hash": "73f321c3083ad796822ea181d9aa6125"
+    },
     "public/wordcountsearch_page_container1.json": {
         "hash": "c0efb59b7f661f2c6cc30a9dd0e8070e"
     },

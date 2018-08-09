@@ -14,6 +14,7 @@ use XF\Mvc\Entity\Structure;
  * GETTERS
  * @property string    WordCount
  * @property int|null  RawWordCount
+ * @property bool      hasThreadmarks
  */
 class Thread extends XFCP_Thread
 {
@@ -36,6 +37,14 @@ class Thread extends XFCP_Thread
     }
 
     /**
+     * @return bool
+     */
+    public function getHasThreadmarks()
+    {
+        return !empty($this->threadmark_count);
+    }
+
+    /**
      * @param Structure $structure
      *
      * @return Structure
@@ -54,6 +63,8 @@ class Thread extends XFCP_Thread
             'getter' => true,
             'cache' => false
         ];
+
+        $structure->getters['hasThreadmarks'] = true;
 
         return $structure;
     }

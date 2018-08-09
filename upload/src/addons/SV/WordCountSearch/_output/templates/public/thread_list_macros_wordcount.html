@@ -1,0 +1,5 @@
+<xf:if is="$thread.hasThreadmarks && $thread.WordCount">
+	<li>
+		<a href="{{ link('threads/threadmarks', $thread) }}" data-xf-click="overlay">{{ phrase('word_count') }}: {$thread.WordCount}</a>
+	</li>
+</xf:if>

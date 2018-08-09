@@ -23,5 +23,10 @@
         "version_id": 2010000,
         "version_string": "2.1.0",
         "hash": "b889e4e84aa0f08d88eeb2f134b5595a"
+    },
+    "public/thread_list_macros_wordcount.html": {
+        "version_id": 2010000,
+        "version_string": "2.1.0",
+        "hash": "ecb5fe7220a156d14900b1daba01d83b"
     }
 }

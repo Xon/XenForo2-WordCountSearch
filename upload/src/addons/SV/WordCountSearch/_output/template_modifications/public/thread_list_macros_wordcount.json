@@ -1,0 +1,9 @@
+{
+    "template": "thread_list_macros",
+    "description": "Threadmarks/Word-count in threadlist",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#(<li class=\"structItem-startDate\">.*?)(\\s*</ul>)#si",
+    "replace": "$1\n<xf:include template=\"thread_list_macros_wordcount\" />\n$2"
+}
