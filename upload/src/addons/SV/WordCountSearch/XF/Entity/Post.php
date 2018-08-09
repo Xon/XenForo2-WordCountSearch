@@ -38,6 +38,23 @@ class Post extends XFCP_Post
         parent::_preSave();
     }
 
+
+    protected function _postSave()
+    {
+        // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
+        if ($this->_wordCount !== null && $this->isUpdate())
+        {
+            if (isset($this->Threadmark) && $this->Thread)
+            {
+                /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
+                $threadRepo = $this->app()->repository('XF:Thread');
+                $threadRepo->rebuildThreadWordCount($this->Thread);
+            }
+        }
+
+        parent::_postSave();
+    }
+
     /**
      * @return string
      */
