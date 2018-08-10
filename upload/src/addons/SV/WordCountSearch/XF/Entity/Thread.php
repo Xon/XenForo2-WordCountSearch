@@ -18,7 +18,7 @@ use XF\Mvc\Entity\Structure;
  */
 class Thread extends XFCP_Thread
 {
-    protected function updateThreadmarkCategoryData()
+    public function updateThreadmarkCategoryData()
     {
         /** @noinspection PhpUndefinedMethodInspection */
         parent::updateThreadmarkCategoryData();
