@@ -15,7 +15,7 @@ class Creator extends XFCP_Creator
         if (is_callable([$content, 'rebuildPostWordCount']))
         {
             /** @noinspection PhpUndefinedMethodInspection */
-            $content->rebuildPostWordCount(null, false);
+            $content->rebuildPostWordCount(null, false, false);
         }
 
         parent::setContent($content);
