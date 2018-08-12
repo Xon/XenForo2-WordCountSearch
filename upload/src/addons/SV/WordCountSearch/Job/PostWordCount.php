@@ -25,7 +25,7 @@ class PostWordCount extends AbstractRebuildJob
             "
 				SELECT post.post_id
 				FROM xf_post as post
-				LEFT JOIN xf_post_words ON (xf_post_words.post_id = xf_post.post_id)
+				LEFT JOIN xf_post_words ON (xf_post_words.post_id = post.post_id)
 				WHERE post.post_id > ? AND xf_post_words.post_id IS NULL
 				ORDER BY post.post_id
 			", $batch
