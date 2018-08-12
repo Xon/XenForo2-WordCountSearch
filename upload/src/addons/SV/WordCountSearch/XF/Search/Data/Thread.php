@@ -44,7 +44,7 @@ class Thread extends XFCP_Thread
                 $wordCount = intval($wordCount);
                 if (empty($post->Words))
                 {
-                    $post->rebuildPostWordCount($wordCount);
+                    $post->rebuildPostWordCount($wordCount,true, false);
                 }
 
                 //$metadata['word_count'] = $wordCount;

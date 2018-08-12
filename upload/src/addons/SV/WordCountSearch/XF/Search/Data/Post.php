@@ -38,15 +38,13 @@ class Post extends XFCP_Post
         /** @var IndexRecord $index */
         $metadata = parent::getMetaData($post);
 
-        $wordCountRepo = $this->getWordCountRepo();
-
         $wordCount = $post->RawWordCount;
         if ($wordCount)
         {
             $wordCount = intval($wordCount);
             if (empty($post->Words))
             {
-                $post->rebuildPostWordCount($wordCount);
+                $post->rebuildPostWordCount($wordCount, true, false);
             }
             $metadata['word_count'] = $wordCount;
         }

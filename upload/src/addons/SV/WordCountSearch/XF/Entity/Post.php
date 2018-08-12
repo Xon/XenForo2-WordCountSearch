@@ -32,7 +32,7 @@ class Post extends XFCP_Post
 
         if ($this->_wordCount)
         {
-            $this->rebuildPostWordCount($this->_wordCount, false);
+            $this->rebuildPostWordCount($this->_wordCount, false, false);
         }
 
         parent::_preSave();
@@ -50,6 +50,13 @@ class Post extends XFCP_Post
                 $threadRepo = $this->app()->repository('XF:Thread');
                 $threadRepo->rebuildThreadWordCount($this->Thread);
             }
+
+            \XF::runOnce(
+                'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
+                function () {
+                    $this->app()->search()->index($this->getEntityContentType(), $this, true);
+                }
+            );
         }
 
         parent::_postSave();
@@ -83,10 +90,12 @@ class Post extends XFCP_Post
     /**
      * @param int|null $wordCount
      * @param bool     $doSave
+     * @param bool     $searchUpdate
      * @throws \XF\PrintableException
      */
-    public function rebuildPostWordCount($wordCount = null, $doSave = true)
+    public function rebuildPostWordCount($wordCount = null, $doSave = true, $searchUpdate = true)
     {
+        $changes = false;
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
@@ -102,6 +111,7 @@ class Post extends XFCP_Post
             $words->word_count = $wordCount;
             if ($doSave)
             {
+                $changes = true;
                 $words->saveIfChanged();
             }
         }
@@ -109,11 +119,23 @@ class Post extends XFCP_Post
         {
             if (!empty($this->Words))
             {
+                $changes = true;
                 $this->Words->delete();
             }
         }
         $this->clearCache('WordCount');
         $this->clearCache('RawWordCount');
+
+        if ($searchUpdate && $changes)
+        {
+            // word-count has changed, ensure search is updated!
+            \XF::runOnce(
+                'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
+                function () {
+                    $this->app()->search()->index($this->getEntityContentType(), $this, true);
+                }
+            );
+        }
     }
 
     /**
