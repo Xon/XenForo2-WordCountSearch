@@ -31,6 +31,7 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
             LEFT JOIN xf_post_words AS post_word ON (threadmark.content_id = post_word.post_id AND threadmark.content_type = ?)
             WHERE threadmark.container_id = ?
               AND threadmark.container_type = ?
+              AND threadmark.message_state = \'visible\'
             GROUP BY threadmark.threadmark_category_id
             ORDER BY threadmark.threadmark_category_id ASC
         ', 'threadmark_category_id', ['post', $container->getEntityId(), $container->getEntityContentType()]);
