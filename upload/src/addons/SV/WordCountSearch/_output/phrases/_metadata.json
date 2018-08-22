@@ -35,6 +35,12 @@
         "version_string": "2.0.0",
         "hash": "a5055e6a6577999a3e9f652b8bb5c8c4"
     },
+    "svThreadmarks_statistics_x_total_threadmarks_words.txt": {
+        "global_cache": false,
+        "version_id": 2010100,
+        "version_string": "2.1.1",
+        "hash": "a10ee1ca99e139245a4a46b9f1a16bc6"
+    },
     "svWordCountSearch_it_is_recommended_to_rebuild_posts_word_count_before_rebuilding_threads_word_count.txt": {
         "global_cache": false,
         "version_id": 2010000,

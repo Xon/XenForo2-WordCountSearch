@@ -1,0 +1,9 @@
+{
+    "template": "svThreadmarks_macros",
+    "description": "Inject word count into author stats",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "svThreadmarks_statistics_x_total_threadmarks', {",
+    "replace": "svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.WordCount,"
+}

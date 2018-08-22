@@ -1,0 +1,1 @@
+Statistics ({count} threadmarks, {words} words)
