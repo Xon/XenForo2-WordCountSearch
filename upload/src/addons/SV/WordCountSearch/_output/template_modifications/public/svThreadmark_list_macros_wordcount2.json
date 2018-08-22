@@ -1,0 +1,9 @@
+{
+    "template": "svThreadmark_list_macros",
+    "description": "Inject per-threadmark word-count",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#(<!-- threadmark meta hook-->.*?)(</xf:contentcheck>)#si",
+    "replace": "$1\n<xf:include template=\"threadmark_list_macros_wordcount2\" />\n$2"
+}
