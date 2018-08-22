@@ -1,9 +1,0 @@
-{
-    "template": "svThreadmark_list_macros",
-    "description": "Threadmarks/Word-count in threadmark list",
-    "execution_order": 10,
-    "enabled": true,
-    "action": "str_replace",
-    "find": "<!-- threadmark minor hook-->",
-    "replace": "<xf:include template=\"threadmark_list_macros_wordcount\" />\n$0"
-}
