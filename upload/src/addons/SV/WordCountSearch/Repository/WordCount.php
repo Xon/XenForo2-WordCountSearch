@@ -124,10 +124,6 @@ class WordCount extends Repository
         {
             $inexactWordCount = 0;
         }
-        else
-        {
-            $inexactWordCount = 10;
-        }
 
         return strval($inexactWordCount);
     }
