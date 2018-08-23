@@ -42,7 +42,7 @@ class Post extends XFCP_Post
         if ($wordCount)
         {
             $wordCount = intval($wordCount);
-            if (empty($post->Words))
+            if (!$post->Words)
             {
                 $post->rebuildPostWordCount($wordCount, true, false);
             }

@@ -54,9 +54,9 @@ class WordCount extends Repository
      * @param int $wordCount
      * @return bool
      */
-    public function shouldRecordPostWordCount(/** @noinspection PhpUnusedParameterInspection */ $post, $wordCount)
+    public function shouldRecordPostWordCount($post, $wordCount)
     {
-        if (isset($post->Threadmark))
+        if ($post->isValidRelation('Threadmark') && $post->getRelation('Threadmark'))
         {
             return true;
         }

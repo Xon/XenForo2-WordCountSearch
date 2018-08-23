@@ -10,6 +10,24 @@ use XF\Mvc\Entity\Structure;
  */
 class Threadmark extends XFCP_Threadmark
 {
+    protected function _postSave()
+    {
+        if ($this->isInsert())
+        {
+            $content = $this->Content;
+            if ($content &&
+                $content->isValidRelation('Words') &&
+                !$content->getRelation('Words') &&
+                is_callable([$content, 'rebuildPostWordCount']))
+            {
+                /** @noinspection PhpUndefinedMethodInspection */
+                $content->rebuildPostWordCount(null, false, false);
+            }
+        }
+
+        parent::_postSave();
+    }
+
     /**
      * @return string
      */

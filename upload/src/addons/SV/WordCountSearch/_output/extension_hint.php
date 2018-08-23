@@ -13,11 +13,6 @@ namespace SV\WordCountSearch\SV\Threadmarks\Repository
 	class XFCP_ThreadmarkCategory extends \SV\Threadmarks\Repository\ThreadmarkCategory {}
 }
 
-namespace SV\WordCountSearch\SV\Threadmarks\Service\Threadmark
-{
-	class XFCP_Creator extends \SV\Threadmarks\Service\Threadmark\Creator {}
-}
-
 namespace SV\WordCountSearch\XFES\Search\Source
 {
 	class XFCP_Elasticsearch extends \XFES\Search\Source\Elasticsearch {}

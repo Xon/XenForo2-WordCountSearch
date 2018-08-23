@@ -44,7 +44,7 @@ class Post extends XFCP_Post
         // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
         if ($this->_wordCount !== null && $this->isUpdate())
         {
-            if (isset($this->Threadmark) && $this->Thread)
+            if ($this->isValidRelation('Threadmark') && $this->getRelation('Threadmark') && $this->Thread)
             {
                 /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
                 $threadRepo = $this->app()->repository('XF:Thread');
@@ -77,7 +77,7 @@ class Post extends XFCP_Post
      */
     public function getRawWordCount()
     {
-        if (!empty($this->Words))
+        if ($this->Words)
         {
             return $this->Words->word_count;
         }
@@ -115,13 +115,10 @@ class Post extends XFCP_Post
                 $words->saveIfChanged();
             }
         }
-        else
+        else if ($this->Words)
         {
-            if (!empty($this->Words))
-            {
-                $changes = true;
-                $this->Words->delete();
-            }
+            $changes = true;
+            $this->Words->delete();
         }
         $this->clearCache('WordCount');
         $this->clearCache('RawWordCount');
