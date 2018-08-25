@@ -198,4 +198,20 @@ class Setup extends AbstractSetup
             }
         }
     }
+
+    /**
+     * @param array $errors
+     * @param array $warnings
+     */
+    public function checkRequirements(&$errors = [], &$warnings = [])
+    {
+        /** @var \XF\Repository\AddOn $addOnRepo */
+        $addOnRepo = \XF::app()->repository('XF:AddOn');
+        /** @var array $addOns */
+        $addOns = $addOnRepo->getEnabledAddOns();
+        if (isset($addOns['SV/Threadmarks']) && $addOns['SV/Threadmarks'] < 2000100)
+        {
+            $warnings[] = 'Recommend Threadmarks v2.0.1+';
+        }
+    }
 }
