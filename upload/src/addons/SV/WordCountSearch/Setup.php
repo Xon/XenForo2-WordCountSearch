@@ -37,10 +37,6 @@ class Setup extends AbstractSetup
 
         foreach ($this->getAlterTables() as $tableName => $callback)
         {
-            $alter = $sm->newAlter($tableName);
-            $callback($alter);
-            var_export($alter->getQueries());
-
             $sm->alterTable($tableName, $callback);
         }
     }
