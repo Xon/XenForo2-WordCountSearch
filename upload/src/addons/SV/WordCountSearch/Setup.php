@@ -49,9 +49,15 @@ class Setup extends AbstractSetup
     public function upgrade2010000Step2()
     {
         $db = $this->db();
-        $db->query('update xf_thread set word_count = 0 where word_count is null');
-        $db->query('update xf_search_index set word_count = 0 where word_count is null');
-
+        $sm = $this->schemaManager();
+        if ($sm->columnExists('xf_thread','word_count'))
+        {
+            $db->query('update xf_thread set word_count = 0 where word_count is null');
+        }
+        if ($sm->columnExists('xf_search_index','word_count'))
+        {
+            $db->query('update xf_search_index set word_count = 0 where word_count is null');
+        }
         $this->installStep2();
     }
 
