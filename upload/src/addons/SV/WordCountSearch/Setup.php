@@ -2,6 +2,7 @@
 
 namespace SV\WordCountSearch;
 
+use SV\Utils\InstallerHelper;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
@@ -16,6 +17,8 @@ use XF\Db\Schema\Create;
  */
 class Setup extends AbstractSetup
 {
+    // from https://github.com/Xon/XenForo2-Utils cloned to src/addons/SV/Utils
+    use InstallerHelper;
 	use StepRunnerInstallTrait;
 	use StepRunnerUpgradeTrait;
 	use StepRunnerUninstallTrait;
@@ -133,37 +136,6 @@ class Setup extends AbstractSetup
         return $tables;
     }
 
-    /**
-     * @param Create|Alter $table
-     * @param string       $name
-     * @param string|null  $type
-     * @param string|null  $length
-     * @return \XF\Db\Schema\Column
-     */
-    protected function addOrChangeColumn($table, $name, $type = null, $length = null)
-    {
-        if ($table instanceof Create)
-        {
-            $table->checkExists(true);
-
-            return $table->addColumn($name, $type, $length);
-        }
-        else if ($table instanceof Alter)
-        {
-            if ($table->getColumnDefinition($name))
-            {
-                return $table->changeColumn($name, $type, $length);
-            }
-
-            return $table->addColumn($name, $type, $length);
-        }
-        else
-        {
-            throw new \LogicException("Unknown schema DDL type ". get_class($table));
-
-        }
-    }
-
     protected function rebuildWordCount()
     {
         $this->app->jobManager()->enqueueUnique(
@@ -207,11 +179,8 @@ class Setup extends AbstractSetup
      */
     public function checkRequirements(&$errors = [], &$warnings = [])
     {
-        /** @var \XF\Repository\AddOn $addOnRepo */
-        $addOnRepo = \XF::app()->repository('XF:AddOn');
-        /** @var array $addOns */
-        $addOns = $addOnRepo->getEnabledAddOns();
-        if (isset($addOns['SV/Threadmarks']) && $addOns['SV/Threadmarks'] < 2000100)
+        $threadmarksVersion = $this->addonExists('SV/Threadmarks');
+        if ($threadmarksVersion && $threadmarksVersion < 2000100)
         {
             $warnings[] = 'Recommend Threadmarks v2.0.1+';
         }
