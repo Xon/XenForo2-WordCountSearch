@@ -19,7 +19,7 @@ class MySqlFt extends XFCP_MySqlFt
      */
     public function index(IndexRecord $record)
     {
-        $this->_last_word_count = empty($record->metadata['word_count']) ? null : $record->metadata['word_count'];
+        $this->_last_word_count = empty($record->metadata['word_count']) ? 0 : $record->metadata['word_count'];
         unset($record->metadata['word_count']);
 
         $bulkIndexingOld = $this->bulkIndexing;
@@ -64,8 +64,8 @@ class MySqlFt extends XFCP_MySqlFt
         if ($this->bulkIndexRecords)
         {
             $this->db()->insertBulk('xf_search_index', $this->bulkIndexRecords, false,
-                                    'title = VALUES(title), message = VALUES(message), metadata = VALUES(metadata), '
-                                    . 'item_date = VALUES(item_date), user_id = VALUES(user_id), discussion_id = VALUES(discussion_id), word_count = VALUES(word_count)'
+                'title = VALUES(title), message = VALUES(message), metadata = VALUES(metadata), '
+                . 'item_date = VALUES(item_date), user_id = VALUES(user_id), discussion_id = VALUES(discussion_id), word_count = VALUES(word_count)'
             );
         }
 
