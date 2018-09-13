@@ -27,7 +27,8 @@ class Thread extends XFCP_Thread
         $threadRepo = $this->repository('XF:Thread');
         $defaultCategoryId = $threadRepo->getDefaultCategoryId();
 
-        $this->word_count = isset($this->threadmark_category_data[$defaultCategoryId]['word_count']) ? $this->threadmark_category_data[$defaultCategoryId]['word_count'] : 0;
+        $word_count = isset($this->threadmark_category_data[$defaultCategoryId]['word_count']) ? $this->threadmark_category_data[$defaultCategoryId]['word_count'] : 0;
+        $this->set('word_count', $word_count, ['forceSet' => true]);
         $this->clearCache('WordCount');
         $this->clearCache('RawWordCount');
         $this->clearCache('hasThreadmarks');
