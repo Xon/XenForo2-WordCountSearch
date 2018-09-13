@@ -3,6 +3,7 @@
 namespace SV\WordCountSearch;
 
 use SV\Utils\InstallerHelper;
+use SV\Utils\InstallerSoftRequire;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
@@ -173,16 +174,13 @@ class Setup extends AbstractSetup
         }
     }
 
+    use InstallerSoftRequire;
     /**
      * @param array $errors
      * @param array $warnings
      */
     public function checkRequirements(&$errors = [], &$warnings = [])
     {
-        $threadmarksVersion = $this->addonExists('SV/Threadmarks');
-        if ($threadmarksVersion && $threadmarksVersion < 2000100)
-        {
-            $warnings[] = 'Recommend Threadmarks v2.0.1+';
-        }
+        $this->checkSoftRequires($errors,$warnings);
     }
 }

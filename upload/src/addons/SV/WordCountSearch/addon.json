@@ -15,5 +15,12 @@
             "PHP 5.6.0+"
         ]
     },
+    "require-soft" :{
+        "SV/Threadmarks": [
+            2000100,
+            "Threadmarks v2.0.3+",
+            false
+        ]
+    },
     "icon": ""
 }
