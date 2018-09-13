@@ -56,7 +56,8 @@ class Thread extends XFCP_Thread
      */
     public function getHasThreadmarks()
     {
-        return !empty($this->threadmark_count);
+        /** @noinspection PhpUndefinedMethodInspection */
+        return !empty($this->threadmark_count) && $this->canViewThreadmarks();
     }
 
     /**
