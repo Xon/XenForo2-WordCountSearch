@@ -18,11 +18,31 @@ use XF\Mvc\Entity\Structure;
  */
 class Thread extends XFCP_Thread
 {
+    /*
+     * Threadmarks 2.1.x support
+     */
+    public function updateThreadmarkDataCache($rebuildThreadmarkData = false)
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        parent::updateThreadmarkDataCache($rebuildThreadmarkData);
+
+        $this->wordCountThreadmarkCacheRebuild();
+    }
+
+
+    /*
+     * Threadmarks 2.0.x support
+     */
     public function updateThreadmarkCategoryData()
     {
         /** @noinspection PhpUndefinedMethodInspection */
         parent::updateThreadmarkCategoryData();
 
+        $this->wordCountThreadmarkCacheRebuild();
+    }
+
+    protected function wordCountThreadmarkCacheRebuild()
+    {
         /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
         $threadRepo = $this->repository('XF:Thread');
         $defaultCategoryId = $threadRepo->getDefaultCategoryId();
