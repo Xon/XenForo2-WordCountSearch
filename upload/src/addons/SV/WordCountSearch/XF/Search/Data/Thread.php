@@ -2,9 +2,6 @@
 
 namespace SV\WordCountSearch\XF\Search\Data;
 
-
-use SV\WordCountSearch\Entity\PostWords;
-use XF\Search\IndexRecord;
 use XF\Search\MetadataStructure;
 
 /**

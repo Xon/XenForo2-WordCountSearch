@@ -2,14 +2,15 @@
     "legacy_addon_id": "SV_WordCountSearch",
     "title": "Word Count Search",
     "description": "",
-    "version_id": 2011000,
-    "version_string": "2.1.10",
+    "version_id": 2020000,
+    "version_string": "2.2.0",
     "dev": "Xon",
     "dev_url": "https://xenforo.com/community/resources/word-count-search.5652/",
     "faq_url": "",
     "support_url": "",
     "extra_urls": [],
     "require": {
+        "SV/SearchImprovements": ["2000000", "Search Improvements 2.0.0+"],
         "php": [
             "5.6.0",
             "PHP 5.6.0+"

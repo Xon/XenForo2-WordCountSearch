@@ -2,7 +2,7 @@
 
 namespace SV\WordCountSearch\XF\Pub\Controller;
 
-use SV\WordCountSearch\XF\Search\Query\RangeMetadataConstraint;
+use SV\SearchImprovements\XF\Search\Query\RangeMetadataConstraint;
 use XF\Search\Query\SqlOrder;
 
 /**
