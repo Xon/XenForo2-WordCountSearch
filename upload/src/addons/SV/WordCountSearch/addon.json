@@ -18,8 +18,8 @@
     },
     "require-soft" :{
         "SV/Threadmarks": [
-            2000100,
-            "Threadmarks v2.0.3+",
+            2020000,
+            "Threadmarks v2.2.0",
             false
         ]
     },
