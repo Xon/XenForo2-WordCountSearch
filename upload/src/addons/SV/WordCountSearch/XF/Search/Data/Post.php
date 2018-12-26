@@ -13,14 +13,16 @@ use XF\Search\MetadataStructure;
 class Post extends XFCP_Post
 {
     /**
-     * @param bool $forView
-     *
-     * @return array
-     */
+ * @param bool $forView
+ *
+ * @return array
+ */
     public function getEntityWith($forView = false)
     {
         $get = parent::getEntityWith($forView);
+
         $get[] = 'Words';
+
         return $get;
     }
 
