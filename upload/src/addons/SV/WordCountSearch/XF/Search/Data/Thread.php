@@ -66,8 +66,10 @@ class Thread extends XFCP_Thread
         $wordCount = $entity->RawWordCount;
         if ($threadmarkInstalled)
         {
-            if ($entity->threadmark_count && !$wordCount ||
-                !$entity->threadmark_count && $wordCount)
+            /** @var \SV\Threadmarks\XF\Entity\Thread $entity */
+            $threadmarkCount = isset($entity->threadmark_category_data[1]) ? $entity->threadmark_category_data[1] : 0 ;
+            if ($threadmarkCount && !$wordCount ||
+                !$threadmarkCount && $wordCount)
             {
                 /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
                 $threadRepo = \XF::app()->repository('XF:Thread');
