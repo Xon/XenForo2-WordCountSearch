@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<!--[XF:above_sort_by]-->",
-    "replace": "<xf:include template=\"svWordCountSearch_forum_filters_min_max_word_count\" />\n$0"
+    "replace": "<xf:if is=\"$xf.app.em.getRepository('SV\\WordCountSearch:WordCount').getIsThreadmarksSupportEnabled($forum)\">\n\t<xf:macro template=\"svWordCountSearch_macros\" name=\"filter_inputs\" arg-filters=\"{{ $filters }}\" />\n</xf:if>\n\n$0"
 }

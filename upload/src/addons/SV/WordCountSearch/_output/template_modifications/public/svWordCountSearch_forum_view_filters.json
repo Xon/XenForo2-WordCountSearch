@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:if is=\"$filters.prefix_id\">",
-    "replace": "<xf:include template=\"svWordCountSearch_forum_view_filters\" />\n$0"
+    "replace": "<xf:macro template=\"svWordCountSearch_macros\"\n\t\t  name=\"selected_filters\"\n\t\t  arg-route=\"forums\"\n\t\t  arg-contentParent=\"{{ $forum }}\"\n\t\t  arg-filters=\"{{ $filters }}\" />\n$0"
 }

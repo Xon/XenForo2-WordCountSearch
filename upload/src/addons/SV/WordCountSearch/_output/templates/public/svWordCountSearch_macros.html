@@ -1,0 +1,37 @@
+<xf:macro name="selected_filters" arg-route="!" arg-contentParent="{{ null }}" arg-filters="!">
+	<xf:if is="$filters.min_word_count">
+		<li><a href="{{ link($route, $contentParent, $filters|replace('min_word_count', null)) }}"
+			   class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+			<span class="filterBar-filterToggle-label">{{ phrase('svWordCountSearch_minimum_word_count:') }}</span>
+			{$filters.min_word_count}</a></li>
+	</xf:if>
+
+	<xf:if is="$filters.max_word_count">
+		<li><a href="{{ link($route, $contentParent, $filters|replace('max_word_count', null)) }}"
+			   class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+			<span class="filterBar-filterToggle-label">{{ phrase('svWordCountSearch_maximum_word_count:') }}</span>
+			{$filters.max_word_count}</a></li>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="filter_inputs" arg-filters="!">
+	<xf:css src="svWordCountSearch_macros_filter_inputs.less.less" />
+
+	<!--[SV/WordCountSearch:above_min_word_count]-->
+	<div class="menu-row menu-row--wordCountSearch">
+		{{ phrase('svWordCountSearch_minimum_word_count:') }}
+		<div class="inputGroup u-inputSpacer">
+			<span class="u-srOnly" id="ctrl_min_word_count">{{ phrase('svWordCountSearch_minimum_word_count') }}</span>
+			<xf:textbox name="min_word_count" value="{{ $filters.min_word_count ?: '' }}" aria-labelledby="ctrl_min_word_count" type="number" />
+		</div>
+	</div>
+
+	<!--[SV/WordCountSearch:above_max_word_count]-->
+	<div class="menu-row menu-row--wordCountSearch">
+		{{ phrase('svWordCountSearch_maximum_word_count:') }}
+		<div class="inputGroup u-inputSpacer">
+			<span class="u-srOnly" id="ctrl_max_word_count">{{ phrase('svWordCountSearch_maximum_word_count') }}</span>
+			<xf:textbox name="max_word_count" value="{{ $filters.max_word_count ?: '' }}" aria-labelledby="ctrl_max_word_count" type="number" />
+		</div>
+	</div>
+</xf:macro>
