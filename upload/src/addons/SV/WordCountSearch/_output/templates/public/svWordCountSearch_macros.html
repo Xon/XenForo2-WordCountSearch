@@ -14,20 +14,22 @@
 	</xf:if>
 </xf:macro>
 
-<xf:macro name="filter_inputs" arg-filters="!">
+<xf:macro name="filter_inputs" arg-filters="!" arg-contentParent="{{ null }}">
 	<xf:css src="svWordCountSearch_macros_filter_inputs.less" />
 
-	<!--[SV/WordCountSearch:above_min_word_count]-->
-	<div class="menu-row menu-row--wordCountSearch">
-		{{ phrase('svWordCountSearch_word_count:') }}
-		<div class="inputGroup u-inputSpacer">
-			<span class="u-srOnly" id="ctrl_min_word_count">{{ phrase('svWordCountSearch_minimum_word_count') }}</span>
-			<xf:numberbox name="min_word_count" data-xf-init="tooltip" title="{{ phrase('minimum') }}" value="{{ $filters.min_word_count ?: 0 }}" aria-labelledby="ctrl_min_word_count" />
-			
-			<span class="inputGroup-splitter"></span>
-			
-			<span class="u-srOnly" id="ctrl_max_word_count">{{ phrase('svWordCountSearch_maximum_word_count') }}</span>
-			<xf:numberbox name="max_word_count" data-xf-init="tooltip" title="{{ phrase('maximum') }}" value="{{ $filters.max_word_count ?: 0 }}" aria-labelledby="ctrl_max_word_count" />
+	<xf:if is="$xf.app.em.getRepository('SV\WordCountSearch:WordCount').getIsThreadmarksSupportEnabled($contentParent)">
+		<!--[SV/WordCountSearch:above_min_word_count]-->
+		<div class="menu-row menu-row--wordCountSearch">
+			{{ phrase('svWordCountSearch_word_count:') }}
+			<div class="inputGroup u-inputSpacer">
+				<span class="u-srOnly" id="ctrl_min_word_count">{{ phrase('svWordCountSearch_minimum_word_count') }}</span>
+				<xf:numberbox name="min_word_count" data-xf-init="tooltip" title="{{ phrase('minimum') }}" value="{{ $filters.min_word_count ?: 0 }}" aria-labelledby="ctrl_min_word_count" />
+
+				<span class="inputGroup-splitter"></span>
+
+				<span class="u-srOnly" id="ctrl_max_word_count">{{ phrase('svWordCountSearch_maximum_word_count') }}</span>
+				<xf:numberbox name="max_word_count" data-xf-init="tooltip" title="{{ phrase('maximum') }}" value="{{ $filters.max_word_count ?: 0 }}" aria-labelledby="ctrl_max_word_count" />
+			</div>
 		</div>
-	</div>
+	</xf:if>
 </xf:macro>

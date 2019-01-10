@@ -129,11 +129,10 @@ class WordCount extends Repository
     }
 
     /**
-     * @param \XF\Entity\Forum|null $forum
-     *
+     * @param \XF\Mvc\Entity\Entity|null $parentContainer
      * @return bool
      */
-    public function getIsThreadmarksSupportEnabled(\XF\Entity\Forum $forum = null)
+    public function getIsThreadmarksSupportEnabled(\XF\Mvc\Entity\Entity $parentContainer = null)
     {
         $addOns = \XF::app()->container('addon.cache');
         if (empty($addOns['SV/Threadmarks']))
@@ -141,10 +140,10 @@ class WordCount extends Repository
             return false;
         }
 
-        /** @var \SV\Threadmarks\XF\Entity\Forum $forum */
-        if ($forum)
+        if ($parentContainer instanceof \XF\Entity\Forum)
         {
-            if (!$forum->canViewThreadmarks())
+            /** @var \SV\Threadmarks\XF\Entity\Forum $parentContainer */
+            if (!$parentContainer->canViewThreadmarks())
             {
                 return false;
             }
