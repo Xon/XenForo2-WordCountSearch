@@ -90,7 +90,7 @@ class Thread extends XFCP_Thread
     {
         $structure = parent::getStructure($structure);
 
-        $structure->behaviors['XF:Indexable']['checkForUpdates'] = 'word_count';
+        $structure->behaviors['XF:Indexable']['checkForUpdates'][] = 'word_count';
         $structure->columns['word_count'] = ['type' => self::UINT, 'default' => 0];
 
         $structure->getters['WordCount'] = [
