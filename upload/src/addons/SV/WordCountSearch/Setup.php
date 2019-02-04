@@ -37,8 +37,17 @@ class Setup extends AbstractSetup
 
     public function installStep2()
     {
+        // legacy support, in-case XF1 version was uninstalled and columns not removed
+        $db = $this->db();
         $sm = $this->schemaManager();
-
+        if ($sm->columnExists('xf_thread','word_count'))
+        {
+            $db->query('update xf_thread set word_count = 0 where word_count is null');
+        }
+        if ($sm->columnExists('xf_search_index','word_count'))
+        {
+            $db->query('update xf_search_index set word_count = 0 where word_count is null');
+        }
         foreach ($this->getAlterTables() as $tableName => $callback)
         {
             $sm->alterTable($tableName, $callback);
@@ -52,16 +61,6 @@ class Setup extends AbstractSetup
 
     public function upgrade2010000Step2()
     {
-        $db = $this->db();
-        $sm = $this->schemaManager();
-        if ($sm->columnExists('xf_thread','word_count'))
-        {
-            $db->query('update xf_thread set word_count = 0 where word_count is null');
-        }
-        if ($sm->columnExists('xf_search_index','word_count'))
-        {
-            $db->query('update xf_search_index set word_count = 0 where word_count is null');
-        }
         $this->installStep2();
     }
 
