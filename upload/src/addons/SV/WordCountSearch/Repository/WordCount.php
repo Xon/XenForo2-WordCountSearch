@@ -12,6 +12,14 @@ use XF\Mvc\Entity\Repository;
  */
 class WordCount extends Repository
 {
+    /** @var int */
+    const DEFAULT_THREADMARK_CATEGORY_ID = 1;
+
+    public function getDefaultThreadmarkCategoryId()
+    {
+        return self::DEFAULT_THREADMARK_CATEGORY_ID;
+    }
+
     /**
      * @param string $str
      * @return int
@@ -129,10 +137,36 @@ class WordCount extends Repository
     }
 
     /**
+     * @param \XF\Entity\Thread|\SV\Threadmarks\XF\Entity\Thread $thread
+     * @return int|null
+     */
+    public function checkThreadmarkWordCountForRebuild(\XF\Entity\Thread $thread)
+    {
+        $addOns = \XF::app()->container('addon.cache');
+        if (empty($addOns['SV/Threadmarks']))
+        {
+            return $thread->RawWordCount;
+        }
+
+        $wordCount = $thread->RawWordCount;
+
+        $threadmarkCount = isset($thread->threadmark_category_data[1]) ? $thread->threadmark_category_data[1] : 0;
+        if ($threadmarkCount && !$wordCount ||
+            !$threadmarkCount && $wordCount)
+        {
+            /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
+            $threadRepo = \XF::app()->repository('XF:Thread');
+            $threadRepo->rebuildThreadWordCount($thread);
+        }
+
+        return $thread->RawWordCount;
+    }
+
+    /**
      * @param \XF\Mvc\Entity\Entity|null $parentContainer
      * @return bool
      */
-    public function getIsThreadmarksSupportEnabled(\XF\Mvc\Entity\Entity $parentContainer = null)
+    public function isThreadWordCountSupported(\XF\Mvc\Entity\Entity $parentContainer = null)
     {
         $addOns = \XF::app()->container('addon.cache');
         if (empty($addOns['SV/Threadmarks']))
@@ -150,5 +184,29 @@ class WordCount extends Repository
         }
 
         return true;
+    }
+
+    /**
+     * @param int $threadId
+     * @return int
+     */
+    public function getThreadWordCount($threadId)
+    {
+        $addOns = \XF::app()->container('addon.cache');
+        if (empty($addOns['SV/Threadmarks']))
+        {
+            return 0;
+        }
+
+        return intval($this->db()->fetchOne('
+                SELECT IFNULL(SUM(post_words.word_count), 0)
+                FROM xf_sv_threadmark AS threadmark 
+                INNER JOIN xf_post_words AS post_words ON
+                  (post_words.post_id = threadmark.content_id AND threadmark.content_type = ?)
+                WHERE threadmark.container_type = ?
+                  AND threadmark.container_id = ?
+                  AND threadmark.message_state = ?
+                  AND threadmark.threadmark_category_id = ?
+            ', ['post', 'thread', $threadId, 'visible', $this->getDefaultThreadmarkCategoryId()]));
     }
 }

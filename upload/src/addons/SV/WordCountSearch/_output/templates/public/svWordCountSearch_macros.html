@@ -17,7 +17,7 @@
 <xf:macro name="filter_inputs" arg-filters="!" arg-contentParent="{{ null }}">
 	<xf:css src="svWordCountSearch_macros_filter_inputs.less" />
 
-	<xf:if is="$xf.app.em.getRepository('SV\WordCountSearch:WordCount').getIsThreadmarksSupportEnabled($contentParent)">
+	<xf:if is="$xf.app.em.getRepository('SV\WordCountSearch:WordCount').isThreadWordCountSupported($contentParent)">
 		<!--[SV/WordCountSearch:above_min_word_count]-->
 		<div class="menu-row menu-row--wordCountSearch">
 			{{ phrase('svWordCountSearch_word_count:') }}

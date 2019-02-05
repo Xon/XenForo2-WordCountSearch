@@ -3,7 +3,7 @@
 		  arg-job="SV\WordCountSearch:PostWordCount" />
 <!--[XF:SV/WordCountSearch:after_posts_word_count]-->
 
-<xf:if is="$xf.app.em.getRepository('SV\WordCountSearch:WordCount').getIsThreadmarksSupportEnabled()">
+<xf:if is="$xf.app.em.getRepository('SV\WordCountSearch:WordCount').isThreadWordCountSupported()">
 <xf:set var="$threadWordCountBody">
 	<xf:inforow>{{ phrase('svWordCountSearch_it_is_recommended_to_rebuild_posts_word_count_before_rebuilding_threads_word_count') }}</xf:inforow>
 </xf:set>

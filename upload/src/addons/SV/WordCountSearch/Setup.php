@@ -163,7 +163,7 @@ class Setup extends AbstractSetup
         {
             /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
             $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-            if ($wordCountRepo->getIsThreadmarksSupportEnabled())
+            if ($wordCountRepo->isThreadWordCountSupported())
             {
                 $this->app->jobManager()->enqueueUnique(
                     'svWCSThreadWordCountRebuild',

@@ -30,7 +30,7 @@ class Forum extends XFCP_Forum
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        if ($wordCountRepo->getIsThreadmarksSupportEnabled($forum))
+        if ($wordCountRepo->isThreadWordCountSupported($forum))
         {
             $input = $this->filter([
                 'min_word_count' => 'int',
@@ -63,7 +63,7 @@ class Forum extends XFCP_Forum
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
 
-        if ($wordCountRepo->getIsThreadmarksSupportEnabled($forum))
+        if ($wordCountRepo->isThreadWordCountSupported($forum))
         {
             if (!empty($filters['min_word_count']))
             {

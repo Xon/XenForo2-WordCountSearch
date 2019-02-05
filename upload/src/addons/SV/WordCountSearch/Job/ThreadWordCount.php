@@ -21,28 +21,33 @@ class ThreadWordCount extends AbstractRebuildJob
     {
         $db = $this->app->db();
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-        $threadmarkInstalled = $wordCountRepo->getIsThreadmarksSupportEnabled();
-        if (!$threadmarkInstalled)
+        $addOns = \XF::app()->container('addon.cache');
+        if (empty($addOns['SV/Threadmarks']))
         {
-            return [];
+            return $db->fetchAllColumn($db->limit(
+                "
+				SELECT thread_id
+				FROM xf_thread
+				WHERE thread_id > ?
+				ORDER BY thread_id
+			", $batch
+            ), $start);
         }
-
-        return $db->fetchAllColumn($db->limit(
-            "
+        else
+        {
+            return $db->fetchAllColumn($db->limit(
+                "
 				SELECT thread_id
 				FROM xf_thread
 				WHERE thread_id > ? and threadmark_count > 0
 				ORDER BY thread_id
 			", $batch
-        ), $start);
+            ), $start);
+        }
     }
 
     /**
      * @param $id
-     *
-     * @throws \XF\PrintableException
      */
     protected function rebuildById($id)
     {

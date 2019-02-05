@@ -55,27 +55,19 @@ class Thread extends XFCP_Thread
                 $wordCount = intval($wordCount);
                 if (!$post->Words)
                 {
-                    $post->rebuildPostWordCount($wordCount,true, false);
+                    $post->rebuildPostWordCount($wordCount, true, false);
                 }
-
                 //$metadata['word_count'] = $wordCount;
             }
         }
 
-        $threadmarkInstalled = $wordCountRepo->getIsThreadmarksSupportEnabled();
-        $wordCount = $entity->RawWordCount;
-        if ($threadmarkInstalled)
+        if ($wordCountRepo->isThreadWordCountSupported())
         {
-            /** @var \SV\Threadmarks\XF\Entity\Thread $entity */
-            $threadmarkCount = isset($entity->threadmark_category_data[1]) ? $entity->threadmark_category_data[1] : 0 ;
-            if ($threadmarkCount && !$wordCount ||
-                !$threadmarkCount && $wordCount)
-            {
-                /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
-                $threadRepo = \XF::app()->repository('XF:Thread');
-                $threadRepo->rebuildThreadWordCount($entity);
-                $wordCount = $entity->RawWordCount;
-            }
+            $wordCount = $wordCountRepo->checkThreadmarkWordCountForRebuild($entity);
+        }
+        else
+        {
+            $wordCount = 0;
         }
         if ($wordCount)
         {
