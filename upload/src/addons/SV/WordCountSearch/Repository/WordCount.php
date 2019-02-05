@@ -137,7 +137,7 @@ class WordCount extends Repository
     }
 
     /**
-     * @param \XF\Entity\Thread|\SV\Threadmarks\XF\Entity\Thread $thread
+     * @param \XF\Entity\Thread|\SV\WordCountSearch\XF\Entity\Thread $thread
      * @return int|null
      */
     public function checkThreadmarkWordCountForRebuild(\XF\Entity\Thread $thread)
@@ -150,7 +150,7 @@ class WordCount extends Repository
 
         $wordCount = $thread->RawWordCount;
 
-        $threadmarkCount = isset($thread->threadmark_category_data[1]) ? $thread->threadmark_category_data[1] : 0;
+        $threadmarkCount = $this->getThreadWordCountFromEntity($thread);
         if ($threadmarkCount && !$wordCount ||
             !$threadmarkCount && $wordCount)
         {
@@ -184,6 +184,19 @@ class WordCount extends Repository
         }
 
         return true;
+    }
+
+    /**
+     * @param \XF\Entity\Thread|\SV\Threadmarks\XF\Entity\Thread $thread
+     * @return int|null
+     */
+    public function getThreadWordCountFromEntity(\XF\Entity\Thread $thread)
+    {
+        $defaultCategoryId = $this->getDefaultThreadmarkCategoryId();
+
+        return isset($thread->threadmark_category_data[$defaultCategoryId]['word_count'])
+            ? $thread->threadmark_category_data[$defaultCategoryId]['word_count']
+            : 0;
     }
 
     /**

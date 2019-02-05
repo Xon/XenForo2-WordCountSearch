@@ -43,12 +43,11 @@ class Thread extends XFCP_Thread
 
     protected function wordCountThreadmarkCacheRebuild()
     {
-        /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
-        $threadRepo = $this->repository('XF:Thread');
-        $defaultCategoryId = $threadRepo->getDefaultCategoryId();
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+        $wordCount = $wordCountRepo->getThreadWordCountFromEntity($this);
 
-        $word_count = isset($this->threadmark_category_data[$defaultCategoryId]['word_count']) ? $this->threadmark_category_data[$defaultCategoryId]['word_count'] : 0;
-        $this->set('word_count', $word_count, ['forceSet' => true]);
+        $this->set('word_count', $wordCount, ['forceSet' => true]);
         $this->clearCache('WordCount');
         $this->clearCache('RawWordCount');
         $this->clearCache('hasThreadmarks');
