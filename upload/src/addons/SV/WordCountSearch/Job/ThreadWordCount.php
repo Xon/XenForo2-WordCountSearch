@@ -21,6 +21,14 @@ class ThreadWordCount extends AbstractRebuildJob
     {
         $db = $this->app->db();
 
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        $threadmarkInstalled = $wordCountRepo->getIsThreadmarksSupportEnabled();
+        if (!$threadmarkInstalled)
+        {
+            return [];
+        }
+
         return $db->fetchAllColumn($db->limit(
             "
 				SELECT thread_id
