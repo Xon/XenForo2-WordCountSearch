@@ -5,9 +5,9 @@
     "version_id": 2040100,
     "version_string": "2.4.1",
     "dev": "Xon",
-    "dev_url": "https://xenforo.com/community/resources/word-count-search.5652/",
+    "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
-    "support_url": "",
+    "support_url": "https://xenforo.com/community/resources/word-count-search.5652/",
     "extra_urls": [],
     "require": {
         "SV/SearchImprovements": ["2000000", "Search Improvements 2.0.0+"],
