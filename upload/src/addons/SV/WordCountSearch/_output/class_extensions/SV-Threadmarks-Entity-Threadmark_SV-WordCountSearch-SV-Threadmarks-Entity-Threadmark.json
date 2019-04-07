@@ -1,6 +1,6 @@
 {
     "from_class": "SV\\Threadmarks\\Entity\\Threadmark",
     "to_class": "SV\\WordCountSearch\\SV\\Threadmarks\\Entity\\Threadmark",
-    "execute_order": 10,
+    "execute_order": 5652,
     "active": true
 }

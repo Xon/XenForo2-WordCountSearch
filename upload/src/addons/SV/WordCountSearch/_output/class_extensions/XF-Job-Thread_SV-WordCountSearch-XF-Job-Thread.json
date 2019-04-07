@@ -1,6 +1,6 @@
 {
     "from_class": "XF\\Job\\Thread",
     "to_class": "SV\\WordCountSearch\\XF\\Job\\Thread",
-    "execute_order": 10,
+    "execute_order": 5652,
     "active": true
 }

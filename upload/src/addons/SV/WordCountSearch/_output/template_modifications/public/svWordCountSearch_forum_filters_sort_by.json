@@ -1,7 +1,7 @@
 {
     "template": "forum_filters",
     "description": "Add \"Word count\" in sort by menu",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "preg_replace",
     "find": "#<xf:option value=\"view_count\">.*?<\\/xf:option>#s",

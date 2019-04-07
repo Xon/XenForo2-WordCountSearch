@@ -1,7 +1,7 @@
 {
     "template": "forum_view",
     "description": "Add filter UI for word count",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:if is=\"$filters.prefix_id\">",

@@ -1,7 +1,7 @@
 {
     "template": "svThreadmarks_macros",
     "description": "Inject word count into threadmark list",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
     "find": "{$threadmark.label}",

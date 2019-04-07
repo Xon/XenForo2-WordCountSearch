@@ -1,7 +1,7 @@
 {
     "template": "svThreadmark_list_macros",
     "description": "Inject per-threadmark word-count",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "preg_replace",
     "find": "#(<!-- threadmark meta hook-->.*?)(</xf:contentcheck>)#si",

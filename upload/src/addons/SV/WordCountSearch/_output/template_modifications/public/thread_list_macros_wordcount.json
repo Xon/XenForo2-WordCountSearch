@@ -1,7 +1,7 @@
 {
     "template": "thread_list_macros",
     "description": "Threadmarks/Word-count in threadlist",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "preg_replace",
     "find": "#(<li class=\"structItem-startDate\">.*?)(\\s*</ul>)#si",

@@ -1,7 +1,7 @@
 {
     "template": "tools_rebuild",
     "description": "Append Word Count Search rebuilds to the end of the rebuild caches system.",
-    "execution_order": 10,
+    "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
     "find": "<!--[XF:after_thread]-->",
