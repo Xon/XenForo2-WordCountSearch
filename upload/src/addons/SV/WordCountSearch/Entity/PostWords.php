@@ -1,10 +1,10 @@
 <?php
 
 namespace SV\WordCountSearch\Entity;
-use SV\WordCountSearch\XF\Entity\Post;
+
+use SV\WordCountSearch\XF\Entity\Post as PostEntity;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure;
-
 
 /**
  * COLUMNS
@@ -12,7 +12,7 @@ use XF\Mvc\Entity\Structure;
  * @property int word_count
  *
  * RELATIONS
- * @property \XF\Entity\Post Post
+ * @property PostEntity Post
  */
 class PostWords extends Entity
 {
