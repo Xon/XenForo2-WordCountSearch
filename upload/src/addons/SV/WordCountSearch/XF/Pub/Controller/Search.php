@@ -23,7 +23,6 @@ class Search extends XFCP_Search
 
         $searchRequest = new \XF\Http\Request($this->app->inputFilterer(), $data, [], []);
         $input = $searchRequest->filter([
-            'c' => 'array',
             'c.word_count.lower' => 'uint',
             'c.word_count.upper' => 'uint',
         ]);
@@ -34,18 +33,25 @@ class Search extends XFCP_Search
             $hasSearch = true;
             $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.lower'], RangeMetadataConstraint::MATCH_GREATER));
         }
+        else
+        {
+            unset($urlConstraints['c']['word_count']['lower']);
+        }
+
         if (!empty($input['c.word_count.upper']))
         {
             $hasSearch = true;
             $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.upper'], RangeMetadataConstraint::MATCH_LESSER));
+        }
+        else
+        {
+            unset($urlConstraints['c']['word_count']['upper']);
         }
 
         if($hasSearch && !$query->getKeywords())
         {
             $query->withKeywords('*', $query->getTitleOnly());
         }
-
-        $urlConstraints = array_merge($urlConstraints, $input['c']);
 
         if ($query->getOrderName() == 'word_count')
         {
