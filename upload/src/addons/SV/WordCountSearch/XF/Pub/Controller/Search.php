@@ -35,7 +35,7 @@ class Search extends XFCP_Search
         }
         else
         {
-            unset($urlConstraints['c']['word_count']['lower']);
+            unset($urlConstraints['word_count']['lower']);
         }
 
         if (!empty($input['c.word_count.upper']))
@@ -45,7 +45,12 @@ class Search extends XFCP_Search
         }
         else
         {
-            unset($urlConstraints['c']['word_count']['upper']);
+            unset($urlConstraints['word_count']['upper']);
+        }
+
+        if (empty($urlConstraints['word_count']))
+        {
+            unset($urlConstraints['word_count']);
         }
 
         if($hasSearch && !$query->getKeywords())
