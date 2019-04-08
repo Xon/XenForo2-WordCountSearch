@@ -27,10 +27,8 @@ class Search extends XFCP_Search
             'c.word_count.upper' => 'uint',
         ]);
 
-        $hasSearch = false;
         if (!empty($input['c.word_count.lower']))
         {
-            $hasSearch = true;
             $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.lower'], RangeMetadataConstraint::MATCH_GREATER));
         }
         else
@@ -40,7 +38,6 @@ class Search extends XFCP_Search
 
         if (!empty($input['c.word_count.upper']))
         {
-            $hasSearch = true;
             $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.upper'], RangeMetadataConstraint::MATCH_LESSER));
         }
         else
@@ -51,11 +48,6 @@ class Search extends XFCP_Search
         if (empty($urlConstraints['word_count']))
         {
             unset($urlConstraints['word_count']);
-        }
-
-        if($hasSearch && !$query->getKeywords())
-        {
-            $query->withKeywords('*', $query->getTitleOnly());
         }
 
         if ($query->getOrderName() == 'word_count')
