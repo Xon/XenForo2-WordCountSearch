@@ -54,13 +54,26 @@ class Thread extends XFCP_Thread
     }
 
     /**
+     * @param int|null $categoryId
      * @return string
      */
-    public function getWordCount()
+    public function getWordCount($categoryId = null)
     {
+        $categoryId = (int)$categoryId;
+        if ($categoryId && $this->hasOption('hasThreadmarks'))
+        {
+            $wordCount = isset($this->threadmark_category_data[$categoryId]['word_count'])
+                ? $this->threadmark_category_data[$categoryId]['word_count']
+                : 0;
+        }
+        else
+        {
+            $wordCount = $this->word_count_;
+        }
+
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        return $wordCountRepo->roundWordCount($this->word_count_);
+        return $wordCountRepo->roundWordCount($wordCount);
     }
 
     /**

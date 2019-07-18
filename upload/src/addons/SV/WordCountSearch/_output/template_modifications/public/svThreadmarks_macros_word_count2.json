@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "svThreadmarks_statistics_x_total_threadmarks', {",
-    "replace": "svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.WordCount,"
+    "replace": "svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.getWordCount($activeThreadmarkCategory ? $activeThreadmarkCategory.threadmark_category_id : null),"
 }
