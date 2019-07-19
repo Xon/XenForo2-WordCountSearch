@@ -11,10 +11,18 @@ use XF\Job\AbstractRebuildJob;
  */
 class ThreadWordCount extends AbstractRebuildJob
 {
+    protected function setupData(array $data)
+    {
+        $this->defaultData = array_merge([
+            'threadmarks-only' => false,
+        ], $this->defaultData);
+
+        return parent::setupData($data);
+    }
+
     /**
      * @param $start
      * @param $batch
-     *
      * @return array
      */
     protected function getNextIds($start, $batch)
@@ -22,28 +30,26 @@ class ThreadWordCount extends AbstractRebuildJob
         $db = $this->app->db();
 
         $addOns = \XF::app()->container('addon.cache');
-        if (empty($addOns['SV/Threadmarks']))
+        if (isset($addOns['SV/Threadmarks']) && $this->data['threadmarks-only'])
         {
             return $db->fetchAllColumn($db->limit(
                 "
 				SELECT thread_id
 				FROM xf_thread
-				WHERE thread_id > ?
+				WHERE thread_id > ? AND threadmark_count > 0
 				ORDER BY thread_id
 			", $batch
             ), $start);
         }
-        else
-        {
-            return $db->fetchAllColumn($db->limit(
-                "
-				SELECT thread_id
-				FROM xf_thread
-				WHERE thread_id > ? and threadmark_count > 0
-				ORDER BY thread_id
-			", $batch
-            ), $start);
-        }
+
+        return $db->fetchAllColumn($db->limit(
+            "
+            SELECT thread_id
+            FROM xf_thread
+            WHERE thread_id > ?
+            ORDER BY thread_id
+        ", $batch
+        ), $start);
     }
 
     /**

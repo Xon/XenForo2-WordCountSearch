@@ -24,5 +24,12 @@ class ThreadWordCount extends AbstractRebuildCommand
 
 	protected function configureOptions()
 	{
+        $this
+            ->addOption(
+                'threadmarks-only',
+                null,
+                InputOption::VALUE_NONE,
+                'Only consider threadmarked posts. Default: true'
+            );
 	}
 }

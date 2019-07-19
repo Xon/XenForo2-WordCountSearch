@@ -38,7 +38,7 @@ class PostWordCount extends AbstractRebuildJob
         {
             if (!$this->data['rebuild'])
             {
-                $sql = 'LEFT JOIN xf_post_words ON (xf_post_words.post_id = threadmark.post_id)';
+                $sql = 'LEFT JOIN xf_post_words ON (xf_post_words.post_id = threadmark.content_id)';
                 $where = ' AND xf_post_words.post_id IS NULL';
             }
 

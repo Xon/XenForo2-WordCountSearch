@@ -163,13 +163,13 @@ class Setup extends AbstractSetup
         $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
         if ($wordCountRepo->isThreadWordCountSupported())
         {
-            if ($previousVersion < 2010000)
+            if ($previousVersion < 2040401)
             {
-                $atomicJobs[] = ['SV\WordCountSearch:PostWordCount', []];
+                $atomicJobs[] = ['SV\WordCountSearch:PostWordCount', ['threadmarks-only' => true]];
             }
             if ($previousVersion < 2040401)
             {
-                $atomicJobs[] = ['SV\WordCountSearch:ThreadWordCount', []];
+                $atomicJobs[] = ['SV\WordCountSearch:ThreadWordCount', ['threadmarks-only' => true]];
             }
         }
 
