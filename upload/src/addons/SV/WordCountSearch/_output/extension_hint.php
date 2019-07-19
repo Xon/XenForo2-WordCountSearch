@@ -35,11 +35,6 @@ namespace SV\WordCountSearch\XF\Pub\Controller
 	class XFCP_Search extends \XF\Pub\Controller\Search {}
 }
 
-namespace SV\WordCountSearch\XF\Repository
-{
-	class XFCP_Thread extends \XF\Repository\Thread {}
-}
-
 namespace SV\WordCountSearch\XF\Search\Data
 {
 	class XFCP_Post extends \XF\Search\Data\Post {}

@@ -77,7 +77,14 @@ class Post extends XFCP_Post
 
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        return $threadmark->threadmark_category_id === $wordCountRepo->getDefaultThreadmarkCategoryId();
+        $defaultCategoryId = $wordCountRepo->getDefaultThreadmarkCategoryId();
+
+        if ($threadmark->isChanged('threadmark_category_id') && $threadmark->getPreviousValue('threadmark_category_id') === $defaultCategoryId)
+        {
+            return true;
+        }
+
+        return $threadmark->threadmark_category_id === $defaultCategoryId;
     }
 
     /**
