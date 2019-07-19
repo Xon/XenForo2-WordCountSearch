@@ -1,6 +1,6 @@
 <?php
 
-namespace SV\Threadmarks\Cli\Command\Rebuild;
+namespace SV\WordCountSearch\Cli\Command\Rebuild;
 
 use Symfony\Component\Console\Input\InputOption;
 use XF\Cli\Command\Rebuild\AbstractRebuildCommand;
