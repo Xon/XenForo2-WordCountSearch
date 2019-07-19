@@ -54,18 +54,23 @@ class ThreadWordCount extends AbstractRebuildJob
 
     /**
      * @param $id
+     * @throws \XF\PrintableException
      */
     protected function rebuildById($id)
     {
+        $db = \XF::db();
+        $db->beginTransaction();
+
+        /** @var \SV\Threadmarks\XF\Entity\Thread $thread */
+        $thread = \XF::app()->find('XF:Thread', $id);
+
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-        $wordCountRepo->rebuildThreadWordCount($id);
+        $wordCountRepo->rebuildThreadWordCount($thread);
 
         $addOns = \XF::app()->container('addon.cache');
         if (isset($addOns['SV/Threadmarks']))
         {
-            /** @var \SV\Threadmarks\XF\Entity\Thread $thread */
-            $thread = \XF::app()->find('XF:Thread', $id);
             if($addOns['SV/Threadmarks'] >= 2010000)
             {
                 $thread->updateThreadmarkDataCache();
@@ -76,6 +81,9 @@ class ThreadWordCount extends AbstractRebuildJob
                 $thread->updateThreadmarkCategoryData();
             }
         }
+
+        $thread->save(true, false);
+        $db->commit();
     }
 
     protected function getStatusType()
