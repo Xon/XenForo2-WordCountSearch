@@ -42,13 +42,13 @@ class Post extends XFCP_Post
     protected function _postSave()
     {
         // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
-        if ($this->_wordCount !== null && $this->isUpdate())
+        if ($this->Thread && $this->_wordCount !== null && $this->isUpdate())
         {
-            if ($this->isValidRelation('Threadmark') && $this->getRelation('Threadmark') && $this->Thread)
+            if ($this->isValidThreadWordCountUpdate())
             {
-                /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
-                $threadRepo = $this->app()->repository('XF:Thread');
-                $threadRepo->rebuildThreadWordCount($this->Thread);
+                /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+                $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+                $wordCountRepo->rebuildThreadWordCount($this->Thread);
             }
 
             \XF::runOnce(
@@ -60,6 +60,24 @@ class Post extends XFCP_Post
         }
 
         parent::_postSave();
+    }
+
+    protected function isValidThreadWordCountUpdate()
+    {
+        if (!$this->isValidRelation('Threadmark'))
+        {
+            return false;
+        }
+        /** @var \SV\Threadmarks\Entity\Threadmark $threadmark */
+        $threadmark = $this->getRelation('Threadmark');
+        if (!$threadmark)
+        {
+            return false;
+        }
+
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+        return $threadmark->threadmark_category_id === $wordCountRepo->getDefaultThreadmarkCategoryId();
     }
 
     /**
