@@ -87,11 +87,8 @@ class PostWordCount extends AbstractRebuildJob
         $post->rebuildPostWordCount();
     }
 
-    /**
-     * @return \XF\Phrase
-     */
     protected function getStatusType()
     {
-        return \XF::phrase('svWordCountSearch_post_word_count');
+        return \XF::phrase('svWordCountSearch_x_word_count', ['contentType' => \XF::app()->getContentTypePhrase('post')])->render();
     }
 }
