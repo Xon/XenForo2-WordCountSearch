@@ -51,16 +51,9 @@ class ThreadWordCount extends AbstractRebuildJob
      */
     protected function rebuildById($id)
     {
-        /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
-        $thread = $this->app->em()->find('XF:Thread', $id);
-        if (!$thread)
-        {
-            return;
-        }
-
-        /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
-        $threadRepo = $this->app->repository('XF:Thread');
-        $threadRepo->rebuildThreadWordCount($thread);
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        $wordCountRepo->rebuildThreadWordCount($id);
     }
 
     /**

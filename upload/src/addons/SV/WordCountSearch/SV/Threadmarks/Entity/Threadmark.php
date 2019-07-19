@@ -13,13 +13,13 @@ class Threadmark extends XFCP_Threadmark
     {
         if ($this->isInsert())
         {
+            /** @var \SV\WordCountSearch\XF\Entity\Post $content */
             $content = $this->Content;
             if ($content &&
                 $content->isValidRelation('Words') &&
                 !$content->getRelation('Words') &&
                 is_callable([$content, 'rebuildPostWordCount']))
             {
-                /** @noinspection PhpUndefinedMethodInspection */
                 $content->rebuildPostWordCount(null, false, false);
             }
         }

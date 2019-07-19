@@ -23,8 +23,8 @@ class Thread extends XFCP_Thread
             return;
         }
 
-        /** @var \SV\WordCountSearch\XF\Repository\Thread $threadRepo */
-        $threadRepo = $this->app->repository('XF:Thread');
-        $threadRepo->rebuildThreadWordCount($thread);
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        $wordCountRepo->rebuildThreadWordCount($thread);
     }
 }
