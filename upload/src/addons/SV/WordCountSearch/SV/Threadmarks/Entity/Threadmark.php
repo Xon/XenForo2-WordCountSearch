@@ -20,7 +20,7 @@ class Threadmark extends XFCP_Threadmark
                 !$content->getRelation('Words') &&
                 is_callable([$content, 'rebuildPostWordCount']))
             {
-                $content->rebuildPostWordCount(null, false, false);
+                $content->rebuildPostWordCount();
             }
         }
 
