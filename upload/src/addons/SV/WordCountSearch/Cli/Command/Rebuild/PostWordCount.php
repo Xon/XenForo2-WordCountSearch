@@ -24,5 +24,19 @@ class PostWordCount extends AbstractRebuildCommand
 
 	protected function configureOptions()
 	{
+        $this
+            ->addOption(
+                'threadmarks-only',
+                null,
+                InputOption::VALUE_NONE,
+                'Only consider threadmarked posts. Default: false'
+            );
+        $this
+            ->addOption(
+                'rebuild',
+                null,
+                InputOption::VALUE_NONE,
+                'Fully-rebuild word-count instead of just missing word counts. Default: false'
+            );
 	}
 }
