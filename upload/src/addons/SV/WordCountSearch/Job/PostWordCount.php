@@ -49,21 +49,6 @@ class PostWordCount extends AbstractRebuildJob
         $post->rebuildPostWordCount();
     }
 
-    public function complete()
-    {
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-        if ($wordCountRepo->isThreadWordCountSupported())
-        {
-            $this->app->jobManager()->enqueueUnique(
-                'svWCSThreadWordCountRebuild',
-                'SV\WordCountSearch:ThreadWordCount'
-            );
-        }
-
-        return parent::complete();
-    }
-
     /**
      * @return \XF\Phrase
      */

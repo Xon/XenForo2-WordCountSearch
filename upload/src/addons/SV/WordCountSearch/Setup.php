@@ -158,18 +158,27 @@ class Setup extends AbstractSetup
      */
     public function postUpgrade($previousVersion, array &$stateChanges)
     {
-        // v2.0.0 or any version less than v2.1.0
-        if ($previousVersion >= 2000100 && $previousVersion < 2010000)
+        $atomicJobs = [];
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        if ($wordCountRepo->isThreadWordCountSupported())
         {
-            /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-            $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-            if ($wordCountRepo->isThreadWordCountSupported())
+            if ($previousVersion < 2010000)
             {
-                $this->app->jobManager()->enqueueUnique(
-                    'svWCSThreadWordCountRebuild',
-                    'SV\WordCountSearch:ThreadWordCount'
-                );
+                $atomicJobs[] = ['SV\WordCountSearch:PostWordCount', []];
             }
+            if ($previousVersion < 2040401)
+            {
+                $atomicJobs[] = ['SV\WordCountSearch:ThreadWordCount', []];
+            }
+        }
+
+        if ($atomicJobs)
+        {
+            \XF::app()->jobManager()->enqueueUnique(
+                'threadmark-installer',
+                'XF:Atomic', ['execute' => $atomicJobs]
+            );
         }
     }
 
