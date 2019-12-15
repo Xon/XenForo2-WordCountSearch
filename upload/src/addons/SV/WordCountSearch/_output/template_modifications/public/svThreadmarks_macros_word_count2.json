@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#phrase\\('svThreadmarks_statistics_x_total_threadmarks',\\s\\{(.*?)\\}\\)#si",
-    "replace": "$container.isValidRelation(\"Words\") \n? phrase('svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.getWordCount($activeThreadmarkCategory ? $activeThreadmarkCategory.threadmark_category_id : null), $1})\n: $0"
+    "replace": "$container.hasOption('hasWordCountSupport') \n? phrase('svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.getWordCount($activeThreadmarkCategory ? $activeThreadmarkCategory.threadmark_category_id : null), $1})\n: $0"
 }

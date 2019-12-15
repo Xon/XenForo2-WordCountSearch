@@ -23,7 +23,7 @@ class Thread extends XFCP_Thread
      */
     public function updateThreadmarkDataCache($rebuildThreadmarkData = false)
     {
-        /** @noinspection PhpUndefinedMethodInspection */
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         parent::updateThreadmarkDataCache($rebuildThreadmarkData);
 
         $this->wordCountThreadmarkCacheRebuild();
@@ -35,7 +35,7 @@ class Thread extends XFCP_Thread
      */
     public function updateThreadmarkCategoryData()
     {
-        /** @noinspection PhpUndefinedMethodInspection */
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         parent::updateThreadmarkCategoryData();
 
         $this->wordCountThreadmarkCacheRebuild();
@@ -115,6 +115,8 @@ class Thread extends XFCP_Thread
         ];
 
         $structure->getters['hasThreadmarks'] = true;
+
+        $structure->options['hasWordCountSupport'] = true;
 
         return $structure;
     }
