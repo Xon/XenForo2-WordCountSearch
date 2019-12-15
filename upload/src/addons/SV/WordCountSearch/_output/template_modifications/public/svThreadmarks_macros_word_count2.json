@@ -3,7 +3,7 @@
     "description": "Inject word count into author stats",
     "execution_order": 5652,
     "enabled": true,
-    "action": "str_replace",
-    "find": "svThreadmarks_statistics_x_total_threadmarks', {",
-    "replace": "svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.getWordCount($activeThreadmarkCategory ? $activeThreadmarkCategory.threadmark_category_id : null),"
+    "action": "preg_replace",
+    "find": "#phrase\\('svThreadmarks_statistics_x_total_threadmarks',\\s\\{(.*?)\\}\\)#si",
+    "replace": "$container.isValidRelation(\"Words\") \n? phrase('svThreadmarks_statistics_x_total_threadmarks_words', {'words': $container.getWordCount($activeThreadmarkCategory ? $activeThreadmarkCategory.threadmark_category_id : null), $1})\n: $0"
 }
