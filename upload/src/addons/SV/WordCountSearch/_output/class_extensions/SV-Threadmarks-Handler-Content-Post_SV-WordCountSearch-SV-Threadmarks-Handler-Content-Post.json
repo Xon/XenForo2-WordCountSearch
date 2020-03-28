@@ -1,0 +1,6 @@
+{
+    "from_class": "SV\\Threadmarks\\Handler\\Content\\Post",
+    "to_class": "SV\\WordCountSearch\\SV\\Threadmarks\\Handler\\Content\\Post",
+    "execute_order": 10,
+    "active": true
+}

@@ -8,6 +8,11 @@ namespace SV\WordCountSearch\SV\Threadmarks\Entity
 	class XFCP_Threadmark extends \SV\Threadmarks\Entity\Threadmark {}
 }
 
+namespace SV\WordCountSearch\SV\Threadmarks\Handler\Content
+{
+	class XFCP_Post extends \SV\Threadmarks\Handler\Content\Post {}
+}
+
 namespace SV\WordCountSearch\SV\Threadmarks\Repository
 {
 	class XFCP_ThreadmarkCategory extends \SV\Threadmarks\Repository\ThreadmarkCategory {}
