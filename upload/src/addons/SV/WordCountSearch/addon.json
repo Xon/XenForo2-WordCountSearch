@@ -2,14 +2,15 @@
     "legacy_addon_id": "SV_WordCountSearch",
     "title": "Word Count Search",
     "description": "Word-count range searches",
-    "version_id": 2040600,
-    "version_string": "2.4.6",
+    "version_id": 2050000,
+    "version_string": "2.5.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/word-count-search.5652/",
     "extra_urls": [],
     "require": {
+        "XF": [2010070, "XenForo 2.1.0+"],
         "SV/SearchImprovements": ["2000000", "Search Improvements 2.0.0+"],
         "php": [
             "5.6.0",
