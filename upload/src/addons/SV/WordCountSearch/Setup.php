@@ -2,8 +2,7 @@
 
 namespace SV\WordCountSearch;
 
-use SV\Utils\InstallerHelper;
-use SV\Utils\InstallerSoftRequire;
+use SV\StandardLib\InstallerHelper;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
@@ -18,7 +17,6 @@ use XF\Db\Schema\Create;
  */
 class Setup extends AbstractSetup
 {
-    // from https://github.com/Xon/XenForo2-Utils cloned to src/addons/SV/Utils
     use InstallerHelper;
 	use StepRunnerInstallTrait;
 	use StepRunnerUpgradeTrait;
@@ -180,15 +178,5 @@ class Setup extends AbstractSetup
                 'XF:Atomic', ['execute' => $atomicJobs]
             );
         }
-    }
-
-    use InstallerSoftRequire;
-    /**
-     * @param array $errors
-     * @param array $warnings
-     */
-    public function checkRequirements(&$errors = [], &$warnings = [])
-    {
-        $this->checkSoftRequires($errors,$warnings);
     }
 }
