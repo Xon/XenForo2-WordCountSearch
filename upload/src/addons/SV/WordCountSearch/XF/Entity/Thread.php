@@ -18,25 +18,10 @@ use XF\Mvc\Entity\Structure;
  */
 class Thread extends XFCP_Thread
 {
-    /*
-     * Threadmarks 2.1.x support
-     */
     public function updateThreadmarkDataCache($rebuildThreadmarkData = false)
     {
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        /** @noinspection PhpUndefinedMethodInspection */
         parent::updateThreadmarkDataCache($rebuildThreadmarkData);
-
-        $this->wordCountThreadmarkCacheRebuild();
-    }
-
-
-    /*
-     * Threadmarks 2.0.x support
-     */
-    public function updateThreadmarkCategoryData()
-    {
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        parent::updateThreadmarkCategoryData();
 
         $this->wordCountThreadmarkCacheRebuild();
     }
