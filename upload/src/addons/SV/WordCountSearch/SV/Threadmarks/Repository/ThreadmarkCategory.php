@@ -33,7 +33,7 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
               AND threadmark.container_type = ?
               AND threadmark.message_state = \'visible\'
             GROUP BY threadmark.threadmark_category_id
-            ORDER BY threadmark.threadmark_category_id ASC
+            ORDER BY threadmark.threadmark_category_id
         ', 'threadmark_category_id', ['post', $container->getEntityId(), $container->getEntityContentType()]);
     }
 }

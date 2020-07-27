@@ -33,9 +33,9 @@ class Threadmark extends XFCP_Threadmark
     public function getWordCount()
     {
         $content = $this->Content;
-        if ($content && !empty($content->WordCount))
+        if ($content && $content->isValidGetter('WordCount'))
         {
-            return $content->WordCount;
+            return $content->get('WordCount');
         }
 
         return '';

@@ -240,9 +240,7 @@ class WordCount extends Repository
             return;
         }
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        $wordCount = $wordCountRepo->getThreadWordCount($threadId);
+        $wordCount = $this->getThreadWordCount($threadId);
 
         if ($thread)
         {
