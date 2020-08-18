@@ -20,7 +20,7 @@
 	<xf:if is="$xf.app.em.getRepository('SV\WordCountSearch:WordCount').isThreadWordCountSupported($contentParent)">
 		<!--[SV/WordCountSearch:above_min_word_count]-->
 		<div class="menu-row menu-row--wordCountSearch">
-			{{ phrase('svWordCountSearch_word_count:') }}
+			{{ phrase('forum_sort.word_count:') }}
 			<div class="inputGroup u-inputSpacer">
 				<span class="u-srOnly" id="ctrl_min_word_count">{{ phrase('svWordCountSearch_minimum_word_count') }}</span>
 				<xf:numberbox name="min_word_count" data-xf-init="tooltip" title="{{ phrase('minimum') }}" value="{{ $filters.min_word_count ?: 0 }}" aria-labelledby="ctrl_min_word_count" />
