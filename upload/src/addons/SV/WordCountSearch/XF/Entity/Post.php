@@ -132,19 +132,21 @@ class Post extends XFCP_Post
         if ($wordCountRepo->shouldRecordPostWordCount($this, $wordCount))
         {
             /** @var PostWords $words */
-            $words = $this->getRelationOrDefault('Words');
+            $words = $this->getRelationOrDefault('Words', false);
             $words->word_count = $wordCount;
             if ($doSave)
             {
                 $changes = true;
                 $words->saveIfChanged();
             }
+            $this->_relations['Words'] = $words;
         }
         else if ($this->Words)
         {
             $changes = true;
             $this->Words->delete();
         }
+        $this->clearCache('Words');
         $this->clearCache('WordCount');
         $this->clearCache('RawWordCount');
 
