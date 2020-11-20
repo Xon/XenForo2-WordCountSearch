@@ -27,7 +27,7 @@ class WordCount extends Repository
     protected function str_word_count_utf8(string $str)
     {
         // ref: http://php.net/manual/de/function.str-word-count.php#107363
-        return count(preg_split('~[^\p{L}\p{N}\']+~u', $str));
+        return count(preg_split('~[^\p{L}\p{N}\']+~u', $str, -1, PREG_SPLIT_NO_EMPTY));
     }
 
     /**
