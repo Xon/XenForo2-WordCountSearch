@@ -15,6 +15,7 @@ class Elasticsearch extends XFCP_Elasticsearch
      * @param Query\Query $query
      * @param int         $maxResults
      * @return array
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function getDslFromQuery(Query\Query $query, $maxResults)
     {
@@ -47,6 +48,7 @@ class Elasticsearch extends XFCP_Elasticsearch
      * @param Query\KeywordQuery $query
      * @param int                $maxResults
      * @return array
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function getKeywordSearchDsl(Query\KeywordQuery $query, $maxResults)
     {

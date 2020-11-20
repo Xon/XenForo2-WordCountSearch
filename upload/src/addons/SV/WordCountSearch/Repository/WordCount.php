@@ -24,10 +24,10 @@ class WordCount extends Repository
      * @param string $str
      * @return int
      */
-    protected function str_word_count_utf8($str)
+    protected function str_word_count_utf8(string $str)
     {
         // ref: http://php.net/manual/de/function.str-word-count.php#107363
-        return count(preg_split('~[^\p{L}\p{N}\']+~u',$str));
+        return count(preg_split('~[^\p{L}\p{N}\']+~u', $str));
     }
 
     /**
@@ -57,12 +57,7 @@ class WordCount extends Repository
         return \XF::app()->options()->wordcountThreshold;
     }
 
-    /**
-     * @param Post $post
-     * @param int $wordCount
-     * @return bool
-     */
-    public function shouldRecordPostWordCount($post, $wordCount)
+    public function shouldRecordPostWordCount(Post $post, int $wordCount): bool
     {
         if ($post->isValidRelation('Threadmark') && $post->getRelation('Threadmark'))
         {
@@ -77,11 +72,7 @@ class WordCount extends Repository
         return false;
     }
 
-    /**
-     * @param string $message
-     * @return int
-     */
-    public function getTextWordCount($message)
+    public function getTextWordCount(string $message): int
     {
         $strippedText = $this->app()->stringFormatter()->stripBbCode($message, ['stripQuote' => true]);
         // remove non-visible placeholders
@@ -90,10 +81,10 @@ class WordCount extends Repository
     }
 
     /**
-     * @param int $WordCount
+     * @param mixed $WordCount
      * @return string
      */
-    public function roundWordCount($WordCount)
+    public function roundWordCount($WordCount): string
     {
         $inexactWordCount = intval($WordCount);
         if (!$inexactWordCount)
@@ -201,7 +192,7 @@ class WordCount extends Repository
      * @param int $threadId
      * @return int
      */
-    public function getThreadWordCount($threadId)
+    public function getThreadWordCount(int $threadId): int
     {
         $addOns = \XF::app()->container('addon.cache');
         if (empty($addOns['SV/Threadmarks']))
@@ -222,7 +213,7 @@ class WordCount extends Repository
     }
 
     /**
-     * @param $threadId
+     * @param \XF\Entity\Thread|int|null $threadId
      */
     public function rebuildThreadWordCount($threadId)
     {
