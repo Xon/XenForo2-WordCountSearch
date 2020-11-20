@@ -17,9 +17,6 @@ class Post extends XFCP_Post
 {
     protected $_wordCount = null;
 
-    /**
-     * @throws \XF\PrintableException
-     */
     protected function _preSave()
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
@@ -30,9 +27,11 @@ class Post extends XFCP_Post
             $this->_wordCount = $wordCountRepo->getTextWordCount($this->message);
         }
 
-        if ($this->_wordCount)
+        if ($this->_wordCount && $this->Words)
         {
-            $this->rebuildPostWordCount($this->_wordCount, false, false);
+            $this->Words->word_count = $this->_wordCount;
+            $this->clearCache('WordCount');
+            $this->clearCache('RawWordCount');
         }
 
         parent::_preSave();
@@ -41,22 +40,27 @@ class Post extends XFCP_Post
 
     protected function _postSave()
     {
-        // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
-        if ($this->Thread && $this->_wordCount !== null && $this->isUpdate())
+        if ($this->Thread && $this->_wordCount !== null)
         {
-            if ($this->isValidThreadWordCountUpdate())
-            {
-                /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-                $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-                $wordCountRepo->rebuildThreadWordCount($this->Thread);
-            }
+            $this->rebuildPostWordCount($this->_wordCount, true, false);
 
-            \XF::runOnce(
-                'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
-                function () {
-                    $this->app()->search()->index($this->getEntityContentType(), $this, true);
+            // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
+            if ($this->isUpdate())
+            {
+                if ($this->isValidThreadWordCountUpdate())
+                {
+                    /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+                    $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+                    $wordCountRepo->rebuildThreadWordCount($this->Thread);
                 }
-            );
+
+                \XF::runOnce(
+                    'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
+                    function () {
+                        $this->app()->search()->index($this->getEntityContentType(), $this, true);
+                    }
+                );
+            }
         }
 
         parent::_postSave();
@@ -134,19 +138,18 @@ class Post extends XFCP_Post
             /** @var PostWords $words */
             $words = $this->getRelationOrDefault('Words', false);
             $words->word_count = $wordCount;
-            if ($doSave)
+            $changes = $words->isChanged('word_count');
+            if ($doSave && $changes)
             {
-                $changes = true;
-                $words->saveIfChanged();
+                $words->save();
             }
-            $this->_relations['Words'] = $words;
         }
         else if ($this->Words)
         {
             $changes = true;
             $this->Words->delete();
+            $this->clearCache('Words');
         }
-        $this->clearCache('Words');
         $this->clearCache('WordCount');
         $this->clearCache('RawWordCount');
 
