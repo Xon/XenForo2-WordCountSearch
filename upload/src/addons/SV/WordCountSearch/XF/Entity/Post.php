@@ -66,6 +66,13 @@ class Post extends XFCP_Post
         parent::_postSave();
     }
 
+    protected function _postDelete()
+    {
+        parent::_postDelete();
+
+        $this->db()->query('DELETE FROM xf_post_words WHERE post_id = ?', $this->post_id);
+    }
+
     protected function isValidThreadWordCountUpdate()
     {
         if (!$this->isValidRelation('Threadmark'))

@@ -78,6 +78,15 @@ class Thread extends XFCP_Thread
         return !empty($this->threadmark_count) && $this->canViewThreadmarks();
     }
 
+    protected function _postDeletePosts(array $postIds)
+    {
+        parent::_postDeletePosts($postIds);
+
+        $db = $this->db();
+
+        $db->delete('xf_post_words', 'post_id IN (' . $db->quote($postIds) . ')');
+    }
+
     /**
      * @param Structure $structure
      *
