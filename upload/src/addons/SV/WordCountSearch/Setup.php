@@ -156,6 +156,11 @@ class Setup extends AbstractSetup
      */
     public function postUpgrade($previousVersion, array &$stateChanges)
     {
+        if ($previousVersion < 2060500)
+        {
+            \XF::app()->jobManager()->enqueueUnique('pruneWordCount', 'SV\WordCountSearch:PrunePostWordCount');
+        }
+
         $atomicJobs = [];
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
