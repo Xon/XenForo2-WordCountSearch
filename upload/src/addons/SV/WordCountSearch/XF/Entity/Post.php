@@ -147,7 +147,11 @@ class Post extends XFCP_Post
         else if ($this->Words)
         {
             $changes = true;
-            $this->Words->delete();
+            if ($this->Words->exists())
+            {
+                $this->Words->reset();
+                $this->Words->delete();
+            }
             $this->clearCache('Words');
         }
         $this->clearCache('WordCount');
