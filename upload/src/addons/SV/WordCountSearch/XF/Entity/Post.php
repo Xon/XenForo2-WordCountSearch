@@ -150,6 +150,7 @@ class Post extends XFCP_Post
             {
                 $words->save();
             }
+            $this->hydrateRelation('Words', $words);
         }
         else if ($this->Words)
         {
