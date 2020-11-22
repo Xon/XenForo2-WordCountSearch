@@ -167,7 +167,7 @@ class Post extends XFCP_Post
             $this->clearCache('Words');
         }
         $this->clearCache('WordCount');
-        $this->clearCache('RawWordCount');
+        $this->_getterCache['RawWordCount'] = $wordCount;
 
         if ($searchUpdate && $changes)
         {
