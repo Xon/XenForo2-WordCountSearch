@@ -26,6 +26,10 @@ class Post extends XFCP_Post
         {
             $this->_wordCount = $wordCountRepo->getTextWordCount($this->message);
         }
+        else
+        {
+            $this->_wordCount = null;
+        }
 
         if ($this->_wordCount && $this->Words)
         {
