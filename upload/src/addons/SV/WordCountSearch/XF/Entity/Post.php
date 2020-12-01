@@ -86,10 +86,12 @@ class Post extends XFCP_Post implements  IContentWordCount
             /** @var PostWords $words */
             $words = $this->getRelationOrDefault('Words', false);
             $words->word_count = $wordCount;
-            $changes = $words->isChanged('word_count');
-            if ($doSave && $changes)
+            if ($doSave && $words->hasChanges())
             {
-                $words->saveIfChanged($saved, true, false);
+                // Recording the memorized word count is vulnerable to a race condition, to migrate this
+                // use "replace into" rather than "insert into"
+                $words->useReplaceInto(true);
+                $words->save();
             }
             $this->hydrateRelation('Words', $words);
         }
