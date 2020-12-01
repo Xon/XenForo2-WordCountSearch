@@ -44,11 +44,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         $this->clearCache('hasThreadmarks');
     }
 
-    /**
-     * @param int|null $categoryId
-     * @return string
-     */
-    public function getWordCount($categoryId = null)
+    public function getWordCount(int $categoryId = null): string
     {
         $categoryId = (int)$categoryId;
         if ($categoryId && $this->hasOption('hasThreadmarks'))
@@ -105,16 +101,9 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         $structure->behaviors['XF:Indexable']['checkForUpdates'][] = 'word_count';
         $structure->columns['word_count'] = ['type' => self::UINT, 'default' => 0];
 
-        $structure->getters['WordCount'] = [
-            'getter' => true,
-            'cache' => true
-        ];
-        $structure->getters['RawWordCount'] = [
-            'getter' => true,
-            'cache' => false
-        ];
-
-        $structure->getters['hasThreadmarks'] = true;
+        $structure->getters['WordCount'] = ['getter' => 'getWordCount', 'cache' => true];
+        $structure->getters['RawWordCount'] = ['getter' => 'getRawWordCount', 'cache' => true];
+        $structure->getters['hasThreadmarks'] = ['getter' => 'getHasThreadmarks', 'cache' => true];
 
         $structure->options['hasWordCountSupport'] = true;
 

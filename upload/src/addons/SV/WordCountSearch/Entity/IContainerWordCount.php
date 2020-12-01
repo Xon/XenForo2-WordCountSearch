@@ -13,7 +13,7 @@ namespace SV\WordCountSearch\Entity;
  */
 interface IContainerWordCount
 {
-    public function getWordCount(): string;
+    public function getWordCount(int $categoryId = null): string;
 
     /**
      * @return int|null
