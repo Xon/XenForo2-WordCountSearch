@@ -63,15 +63,12 @@ class ThreadWordCount extends AbstractRebuildJob
 
         $db->fetchOne('select thread_id from xf_thread where thread_id = ? for UPDATE ', [$id]);
 
-        /** @var \SV\Threadmarks\XF\Entity\Thread $thread */
+        /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
         $thread = \XF::app()->find('XF:Thread', $id);
         if ($thread)
         {
-            /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-            $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-            $wordCountRepo->rebuildContainerWordCount($thread);
-
-            $thread->save(true, false);
+            $thread->rebuildWordCount();
+            $thread->saveIfChanged($saved, true, false);
         }
         $db->commit();
     }

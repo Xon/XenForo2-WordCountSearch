@@ -16,15 +16,12 @@ class Thread extends XFCP_Thread
     {
         parent::rebuildById($id);
 
-        /** @var \XF\Entity\Thread $thread */
-        $thread = $this->app->em()->find('XF:Thread', $id);
-        if (!$thread)
+        /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
+        $thread = \XF::app()->find('XF:Thread', $id);
+        if ($thread)
         {
-            return;
+            $thread->rebuildWordCount();
+            $thread->saveIfChanged($saved, true, false);
         }
-
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-        $wordCountRepo->rebuildContainerWordCount($thread);
     }
 }
