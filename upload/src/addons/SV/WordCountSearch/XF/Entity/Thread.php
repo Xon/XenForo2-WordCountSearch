@@ -2,6 +2,7 @@
 
 namespace SV\WordCountSearch\XF\Entity;
 
+use SV\WordCountSearch\Entity\IContainerWordCount;
 use XF\Mvc\Entity\Structure;
 
 /**
@@ -16,8 +17,13 @@ use XF\Mvc\Entity\Structure;
  * @property int|null  RawWordCount
  * @property bool      hasThreadmarks
  */
-class Thread extends XFCP_Thread
+class Thread extends XFCP_Thread implements IContainerWordCount
 {
+    public function getWordContentType(): string
+    {
+        return 'post';
+    }
+
     public function updateThreadmarkDataCache($rebuildThreadmarkData = false)
     {
         /** @noinspection PhpUndefinedMethodInspection */

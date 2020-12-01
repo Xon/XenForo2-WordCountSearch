@@ -1,0 +1,24 @@
+<?php
+
+namespace SV\WordCountSearch\Entity;
+
+/**
+ * Extends \XF\Entity\Post
+ *
+ * @property int|null word_count
+ * @property int|null word_count_
+ *
+ * @property string    WordCount
+ * @property int|null  RawWordCount
+ */
+interface IContainerWordCount
+{
+    public function getWordCount(): string;
+
+    /**
+     * @return int|null
+     */
+    public function getRawWordCount();
+
+    public function getWordContentType(): string;
+}

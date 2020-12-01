@@ -25,6 +25,6 @@ class Thread extends XFCP_Thread
 
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
-        $wordCountRepo->rebuildThreadWordCount($thread);
+        $wordCountRepo->rebuildContainerWordCount($thread);
     }
 }

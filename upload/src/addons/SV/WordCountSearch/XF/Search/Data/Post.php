@@ -30,7 +30,6 @@ class Post extends XFCP_Post
      * @param \XF\Entity\Post $post
      *
      * @return array
-     * @throws \XF\PrintableException
      */
     protected function getMetaData(\XF\Entity\Post $post)
     {
@@ -38,13 +37,12 @@ class Post extends XFCP_Post
         /** @var IndexRecord $index */
         $metadata = parent::getMetaData($post);
 
-        $wordCount = $post->RawWordCount;
+        $wordCount = (int)$post->RawWordCount;
         if ($wordCount)
         {
-            $wordCount = intval($wordCount);
             if (!$post->Words)
             {
-                $post->rebuildPostWordCount($wordCount, true, false);
+                $post->rebuildWordCount($wordCount, true, false);
             }
             $metadata['word_count'] = $wordCount;
         }

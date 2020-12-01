@@ -70,11 +70,6 @@ class PostWordCount extends AbstractRebuildJob
         ), $start);
     }
 
-    /**
-     * @param $id
-     *
-     * @throws \XF\PrintableException
-     */
     protected function rebuildById($id)
     {
         /** @var \SV\WordCountSearch\XF\Entity\Post $post */
@@ -84,7 +79,7 @@ class PostWordCount extends AbstractRebuildJob
             return;
         }
 
-        $post->rebuildPostWordCount();
+        $post->rebuildWordCount();
     }
 
     protected function getStatusType()

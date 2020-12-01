@@ -2,6 +2,7 @@
 
 namespace SV\WordCountSearch\SV\Threadmarks\Entity;
 
+use SV\WordCountSearch\Entity\IContentWordCount;
 use XF\Mvc\Entity\Structure;
 
 /**
@@ -13,24 +14,18 @@ class Threadmark extends XFCP_Threadmark
     {
         if ($this->isInsert())
         {
-            /** @var \SV\WordCountSearch\XF\Entity\Post $content */
             $content = $this->Content;
-            if ($content &&
-                $content->isValidRelation('Words') &&
-                !$content->getRelation('Words') &&
-                is_callable([$content, 'rebuildPostWordCount']))
+            if ($content instanceof IContentWordCount && !$content->hasWordCount())
             {
-                $content->rebuildPostWordCount();
+                // handle case where a threadmark is added to content, and needs it's word-count rebuilt
+                $content->rebuildWordCount();
             }
         }
 
         parent::_postSave();
     }
 
-    /**
-     * @return string
-     */
-    public function getWordCount()
+    public function getWordCount(): string
     {
         $content = $this->Content;
         if ($content && $content->isValidGetter('WordCount'))

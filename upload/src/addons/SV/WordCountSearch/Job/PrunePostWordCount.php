@@ -3,7 +3,6 @@
 namespace SV\WordCountSearch\Job;
 
 use XF\Job\AbstractJob;
-use XF\Job\JobResult;
 
 /**
  * Class PostWordCount

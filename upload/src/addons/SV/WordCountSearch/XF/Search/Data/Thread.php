@@ -29,7 +29,6 @@ class Thread extends XFCP_Thread
      * @param \XF\Entity\Thread $entity
      *
      * @return array
-     * @throws \XF\PrintableException
      */
     protected function getMetaData(\XF\Entity\Thread $entity)
     {
@@ -49,15 +48,10 @@ class Thread extends XFCP_Thread
 
         if ($post->isValidRelation('Threadmark') && $post->getRelation('Threadmark'))
         {
-            $wordCount = $post->RawWordCount;
-            if ($wordCount)
+            $wordCount = (int)$post->RawWordCount;
+            if ($wordCount && !$post->Words)
             {
-                $wordCount = intval($wordCount);
-                if (!$post->Words)
-                {
-                    $post->rebuildPostWordCount($wordCount, true, false);
-                }
-                //$metadata['word_count'] = $wordCount;
+                $post->rebuildWordCount($wordCount, true, false);
             }
         }
 

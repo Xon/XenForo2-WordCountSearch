@@ -2,18 +2,19 @@
 
 namespace SV\WordCountSearch\XF\Entity;
 
+use SV\WordCountSearch\Entity\IContentWordCount;
 use SV\WordCountSearch\Entity\PostWords;
 use XF\Mvc\Entity\Structure;
 
 /**
  * Extends \XF\Entity\Post
  *
- * @property string    WordCount
- * @property int|null  RawWordCount
+ * @property string WordCount
+ * @property int    RawWordCount
  *
  * @property PostWords Words
  */
-class Post extends XFCP_Post
+class Post extends XFCP_Post implements  IContentWordCount
 {
     protected $_wordCount = null;
 
@@ -46,16 +47,16 @@ class Post extends XFCP_Post
     {
         if ($this->Thread && $this->_wordCount !== null)
         {
-            $this->rebuildPostWordCount($this->_wordCount, true, false);
+            $this->rebuildWordCount($this->_wordCount, true, false);
 
             // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
             if ($this->isUpdate())
             {
-                if ($this->isValidThreadWordCountUpdate())
+                if ($this->isValidContainerWordCountUpdate())
                 {
                     /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
                     $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-                    $wordCountRepo->rebuildThreadWordCount($this->Thread);
+                    $wordCountRepo->rebuildContainerWordCount($this->Thread);
                 }
 
                 \XF::runOnce(
@@ -77,7 +78,12 @@ class Post extends XFCP_Post
         $this->db()->query('DELETE FROM xf_post_words WHERE post_id = ?', $this->post_id);
     }
 
-    protected function isValidThreadWordCountUpdate()
+    public function hasWordCount(): bool
+    {
+        return $this->Words !== null && $this->Words->exists();
+    }
+
+    protected function isValidContainerWordCountUpdate()
     {
         if (!$this->isValidRelation('Threadmark'))
         {
@@ -102,20 +108,14 @@ class Post extends XFCP_Post
         return $threadmark->threadmark_category_id === $defaultCategoryId;
     }
 
-    /**
-     * @return string
-     */
-    public function getWordCount()
+    public function getWordCount(): string
     {
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
         return $wordCountRepo->roundWordCount($this->RawWordCount);
     }
 
-    /**
-     * @return int
-     */
-    public function getRawWordCount()
+    public function getRawWordCount(): int
     {
         if ($this->Words)
         {
@@ -127,13 +127,7 @@ class Post extends XFCP_Post
         return $wordCountRepo->getTextWordCount($this->message);
     }
 
-    /**
-     * @param int|null $wordCount
-     * @param bool     $doSave
-     * @param bool     $searchUpdate
-     * @throws \XF\PrintableException
-     */
-    public function rebuildPostWordCount($wordCount = null, $doSave = true, $searchUpdate = true)
+    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool$searchUpdate = true)
     {
         $changes = false;
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
@@ -152,7 +146,7 @@ class Post extends XFCP_Post
             $changes = $words->isChanged('word_count');
             if ($doSave && $changes)
             {
-                $words->save();
+                $words->saveIfChanged($saved, true, false);
             }
             $this->hydrateRelation('Words', $words);
         }

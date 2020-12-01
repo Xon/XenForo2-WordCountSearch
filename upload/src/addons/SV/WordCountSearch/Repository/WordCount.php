@@ -2,7 +2,9 @@
 
 namespace SV\WordCountSearch\Repository;
 
+use SV\WordCountSearch\Entity\IContainerWordCount;
 use SV\WordCountSearch\XF\Entity\Post;
+use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
 
 /**
@@ -139,23 +141,23 @@ class WordCount extends Repository
             return $thread->RawWordCount;
         }
 
-        $wordCount = $thread->RawWordCount;
+        $wordCount = (int)$thread->RawWordCount;
 
         $threadmarkCount = $this->getThreadWordCountFromEntity($thread);
         if ($threadmarkCount && !$wordCount ||
             !$threadmarkCount && $wordCount)
         {
-            $this->rebuildThreadWordCount($thread);
+            $this->rebuildContainerWordCount($thread);
         }
 
         return $thread->RawWordCount;
     }
 
     /**
-     * @param \XF\Mvc\Entity\Entity|null $parentContainer
+     * @param Entity|null $parentContainer
      * @return bool
      */
-    public function isThreadWordCountSupported(\XF\Mvc\Entity\Entity $parentContainer = null)
+    public function isThreadWordCountSupported(Entity $parentContainer = null)
     {
         $addOns = \XF::app()->container('addon.cache');
         if (empty($addOns['SV/Threadmarks']))
@@ -189,10 +191,12 @@ class WordCount extends Repository
     }
 
     /**
-     * @param int $threadId
+     * @param string $contentType
+     * @param string $containerType
+     * @param int    $containerId
      * @return int
      */
-    public function getThreadWordCount(int $threadId): int
+    public function getContainerWordCount(string $contentType, string $containerType, int $containerId): int
     {
         $addOns = \XF::app()->container('addon.cache');
         if (empty($addOns['SV/Threadmarks']))
@@ -203,48 +207,24 @@ class WordCount extends Repository
         return intval($this->db()->fetchOne('
                 SELECT IFNULL(SUM(post_words.word_count), 0)
                 FROM xf_sv_threadmark AS threadmark 
-                INNER JOIN xf_post_words AS post_words ON
-                  (post_words.post_id = threadmark.content_id AND threadmark.content_type = ?)
+                INNER JOIN xf_post_words AS post_words ON (post_words.post_id = threadmark.content_id AND threadmark.content_type = ?)
                 WHERE threadmark.container_type = ?
                   AND threadmark.container_id = ?
                   AND threadmark.message_state = ?
                   AND threadmark.threadmark_category_id = ?
-            ', ['post', 'thread', $threadId, 'visible', $this->getDefaultThreadmarkCategoryId()]));
+            ', [$contentType, $containerType, $containerId, 'visible', $this->getDefaultThreadmarkCategoryId()]));
     }
 
     /**
-     * @param \XF\Entity\Thread|int|null $threadId
+     * @param IContainerWordCount|Entity $container
      */
-    public function rebuildThreadWordCount($threadId)
+    public function rebuildContainerWordCount(Entity $container)
     {
-        /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
-        $thread = null;
+        $wordCount = $this->getContainerWordCount($container->getWordContentType(), $container->getEntityContentType(), $container->getEntityId());
 
-        if ($threadId instanceof \XF\Entity\Thread)
-        {
-            $thread = $threadId;
-            $threadId = $threadId->thread_id;
-        }
-
-        if (!$threadId)
-        {
-            return;
-        }
-
-        $wordCount = $this->getThreadWordCount($threadId);
-
-        if ($thread)
-        {
-            $thread->fastUpdate('word_count', $wordCount);
-            $thread->clearCache('WordCount');
-            $thread->clearCache('RawWordCount');
-            $thread->clearCache('hasThreadmarks');
-        }
-        else
-        {
-            $this->db()->update('xf_thread', [
-                'word_count' => $wordCount
-            ], 'thread_id = ?', $threadId);
-        }
+        $container->fastUpdate('word_count', $wordCount);
+        $container->clearCache('WordCount');
+        $container->clearCache('RawWordCount');
+        $container->clearCache('hasThreadmarks');
     }
 }
