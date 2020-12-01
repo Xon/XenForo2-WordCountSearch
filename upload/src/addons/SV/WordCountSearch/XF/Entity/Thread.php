@@ -103,6 +103,19 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         }
     }
 
+    protected function _saveCleanUp(array $newDbValues)
+    {
+        parent::_saveCleanUp($newDbValues);
+
+        // This occurs after _postSave, and we are now allowed to write to entity variables as expected
+        // note; rebuildWordCount calls $this->save(), so disable the option to prevent unexpected recursion
+        if ($this->getOption('svTriggerWordCountRebuild'))
+        {
+            $this->setOption('svTriggerWordCountRebuild', false);
+            $this->rebuildWordCount();
+        }
+    }
+
     protected function _postDeletePosts(array $postIds)
     {
         parent::_postDeletePosts($postIds);
@@ -129,6 +142,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         $structure->getters['hasThreadmarks'] = ['getter' => 'getHasThreadmarks', 'cache' => true];
 
         $structure->options['hasWordCountSupport'] = true;
+        $structure->options['svTriggerWordCountRebuild'] = null;
 
         return $structure;
     }

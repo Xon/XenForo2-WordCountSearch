@@ -157,7 +157,22 @@ class Post extends XFCP_Post implements  IContentWordCount
             // if the threadmark is created when replying, updateThreadmarkDataCache/getThreadmarkCategoryData function updates the word-count as expected
             if ($this->isValidContainerWordCountUpdate())
             {
-                $this->Thread->rebuildWordCount();
+                // avoid updating the thread multiple times
+                $threadmark = $this->isValidRelation('Threadmark') ? $this->getRelation('Threadmark') : null;
+                if ($threadmark)
+                {
+                    $threadmark->setOption('update_container', false);
+                }
+
+                // if the thread has a save pending (that is editing first post + thread) punt the rebuild to the thread postSave()
+                if ($this->Thread->_writePending)
+                {
+                    $this->Thread->setOption('svTriggerWordCountRebuild', true);
+                }
+                else
+                {
+                    $this->Thread->rebuildWordCount();
+                }
             }
         }
 
