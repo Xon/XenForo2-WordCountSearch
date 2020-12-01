@@ -220,16 +220,21 @@ class WordCount extends Repository
      */
     public function rebuildContainerWordCount(Entity $container)
     {
-        $wordCount = $this->getContainerWordCount($container->getWordContentType(), $container->getEntityContentType(), $container->getEntityId());
+        if (!($container instanceof IContainerWordCount) || !$container->exists())
+        {
+            return;
+        }
 
-        if ($container->exists())
+        $addOns = \XF::app()->container('addon.cache');
+        if (isset($addOns['SV/Threadmarks']) && \is_callable([$container, 'updateThreadmarkDataCache']))
         {
-            $container->fastUpdate('word_count', $wordCount);
+            // calls getThreadmarkCategoryData/wordCountThreadmarkCacheRebuild
+            $container->updateThreadmarkDataCache();
+            return;
         }
-        else
-        {
-            $container->set('word_count', $wordCount, ['forceSet' => true]);
-        }
+
+        $wordCount = $this->getContainerWordCount($container->getWordContentType(), $container->getEntityContentType(), $container->getEntityId());
+        $container->fastUpdate('word_count', $wordCount);
         $container->clearCache('WordCount');
         $container->clearCache('RawWordCount');
         $container->clearCache('hasThreadmarks');

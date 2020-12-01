@@ -170,7 +170,7 @@ class Setup extends AbstractSetup
             {
                 $atomicJobs[] = ['SV\WordCountSearch:PostWordCount', ['threadmarks-only' => true]];
             }
-            if ($previousVersion < 2040403)
+            if ($previousVersion < 2060700)
             {
                 $atomicJobs[] = ['SV\WordCountSearch:ThreadWordCount', ['threadmarks-only' => true]];
             }
