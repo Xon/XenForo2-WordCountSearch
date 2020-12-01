@@ -21,7 +21,6 @@ class Thread extends XFCP_Thread
         if ($thread)
         {
             $thread->rebuildWordCount();
-            $thread->saveIfChanged($saved, true, false);
         }
     }
 }

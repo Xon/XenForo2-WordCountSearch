@@ -147,7 +147,7 @@ class WordCount extends Repository
         if ($threadmarkCount && !$wordCount ||
             !$threadmarkCount && $wordCount)
         {
-            $this->rebuildContainerWordCount($thread);
+            $thread->rebuildWordCount(true, false);
         }
 
         return $thread->RawWordCount;
@@ -216,6 +216,8 @@ class WordCount extends Repository
     }
 
     /**
+     * Note; does not save the entity!
+     *
      * @param IContainerWordCount|Entity $container
      */
     public function rebuildContainerWordCount(Entity $container)
@@ -225,16 +227,18 @@ class WordCount extends Repository
             return;
         }
 
+
         $addOns = \XF::app()->container('addon.cache');
         if (isset($addOns['SV/Threadmarks']) && \is_callable([$container, 'updateThreadmarkDataCache']))
         {
             // calls getThreadmarkCategoryData/wordCountThreadmarkCacheRebuild
             $container->updateThreadmarkDataCache();
+
             return;
         }
 
         $wordCount = $this->getContainerWordCount($container->getWordContentType(), $container->getEntityContentType(), $container->getEntityId());
-        $container->fastUpdate('word_count', $wordCount);
+        $container->set('word_count', $wordCount, ['forceSet' => true]);
         $container->clearCache('WordCount');
         $container->clearCache('RawWordCount');
         $container->clearCache('hasThreadmarks');

@@ -80,13 +80,17 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         return !empty($this->threadmark_count) && $this->canViewThreadmarks();
     }
 
-    public function rebuildWordCount(bool $searchUpdate = true)
+    public function rebuildWordCount(bool $doSave = true, bool $searchUpdate = true)
     {
         $oldWordCount = (int)$this->word_count;
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
         $wordCountRepo->rebuildContainerWordCount($this);
         $newWordCount = (int)$this->word_count;
+        if ($doSave)
+        {
+            $this->saveIfChanged();
+        }
 
         if ($searchUpdate && $newWordCount !== $oldWordCount)
         {

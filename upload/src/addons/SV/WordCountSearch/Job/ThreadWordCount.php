@@ -54,23 +54,15 @@ class ThreadWordCount extends AbstractRebuildJob
 
     /**
      * @param $id
-     * @throws \XF\PrintableException
      */
     protected function rebuildById($id)
     {
-        $db = \XF::db();
-        $db->beginTransaction();
-
-        $db->fetchOne('select thread_id from xf_thread where thread_id = ? for UPDATE ', [$id]);
-
         /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
         $thread = \XF::app()->find('XF:Thread', $id);
         if ($thread)
         {
             $thread->rebuildWordCount();
-            $thread->saveIfChanged($saved, true, false);
         }
-        $db->commit();
     }
 
     protected function getStatusType()
