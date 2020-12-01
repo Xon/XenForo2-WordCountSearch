@@ -21,4 +21,6 @@ interface IContainerWordCount
     public function getRawWordCount();
 
     public function getWordContentType(): string;
+
+    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool$searchUpdate = true);
 }

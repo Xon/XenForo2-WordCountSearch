@@ -36,6 +36,17 @@ class Threadmark extends XFCP_Threadmark
         return '';
     }
 
+    public function getRawWordCount(): int
+    {
+        $content = $this->Content;
+        if ($content && $content->isValidGetter('RawWordCount'))
+        {
+            return (int)$content->get('RawWordCount');
+        }
+
+        return 0;
+    }
+
     /**
      * @param Structure $structure
      * @return Structure
@@ -44,7 +55,8 @@ class Threadmark extends XFCP_Threadmark
     {
         $structure = parent::getStructure($structure);
 
-        $structure->getters['WordCount'] = true;
+        $structure->getters['WordCount'] = ['getter' => 'getWordCount', 'cache' => true];
+        $structure->getters['RawWordCount'] = ['getter' => 'getRawWordCount', 'cache' => true];
 
         return $structure;
     }

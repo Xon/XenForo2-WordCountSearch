@@ -80,6 +80,23 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         return !empty($this->threadmark_count) && $this->canViewThreadmarks();
     }
 
+    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true)
+    {
+        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
+        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+        $wordCountRepo->rebuildContainerWordCount($this);
+
+        if ($searchUpdate)
+        {
+            \XF::runOnce(
+                'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
+                function () {
+                    $this->app()->search()->index($this->getEntityContentType(), $this, true);
+                }
+            );
+        }
+    }
+
     protected function _postDeletePosts(array $postIds)
     {
         parent::_postDeletePosts($postIds);

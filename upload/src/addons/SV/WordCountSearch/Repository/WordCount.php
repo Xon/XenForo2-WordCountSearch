@@ -222,7 +222,14 @@ class WordCount extends Repository
     {
         $wordCount = $this->getContainerWordCount($container->getWordContentType(), $container->getEntityContentType(), $container->getEntityId());
 
-        $container->fastUpdate('word_count', $wordCount);
+        if ($container->exists())
+        {
+            $container->fastUpdate('word_count', $wordCount);
+        }
+        else
+        {
+            $container->set('word_count', $wordCount, ['forceSet' => true]);
+        }
         $container->clearCache('WordCount');
         $container->clearCache('RawWordCount');
         $container->clearCache('hasThreadmarks');

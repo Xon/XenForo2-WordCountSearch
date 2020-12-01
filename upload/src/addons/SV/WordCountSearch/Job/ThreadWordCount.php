@@ -68,12 +68,6 @@ class ThreadWordCount extends AbstractRebuildJob
         $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
         $wordCountRepo->rebuildContainerWordCount($thread);
 
-        $addOns = \XF::app()->container('addon.cache');
-        if (isset($addOns['SV/Threadmarks']))
-        {
-            $thread->updateThreadmarkDataCache();
-        }
-
         $thread->save(true, false);
         $db->commit();
     }

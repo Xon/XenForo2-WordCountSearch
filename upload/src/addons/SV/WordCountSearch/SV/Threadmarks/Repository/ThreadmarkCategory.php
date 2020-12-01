@@ -2,6 +2,7 @@
 
 namespace SV\WordCountSearch\SV\Threadmarks\Repository;
 
+use SV\WordCountSearch\Entity\IContainerWordCount;
 use XF\Mvc\Entity\Entity;
 
 /**
@@ -18,11 +19,12 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
      */
     public function getThreadmarkCategoryData(Entity $container)
     {
-        if (!$container instanceof \XF\Entity\Thread)
+        if (!($container instanceof IContainerWordCount))
         {
             return parent::getThreadmarkCategoryData($container);
         }
 
+        $contentType = $container->getWordContentType();
         $db = $this->db();
 
         return $db->fetchAllKeyed('
@@ -34,6 +36,6 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
               AND threadmark.message_state = \'visible\'
             GROUP BY threadmark.threadmark_category_id
             ORDER BY threadmark.threadmark_category_id
-        ', 'threadmark_category_id', ['post', $container->getEntityId(), $container->getEntityContentType()]);
+        ', 'threadmark_category_id', [$contentType, $container->getEntityId(), $container->getEntityContentType()]);
     }
 }

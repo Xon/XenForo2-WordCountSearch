@@ -2,8 +2,10 @@
 
 namespace SV\WordCountSearch\XF\Entity;
 
+use SV\WordCountSearch\Entity\IContainerWordCount;
 use SV\WordCountSearch\Entity\IContentWordCount;
 use SV\WordCountSearch\Entity\PostWords;
+use SV\Threadmarks\Entity\Threadmark;
 use XF\Mvc\Entity\Structure;
 
 /**
@@ -21,15 +23,16 @@ class Post extends XFCP_Post implements  IContentWordCount
         return $this->Words !== null && $this->Words->exists();
     }
 
-    protected function isValidContainerWordCountUpdate()
+    public function isValidContainerWordCountUpdate(): bool
     {
         if (!$this->isValidRelation('Threadmark'))
         {
             return false;
         }
-        /** @var \SV\Threadmarks\Entity\Threadmark $threadmark */
+
+        /** @var Threadmark $threadmark */
         $threadmark = $this->getRelation('Threadmark');
-        if (!$threadmark)
+        if (!$threadmark || !$threadmark->exists())
         {
             return false;
         }
@@ -92,9 +95,9 @@ class Post extends XFCP_Post implements  IContentWordCount
         }
         else if ($this->Words)
         {
-            $changes = true;
             if ($this->Words->exists())
             {
+                $changes = true;
                 $this->Words->reset();
                 $this->Words->delete();
             }
@@ -144,26 +147,15 @@ class Post extends XFCP_Post implements  IContentWordCount
 
     protected function _postSave()
     {
-        if ($this->Thread && $this->_wordCount !== null)
+        if ($this->Thread instanceof IContainerWordCount && $this->_wordCount !== null)
         {
             $this->rebuildWordCount($this->_wordCount, true, false);
 
             // the threadmark can be created on post-insert, only need to trigger a thread wordcount rebuild if the post is updated
-            if ($this->isUpdate())
+            // if the threadmark is created when replying, updateThreadmarkDataCache/getThreadmarkCategoryData function updates the word-count as expected
+            if ($this->isValidContainerWordCountUpdate())
             {
-                if ($this->isValidContainerWordCountUpdate())
-                {
-                    /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-                    $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-                    $wordCountRepo->rebuildContainerWordCount($this->Thread);
-                }
-
-                \XF::runOnce(
-                    'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
-                    function () {
-                        $this->app()->search()->index($this->getEntityContentType(), $this, true);
-                    }
-                );
+                $this->Thread->rebuildWordCount(null, true, true);
             }
         }
 

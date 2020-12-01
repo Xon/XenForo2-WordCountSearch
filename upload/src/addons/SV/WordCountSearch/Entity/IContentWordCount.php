@@ -2,7 +2,6 @@
 
 namespace SV\WordCountSearch\Entity;
 
-
 /**
  * Extends \XF\Entity\Post
  *
