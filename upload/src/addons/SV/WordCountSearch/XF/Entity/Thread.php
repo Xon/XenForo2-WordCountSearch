@@ -82,11 +82,13 @@ class Thread extends XFCP_Thread implements IContainerWordCount
 
     public function rebuildWordCount(bool $searchUpdate = true)
     {
+        $oldWordCount = (int)$this->word_count;
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
         $wordCountRepo->rebuildContainerWordCount($this);
+        $newWordCount = (int)$this->word_count;
 
-        if ($searchUpdate)
+        if ($searchUpdate && $newWordCount !== $oldWordCount)
         {
             \XF::runOnce(
                 'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
