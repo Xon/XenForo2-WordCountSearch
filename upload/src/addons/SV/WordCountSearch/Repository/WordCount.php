@@ -61,12 +61,12 @@ class WordCount extends Repository
 
     public function shouldRecordPostWordCount(Post $post, int $wordCount): bool
     {
-        if ($post->isValidKey('Threadmark') && $post->get('Threadmark'))
+        if ($wordCount >= $this->getWordCountThreshold())
         {
             return true;
         }
 
-        if ($wordCount >= $this->getWordCountThreshold())
+        if ($post->isValidKey('Threadmark') && $post->get('Threadmark'))
         {
             return true;
         }

@@ -45,11 +45,10 @@ class Thread extends XFCP_Thread
         }
 
         $wordCountRepo = $this->getWordCountRepo();
-
-        if ($post->isValidKey('Threadmark') && $post->get('Threadmark'))
+        $wordCount = (int)$post->RawWordCount;
+        if ($wordCount)
         {
-            $wordCount = (int)$post->RawWordCount;
-            if ($wordCount && !$post->Words)
+            if (!$post->Words)
             {
                 $post->rebuildWordCount($wordCount, true, false);
             }
