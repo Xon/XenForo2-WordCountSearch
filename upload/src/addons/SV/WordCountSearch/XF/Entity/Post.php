@@ -25,13 +25,13 @@ class Post extends XFCP_Post implements  IContentWordCount
 
     public function isValidContainerWordCountUpdate(): bool
     {
-        if (!$this->isValidRelation('Threadmark'))
+        if (!$this->isValidKey('Threadmark'))
         {
             return false;
         }
 
         /** @var Threadmark $threadmark */
-        $threadmark = $this->getRelation('Threadmark');
+        $threadmark = $this->get('Threadmark');
         if (!$threadmark || !$threadmark->exists())
         {
             return false;
@@ -158,7 +158,7 @@ class Post extends XFCP_Post implements  IContentWordCount
             if ($this->isValidContainerWordCountUpdate())
             {
                 // avoid updating the thread multiple times
-                $threadmark = $this->isValidRelation('Threadmark') ? $this->getRelation('Threadmark') : null;
+                $threadmark = $this->isValidKey('Threadmark') ? $this->get('Threadmark') : null;
                 if ($threadmark)
                 {
                     $threadmark->setOption('update_container', false);
