@@ -1,9 +1,0 @@
-{
-    "template": "forum_filters",
-    "description": "Add \"Word count\" in sort by menu (XF2.1)",
-    "execution_order": 5652,
-    "enabled": true,
-    "action": "preg_replace",
-    "find": "#<xf:option value=\"view_count\">.*?<\\/xf:option>#s",
-    "replace": "<xf:option value=\"word_count\">{{ phrase('forum_sort.word_count') }}</xf:option>\n$0"
-}

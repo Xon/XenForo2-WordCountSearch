@@ -1,9 +1,0 @@
-{
-    "template": "forum_view",
-    "description": "Add `word_count` to allowed sort orders in template side (XF2.1)",
-    "execution_order": 5652,
-    "enabled": true,
-    "action": "str_replace",
-    "find": "'reply_count': phrase('replies'),",
-    "replace": "$0\n'word_count': phrase('forum_sort.word_count'),"
-}
