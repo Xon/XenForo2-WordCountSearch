@@ -22,6 +22,8 @@ class Elasticsearch extends XFCP_Elasticsearch
         if ($orderByClause instanceof Query\SqlOrder &&
             $orderByClause->getOrder() === 'search_index.word_count DESC')
         {
+            $query->orderedBy('date');
+
             return [
                 ['word_count' => 'desc'],
                 ['date' => 'desc'],
