@@ -10,12 +10,13 @@
     "support_url": "https://xenforo.com/community/resources/word-count-search.5652/",
     "extra_urls": [],
     "require": {
-        "SV/SearchImprovements": ["2040000", "Search Improvements 2.4.0+"],
+        "SV/SearchImprovements": [2040000, "Search Improvements v2.4.0+"],
         "XF": [2020070, "XenForo 2.2.0+"],
         "php": ["7.0.0", "PHP 7.0.0+"],
         "SV/StandardLib": [1000000,"Standard Library by Xon v1.0.0+"]
     },
     "require-soft" :{
+        "XFES": [2020070, "XenForo Enhanced Search v2.2.0+", true],
         "SV/Threadmarks": [
             2020000,
             "Threadmarks v2.2.0",
