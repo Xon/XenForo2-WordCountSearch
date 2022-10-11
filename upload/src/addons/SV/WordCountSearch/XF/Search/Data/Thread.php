@@ -37,18 +37,18 @@ class Thread extends XFCP_Thread
 
         // The firstPost isn't indexed as a post but as the thread.
 
-        /** @var \SV\WordCountSearch\XF\Entity\Post $post */
+        /** @var \SV\WordCountSearch\XF\Entity\Post|null $post */
         $post = $entity->FirstPost;
-        if (!$post)
+        if ($post !== null)
         {
             return $metadata;
         }
 
         $wordCountRepo = $this->getWordCountRepo();
-        $wordCount = (int)$post->RawWordCount;
-        if ($wordCount)
+        $wordCount = $post->RawWordCount;
+        if ($wordCount !== 0)
         {
-            if (!$post->Words)
+            if ($post->Words !== null)
             {
                 $post->rebuildWordCount($wordCount, true, false);
             }
@@ -62,7 +62,7 @@ class Thread extends XFCP_Thread
         {
             $wordCount = 0;
         }
-        if ($wordCount)
+        if ($wordCount !== 0)
         {
             $metadata['word_count'] = $wordCount;
         }
@@ -79,21 +79,9 @@ class Thread extends XFCP_Thread
         $structure->addField('word_count', MetadataStructure::INT);
     }
 
-    /**
-     * @param $order
-     *
-     * @return null
-     */
-    public function getTypeOrder($order)
+    protected function getWordCountRepo(): \SV\WordCountSearch\Repository\WordCount
     {
-        return parent::getTypeOrder($order);
-    }
-
-    /**
-     * @return \SV\WordCountSearch\Repository\WordCount|\XF\Mvc\Entity\Repository
-     */
-    protected function getWordCountRepo()
-    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return \XF::app()->repository('SV\WordCountSearch:WordCount');
     }
 }

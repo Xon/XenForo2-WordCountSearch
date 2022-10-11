@@ -33,6 +33,7 @@ class Setup extends AbstractSetup
         }
     }
 
+    /** @noinspection SqlConstantExpression */
     public function installStep2()
     {
         // legacy support, in-case XF1 version was uninstalled and columns not removed

@@ -53,13 +53,13 @@ class ThreadWordCount extends AbstractRebuildJob
     }
 
     /**
-     * @param $id
+     * @param int $id
      */
     protected function rebuildById($id)
     {
         /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
         $thread = \XF::app()->find('XF:Thread', $id);
-        if ($thread)
+        if ($thread !== null)
         {
             $thread->rebuildWordCount();
         }

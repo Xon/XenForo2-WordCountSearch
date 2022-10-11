@@ -42,11 +42,9 @@ class PostWords extends Entity
         return $structure;
     }
 
-    /**
-     * @return \SV\WordCountSearch\Repository\WordCount|\XF\Mvc\Entity\Repository
-     */
-    protected function getWordCountRepo()
+    protected function getWordCountRepo(): \SV\WordCountSearch\Repository\WordCount
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->repository('SV\WordCountSearch:WordCount');
     }
 }

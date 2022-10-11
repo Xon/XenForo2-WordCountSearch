@@ -97,7 +97,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
             \XF::runOnce(
                 'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
                 function () {
-                    $this->app()->search()->index($this->getEntityContentType(), $this, true);
+                    $this->app()->search()->index($this->getEntityContentType(), $this);
                 }
             );
         }

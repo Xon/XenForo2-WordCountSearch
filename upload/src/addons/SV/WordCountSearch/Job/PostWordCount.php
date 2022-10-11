@@ -46,8 +46,8 @@ class PostWordCount extends AbstractRebuildJob
                 "
 				SELECT threadmark.content_id 
 				FROM xf_sv_threadmark as threadmark
-				{$sql}
-				WHERE threadmark.content_type = 'post' and threadmark.content_id > ? {$where}
+				$sql
+				WHERE threadmark.content_type = 'post' and threadmark.content_id > ? $where
 				ORDER BY threadmark.content_id
 			", $batch
             ), $start);
@@ -63,8 +63,8 @@ class PostWordCount extends AbstractRebuildJob
             "
 				SELECT post.post_id
 				FROM xf_post as post
-				{$sql}
-				WHERE post.post_id > ? {$where}
+				$sql
+				WHERE post.post_id > ? $where
 				ORDER BY post.post_id
 			", $batch
         ), $start);
@@ -72,9 +72,9 @@ class PostWordCount extends AbstractRebuildJob
 
     protected function rebuildById($id)
     {
-        /** @var \SV\WordCountSearch\XF\Entity\Post $post */
+        /** @var \SV\WordCountSearch\XF\Entity\Post|null $post */
         $post = $this->app->em()->find('XF:Post', $id);
-        if (!$post)
+        if ($post !== null)
         {
             return;
         }

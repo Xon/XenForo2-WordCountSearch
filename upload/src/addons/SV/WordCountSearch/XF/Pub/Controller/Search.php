@@ -2,7 +2,7 @@
 
 namespace SV\WordCountSearch\XF\Pub\Controller;
 
-use SV\SearchImprovements\XF\Search\Query\RangeMetadataConstraint;
+use SV\SearchImprovements\XF\Search\Query\Constraints\RangeConstraint;
 use XF\Search\Query\SqlOrder;
 
 /**
@@ -29,7 +29,7 @@ class Search extends XFCP_Search
 
         if (!empty($input['c.word_count.lower']))
         {
-            $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.lower'], RangeMetadataConstraint::MATCH_GREATER));
+            $query->withMetadata(new RangeConstraint('word_count', $input['c.word_count.lower'], RangeConstraint::MATCH_GREATER));
         }
         else
         {
@@ -38,7 +38,7 @@ class Search extends XFCP_Search
 
         if (!empty($input['c.word_count.upper']))
         {
-            $query->withMetadata(new RangeMetadataConstraint('word_count', $input['c.word_count.upper'], RangeMetadataConstraint::MATCH_LESSER));
+            $query->withMetadata(new RangeConstraint('word_count', $input['c.word_count.upper'], RangeConstraint::MATCH_LESSER));
         }
         else
         {

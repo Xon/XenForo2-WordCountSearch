@@ -30,9 +30,9 @@ class Post extends XFCP_Post implements  IContentWordCount
             return false;
         }
 
-        /** @var Threadmark $threadmark */
+        /** @var Threadmark|null $threadmark */
         $threadmark = $this->get('Threadmark');
-        if (!$threadmark || !$threadmark->exists())
+        if ($threadmark === null || !$threadmark->exists())
         {
             return false;
         }
@@ -59,7 +59,7 @@ class Post extends XFCP_Post implements  IContentWordCount
 
     public function getRawWordCount(): int
     {
-        if ($this->Words)
+        if ($this->Words !== null)
         {
             return $this->Words->word_count;
         }
@@ -114,7 +114,7 @@ class Post extends XFCP_Post implements  IContentWordCount
             \XF::runOnce(
                 'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
                 function () {
-                    $this->app()->search()->index($this->getEntityContentType(), $this, true);
+                    $this->app()->search()->index($this->getEntityContentType(), $this);
                 }
             );
         }
@@ -159,7 +159,7 @@ class Post extends XFCP_Post implements  IContentWordCount
             {
                 // avoid updating the thread multiple times
                 $threadmark = $this->isValidKey('Threadmark') ? $this->get('Threadmark') : null;
-                if ($threadmark)
+                if ($threadmark !== null)
                 {
                     $threadmark->setOption('update_container', false);
                 }

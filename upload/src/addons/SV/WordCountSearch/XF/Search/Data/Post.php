@@ -27,22 +27,21 @@ class Post extends XFCP_Post
     }
 
     /**
-     * @param \XF\Entity\Post $post
-     *
+     * @param \XF\Entity\Post $entity
      * @return array
      */
-    protected function getMetaData(\XF\Entity\Post $post)
+    protected function getMetaData(\XF\Entity\Post $entity)
     {
-        /** @var \SV\WordCountSearch\XF\Entity\Post $post */
+        /** @var \SV\WordCountSearch\XF\Entity\Post $entity */
         /** @var IndexRecord $index */
-        $metadata = parent::getMetaData($post);
+        $metadata = parent::getMetaData($entity);
 
-        $wordCount = (int)$post->RawWordCount;
-        if ($wordCount)
+        $wordCount = (int)$entity->RawWordCount;
+        if ($wordCount !== 0)
         {
-            if (!$post->Words)
+            if ($entity->Words !== null)
             {
-                $post->rebuildWordCount($wordCount, true, false);
+                $entity->rebuildWordCount($wordCount, true, false);
             }
             $metadata['word_count'] = $wordCount;
         }
@@ -59,21 +58,9 @@ class Post extends XFCP_Post
         $structure->addField('word_count', MetadataStructure::INT);
     }
 
-    /**
-     * @param $order
-     *
-     * @return null|\XF\Search\Query\SqlOrder
-     */
-    public function getTypeOrder($order)
+    protected function getWordCountRepo(): \SV\WordCountSearch\Repository\WordCount
     {
-        return parent::getTypeOrder($order);
-    }
-
-    /**
-     * @return \SV\WordCountSearch\Repository\WordCount|\XF\Mvc\Entity\Repository
-     */
-    protected function getWordCountRepo()
-    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return \XF::app()->repository('SV\WordCountSearch:WordCount');
     }
 }

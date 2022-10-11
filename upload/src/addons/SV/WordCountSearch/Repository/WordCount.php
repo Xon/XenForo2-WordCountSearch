@@ -83,13 +83,13 @@ class WordCount extends Repository
     }
 
     /**
-     * @param mixed $WordCount
+     * @param string|float|int $WordCount
      * @return string
      */
     public function roundWordCount($WordCount): string
     {
-        $inexactWordCount = intval($WordCount);
-        if (!$inexactWordCount)
+        $inexactWordCount = (int)$WordCount;
+        if ($inexactWordCount === 0)
         {
             return 0;
         }
@@ -144,8 +144,8 @@ class WordCount extends Repository
         $wordCount = (int)$thread->RawWordCount;
 
         $threadmarkCount = $this->getThreadWordCountFromEntity($thread);
-        if ($threadmarkCount && !$wordCount ||
-            !$threadmarkCount && $wordCount)
+        if ($threadmarkCount !== 0 && $wordCount === 0 ||
+            $threadmarkCount === 0 && $wordCount !== 0)
         {
             $thread->rebuildWordCount(true, false);
         }
@@ -179,15 +179,13 @@ class WordCount extends Repository
 
     /**
      * @param \XF\Entity\Thread|\SV\Threadmarks\XF\Entity\Thread $thread
-     * @return int|null
+     * @return int
      */
     public function getThreadWordCountFromEntity(\XF\Entity\Thread $thread)
     {
         $defaultCategoryId = $this->getDefaultThreadmarkCategoryId();
 
-        return isset($thread->threadmark_category_data[$defaultCategoryId]['word_count'])
-            ? $thread->threadmark_category_data[$defaultCategoryId]['word_count']
-            : 0;
+        return (int)($thread->threadmark_category_data[$defaultCategoryId]['word_count'] ?? 0);
     }
 
     /**
