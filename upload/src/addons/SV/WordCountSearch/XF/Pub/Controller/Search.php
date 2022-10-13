@@ -27,22 +27,27 @@ class Search extends XFCP_Search
             'c.word_count.upper' => 'uint',
         ]);
 
-        if (!empty($input['c.word_count.lower']))
+        if (!empty($input['c.word_count.lower']) && !empty($input['c.word_count.upper']))
         {
+            $query->withMetadata(new RangeConstraint('word_count', [
+                $input['c.word_count.upper'],
+                $input['c.word_count.lower']
+            ], RangeConstraint::MATCH_BETWEEN));
+        }
+        else if (!empty($input['c.word_count.lower']))
+        {
+            unset($urlConstraints['word_count']['upper']);
             $query->withMetadata(new RangeConstraint('word_count', $input['c.word_count.lower'], RangeConstraint::MATCH_GREATER));
         }
-        else
+        else if (!empty($input['c.word_count.upper']))
         {
             unset($urlConstraints['word_count']['lower']);
-        }
-
-        if (!empty($input['c.word_count.upper']))
-        {
             $query->withMetadata(new RangeConstraint('word_count', $input['c.word_count.upper'], RangeConstraint::MATCH_LESSER));
         }
         else
         {
             unset($urlConstraints['word_count']['upper']);
+            unset($urlConstraints['word_count']['lower']);
         }
 
         if (empty($urlConstraints['word_count']))
