@@ -39,7 +39,7 @@ class Thread extends XFCP_Thread
 
         /** @var \SV\WordCountSearch\XF\Entity\Post|null $post */
         $post = $entity->FirstPost;
-        if ($post !== null)
+        if ($post === null)
         {
             return $metadata;
         }
@@ -48,7 +48,7 @@ class Thread extends XFCP_Thread
         $wordCount = $post->RawWordCount;
         if ($wordCount !== 0)
         {
-            if ($post->Words !== null)
+            if ($post->Words === null)
             {
                 $post->rebuildWordCount($wordCount, true, false);
             }

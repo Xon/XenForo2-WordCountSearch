@@ -39,7 +39,7 @@ class Post extends XFCP_Post
         $wordCount = (int)$entity->RawWordCount;
         if ($wordCount !== 0)
         {
-            if ($entity->Words !== null)
+            if ($entity->Words === null)
             {
                 $entity->rebuildWordCount($wordCount, true, false);
             }
