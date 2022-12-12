@@ -1,1 +1,1 @@
-Word count: >= {value}
+Word count: <= {value}
