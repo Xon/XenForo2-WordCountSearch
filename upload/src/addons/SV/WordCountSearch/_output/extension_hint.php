@@ -27,6 +27,7 @@ namespace SV\WordCountSearch\XFES\Search\Source
 namespace SV\WordCountSearch\XF\Entity
 {
 	class XFCP_Post extends \XF\Entity\Post {}
+	class XFCP_Search extends \XF\Entity\Search {}
 	class XFCP_Thread extends \XF\Entity\Thread {}
 }
 
