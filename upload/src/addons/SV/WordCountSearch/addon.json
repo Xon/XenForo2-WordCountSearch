@@ -1,14 +1,17 @@
 {
     "legacy_addon_id": "SV_WordCountSearch",
-    "title": "Word Count Search",
+    "title": "Word count search",
     "description": "Word-count range searches",
-    "version_id": 1707065705,
+    "version_id": 1707066102,
     "version_string": "2.9.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
     "support_url": "https://xenforo.com/community/resources/word-count-search.5652/",
-    "extra_urls": [],
+    "extra_urls": {
+        "License": "https://atelieraphelion.com/products/word-count-search.214/copyright",
+        "Add-on site": "https://atelieraphelion.com/products/word-count-search.214/"
+    },
     "require": {
         "SV/StandardLib": [
             2001180000,
