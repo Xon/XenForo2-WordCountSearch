@@ -2,7 +2,7 @@
     "legacy_addon_id": "SV_WordCountSearch",
     "title": "Word Count Search",
     "description": "Word-count range searches",
-    "version_id": 2090000,
+    "version_id": 1707065705,
     "version_string": "2.9.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
@@ -22,10 +22,17 @@
             "7.2.0",
             "PHP 7.2.0+"
         ],
-        "SV/SearchImprovements": [2060200, "Search Improvements v2.6.2+"],
+        "SV/SearchImprovements": [
+            "2.6.2",
+            "Search Improvements v2.6.2+"
+        ]
     },
-    "require-soft" :{
-        "XFES": [2020070, "XenForo Enhanced Search v2.2.0+", true],
+    "require-soft": {
+        "XFES": [
+            2020070,
+            "XenForo Enhanced Search v2.2.0+",
+            true
+        ],
         "SV/Threadmarks": [
             2020000,
             "Threadmarks v2.2.0",
