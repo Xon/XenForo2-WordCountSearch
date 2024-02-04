@@ -22,6 +22,10 @@ class Search extends XFCP_Search
         $query = parent::prepareSearchQuery( $data, $urlConstraints);
 
         $urlConstraints['word_count'] = $urlConstraints['word_count'] ?? [];
+        if (!is_array($urlConstraints['word_count']))
+        {
+            $urlConstraints['word_count'] = [];
+        }
         $searchRequest = new \XF\Http\Request($this->app->inputFilterer(), $data, [], []);
         $input = $searchRequest->filter([
             'c.word_count.lower' => 'uint',
