@@ -125,7 +125,12 @@ class Post extends XFCP_Post implements  IContentWordCount
             /** @var \SV\Threadmarks\XF\Entity\Post $post */
             $post = $this;
             $threadmark = $post->Threadmark;
-            if ($threadmark->_writeRunning)
+            if ($threadmark === null)
+            {
+                return;
+            }
+
+            if (!$threadmark->exists())
             {
                 $threadmark->set('word_count', $wordCount, ['forceSet' => true]);
             }
