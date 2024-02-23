@@ -1,0 +1,9 @@
+{
+    "event_id": "addon_post_rebuild",
+    "execute_order": 10,
+    "callback_class": "SV\\WordCountSearch\\InstallListener",
+    "callback_method": "addonPostRebuild",
+    "active": true,
+    "hint": "",
+    "description": "Extend other add-ons as required."
+}

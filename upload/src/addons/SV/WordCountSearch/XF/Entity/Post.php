@@ -75,6 +75,7 @@ class Post extends XFCP_Post implements  IContentWordCount
         {
             $wordCount = $wordCountRepo->getTextWordCount($this->message);
         }
+        $wordCount = (int)$wordCount;
 
         if ($wordCountRepo->shouldRecordPostWordCount($this, $wordCount))
         {
@@ -100,8 +101,10 @@ class Post extends XFCP_Post implements  IContentWordCount
             }
             $this->clearCache('Words');
         }
+        $this->updateThreadmarkRecord($wordCount);
         $this->clearCache('WordCount');
-        $this->_getterCache['RawWordCount'] = (int)$wordCount;
+        $this->_getterCache['RawWordCount'] = $wordCount;
+
 
         if ($searchUpdate && $changes)
         {
@@ -112,6 +115,26 @@ class Post extends XFCP_Post implements  IContentWordCount
                     $this->app()->search()->index($this->getEntityContentType(), $this);
                 }
             );
+        }
+    }
+
+    protected function updateThreadmarkRecord(int $wordCount): void
+    {
+        if ($this->hasRelation('Threadmark'))
+        {
+            /** @var \SV\Threadmarks\XF\Entity\Post $post */
+            $post = $this;
+            $threadmark = $post->Threadmark;
+            if ($threadmark->_writeRunning)
+            {
+                $threadmark->set('word_count', $wordCount, ['forceSet' => true]);
+            }
+            else
+            {
+                $threadmark->fastUpdate('word_count', $wordCount);
+            }
+            $threadmark->_getterCache['RawWordCount'] = $wordCount;
+            $threadmark->clearCache('WordCount');
         }
     }
 
@@ -133,6 +156,7 @@ class Post extends XFCP_Post implements  IContentWordCount
             $this->Words->word_count = $this->_wordCount;
             $this->clearCache('WordCount');
             $this->clearCache('RawWordCount');
+            $this->updateThreadmarkRecord($this->_wordCount);
         }
 
         parent::_preSave();

@@ -7,11 +7,5 @@ namespace SV\WordCountSearch\SV\Threadmarks\Handler\Content;
  */
 class Post extends XFCP_Post
 {
-    /** @noinspection PhpMissingReturnTypeInspection */
-    public function getContentTypeWith($contentAlias = null, array $with = [])
-    {
-        $with[] = $contentAlias ? $contentAlias . '.Words' : 'Words';
 
-        return parent::getContentTypeWith($contentAlias, $with);
-    }
 }

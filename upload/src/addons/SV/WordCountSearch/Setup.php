@@ -26,45 +26,44 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
+    public static $supportedAddOns = [
+        'SV/Threadmarks' => true,
+    ];
+
     public function installStep1(): void
     {
-        $sm = $this->schemaManager();
-
-        foreach ($this->getTables() as $tableName => $callback)
-        {
-            $sm->createTable($tableName, $callback);
-            $sm->alterTable($tableName, $callback);
-        }
+        $this->applySchema();
     }
 
-    /** @noinspection SqlConstantExpression */
     public function installStep2(): void
     {
-        // legacy support, in-case XF1 version was uninstalled and columns not removed
-        $db = $this->db();
-        $sm = $this->schemaManager();
-        if ($sm->columnExists('xf_thread', 'word_count'))
-        {
-            $db->query('UPDATE xf_thread SET word_count = 0 WHERE word_count IS NULL');
-        }
-        if ($sm->columnExists('xf_search_index', 'word_count'))
-        {
-            $db->query('UPDATE xf_search_index SET word_count = 0 WHERE word_count IS NULL');
-        }
-        foreach ($this->getAlterTables() as $tableName => $callback)
-        {
-            $sm->alterTable($tableName, $callback);
-        }
+        $this->applyLegacySchemaUpdates();
+        $this->applySchemaUpdates();
     }
 
     public function upgrade2010000Step1(): void
     {
-        $this->installStep1();
+        $this->applySchema();
     }
 
     public function upgrade2010000Step2(): void
     {
-        $this->installStep2();
+        $this->applyLegacySchemaUpdates();
+    }
+
+    public function upgrade1708684595Step1(): void
+    {
+        $this->applySchemaUpdates();
+    }
+
+    public function upgrade1708684595Step2(): void
+    {
+        $this->db()->query('
+            update xf_sv_threadmark as threadmark
+            join xf_post_words as postWords on threadmark.content_id = postWords.post_id
+            set threadmark.word_count = postWords.word_count
+            where threadmark.content_type = \'post\'
+        ');
     }
 
     public function uninstallStep1(): void
@@ -84,6 +83,46 @@ class Setup extends AbstractSetup
         foreach ($this->getRemoveAlterTables() as $tableName => $callback)
         {
             $sm->alterTable($tableName, $callback);
+        }
+    }
+
+    public function applySchema(): void
+    {
+        $sm = $this->schemaManager();
+
+        foreach ($this->getTables() as $tableName => $callback)
+        {
+            $sm->createTable($tableName, $callback);
+            $sm->alterTable($tableName, $callback);
+        }
+    }
+
+    /** @noinspection SqlConstantExpression */
+    public function applyLegacySchemaUpdates(): void
+    {
+        // legacy support, in-case XF1 version was uninstalled and columns not removed
+        $db = $this->db();
+        $sm = $this->schemaManager();
+        if ($sm->columnExists('xf_thread', 'word_count'))
+        {
+            $db->query('UPDATE xf_thread SET word_count = 0 WHERE word_count IS NULL');
+        }
+        if ($sm->columnExists('xf_search_index', 'word_count'))
+        {
+            $db->query('UPDATE xf_search_index SET word_count = 0 WHERE word_count IS NULL');
+        }
+    }
+
+    public function applySchemaUpdates(): void
+    {
+        $sm = $this->schemaManager();
+
+        foreach ($this->getAlterTables() as $tableName => $callback)
+        {
+            if ($this->tableExists($tableName))
+            {
+                $sm->alterTable($tableName, $callback);
+            }
         }
     }
 
@@ -112,6 +151,10 @@ class Setup extends AbstractSetup
             $this->addOrChangeColumn($table, 'word_count', 'int')->setDefault(0)->nullable(false);
         };
 
+        $tables['xf_sv_threadmark'] = function (Alter $table) {
+            $this->addOrChangeColumn($table, 'word_count', 'int')->setDefault(null)->nullable(true);
+        };
+
         return $tables;
     }
 
@@ -124,6 +167,10 @@ class Setup extends AbstractSetup
         };
 
         $tables['xf_search_index'] = function (Alter $table) {
+            $table->dropColumns(['word_count']);
+        };
+
+        $tables['xf_sv_threadmark'] = function (Alter $table) {
             $table->dropColumns(['word_count']);
         };
 
