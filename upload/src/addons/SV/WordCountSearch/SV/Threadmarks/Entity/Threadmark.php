@@ -7,6 +7,9 @@ use XF\Mvc\Entity\Structure;
 
 /**
  * @Extends \SV\Threadmarks\Entity\Threadmark
+ *
+ * @property-read string $WordCount
+ * @property-read int $RawWordCount
  */
 class Threadmark extends XFCP_Threadmark
 {
