@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\WordCountSearch\XF\Search\Data;
 
@@ -55,11 +58,5 @@ class Post extends XFCP_Post
     {
         parent::setupMetadataStructure($structure);
         $structure->addField('word_count', MetadataStructure::INT);
-    }
-
-    protected function getWordCountRepo(): \SV\WordCountSearch\Repository\WordCount
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return \XF::app()->repository('SV\WordCountSearch:WordCount');
     }
 }

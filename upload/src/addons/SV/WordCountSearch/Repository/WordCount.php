@@ -2,8 +2,13 @@
 
 namespace SV\WordCountSearch\Repository;
 
+use SV\StandardLib\Helper;
+use SV\Threadmarks\XF\Entity\Forum as ThreadmarkForumEntity;
 use SV\WordCountSearch\Entity\IContainerWordCount;
 use SV\WordCountSearch\XF\Entity\Post;
+use SV\WordCountSearch\XF\Entity\Thread as ExtendedThreadEntity;
+use XF\Entity\Forum as ForumEntity;
+use XF\Entity\Thread as ThreadEntity;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
 
@@ -15,27 +20,25 @@ use XF\Mvc\Entity\Repository;
 class WordCount extends Repository
 {
     /** @var int */
-    const DEFAULT_THREADMARK_CATEGORY_ID = 1;
+    public const DEFAULT_THREADMARK_CATEGORY_ID = 1;
 
-    public function getDefaultThreadmarkCategoryId()
+    public static function get(): self
+    {
+        return Helper::repository(self::class);
+    }
+
+    public function getDefaultThreadmarkCategoryId(): int
     {
         return self::DEFAULT_THREADMARK_CATEGORY_ID;
     }
 
-    /**
-     * @param string $str
-     * @return int
-     */
-    protected function str_word_count_utf8(string $str)
+    protected function str_word_count_utf8(string $str): int
     {
         // ref: http://php.net/manual/de/function.str-word-count.php#107363
         return count(preg_split('~[^\p{L}\p{N}\']+~u', $str, -1, PREG_SPLIT_NO_EMPTY));
     }
 
-    /**
-     * @return bool
-     */
-    public function hasRangeQuery()
+    public function hasRangeQuery(): bool
     {
         //$this->app()->search()->getQuery();
         if (self::$hasElasticSearch === null)
@@ -51,12 +54,9 @@ class WordCount extends Repository
     protected static $hasElasticSearch = null;
     protected static $hasMySQLSearch   = true;
 
-    /**
-     * @return mixed
-     */
-    protected function getWordCountThreshold()
+    protected function getWordCountThreshold(): int
     {
-        return \XF::app()->options()->wordcountThreshold;
+        return (int)(\XF::app()->options()->wordcountThreshold ?? 20);
     }
 
     public function shouldRecordPostWordCount(Post $post, int $wordCount): bool
@@ -83,61 +83,52 @@ class WordCount extends Repository
         return $this->str_word_count_utf8($strippedText);
     }
 
-    /**
-     * @param string|float|int $WordCount
-     * @return string
-     */
-    public function roundWordCount($WordCount): string
+    public function roundWordCount(int $wordCount): string
     {
-        $inexactWordCount = (int)$WordCount;
-        if ($inexactWordCount === 0)
+        if ($wordCount >= 1000000000)
         {
-            return 0;
+            $inexactWordCount = round($wordCount / 1000000000, 1) . 'b';
         }
-        if ($inexactWordCount >= 1000000000)
+        else if ($wordCount >= 1000000)
         {
-            $inexactWordCount = round($inexactWordCount / 1000000000, 1) . 'b';
+            $inexactWordCount = round($wordCount / 1000000, 1) . 'm';
         }
-        else if ($inexactWordCount >= 1000000)
+        else if ($wordCount >= 100000)
         {
-            $inexactWordCount = round($inexactWordCount / 1000000, 1) . 'm';
+            $inexactWordCount = round($wordCount / 100000, 1) * 100 . 'k';
         }
-        else if ($inexactWordCount >= 100000)
+        else if ($wordCount >= 10000)
         {
-            $inexactWordCount = round($inexactWordCount / 100000, 1) * 100 . 'k';
+            $inexactWordCount = round($wordCount / 10000, 1) * 10 . 'k';
         }
-        else if ($inexactWordCount >= 10000)
+        else if ($wordCount >= 1000)
         {
-            $inexactWordCount = round($inexactWordCount / 10000, 1) * 10 . 'k';
+            $inexactWordCount = round($wordCount / 1000, 1) . 'k';
         }
-        else if ($inexactWordCount >= 1000)
+        else if ($wordCount >= 100)
         {
-            $inexactWordCount = round($inexactWordCount / 1000, 1) . 'k';
+            $inexactWordCount = round($wordCount / 100, 1) * 100;
         }
-        else if ($inexactWordCount >= 100)
+        else if ($wordCount >= 10)
         {
-            $inexactWordCount = round($inexactWordCount / 100, 1) * 100;
+            $inexactWordCount = round($wordCount / 10, 1) * 10;
         }
-        else if ($inexactWordCount >= 10)
+        else if ($wordCount < 0)
         {
-            $inexactWordCount = round($inexactWordCount / 10, 1) * 10;
+            $inexactWordCount = '0';
         }
-        else if ($inexactWordCount < 0)
+        else
         {
-            $inexactWordCount = 0;
+            $inexactWordCount = $wordCount;
         }
 
         return strval($inexactWordCount);
     }
 
-    /**
-     * @param \XF\Entity\Thread|\SV\WordCountSearch\XF\Entity\Thread $thread
-     * @return int|null
-     */
-    public function checkThreadmarkWordCountForRebuild(\XF\Entity\Thread $thread)
+    public function checkThreadmarkWordCountForRebuild(ThreadEntity $thread): ?int
     {
-        $addOns = \XF::app()->container('addon.cache');
-        if (empty($addOns['SV/Threadmarks']))
+        /** @var ExtendedThreadEntity $thread */
+        if (!\XF::isAddOnActive('SV/Threadmarks'))
         {
             return $thread->RawWordCount;
         }
@@ -154,21 +145,16 @@ class WordCount extends Repository
         return $thread->RawWordCount;
     }
 
-    /**
-     * @param Entity|null $parentContainer
-     * @return bool
-     */
-    public function isThreadWordCountSupported(Entity $parentContainer = null)
+    public function isThreadWordCountSupported(?Entity $parentContainer = null): bool
     {
-        $addOns = \XF::app()->container('addon.cache');
-        if (empty($addOns['SV/Threadmarks']))
+        if (!\XF::isAddOnActive('SV/Threadmarks'))
         {
             return false;
         }
 
-        if ($parentContainer instanceof \XF\Entity\Forum)
+        if ($parentContainer instanceof ForumEntity)
         {
-            /** @var \SV\Threadmarks\XF\Entity\Forum $parentContainer */
+            /** @var ThreadmarkForumEntity $parentContainer */
             if (!$parentContainer->canViewThreadmarks())
             {
                 return false;
@@ -178,27 +164,16 @@ class WordCount extends Repository
         return true;
     }
 
-    /**
-     * @param \XF\Entity\Thread|\SV\Threadmarks\XF\Entity\Thread $thread
-     * @return int
-     */
-    public function getThreadWordCountFromEntity(\XF\Entity\Thread $thread)
+    public function getThreadWordCountFromEntity(ThreadEntity $thread): int
     {
         $defaultCategoryId = $this->getDefaultThreadmarkCategoryId();
 
         return (int)($thread->threadmark_category_data[$defaultCategoryId]['word_count'] ?? 0);
     }
 
-    /**
-     * @param string $contentType
-     * @param string $containerType
-     * @param int    $containerId
-     * @return int
-     */
     public function getContainerWordCount(string $contentType, string $containerType, int $containerId): int
     {
-        $addOns = \XF::app()->container('addon.cache');
-        if (empty($addOns['SV/Threadmarks']))
+        if (!\XF::isAddOnActive('SV/Threadmarks'))
         {
             return 0;
         }
@@ -220,13 +195,12 @@ class WordCount extends Repository
      * @param IContainerWordCount|Entity $container
      * @param bool                       $threadmarkSupport
      */
-    public function rebuildContainerWordCount(Entity $container, bool $threadmarkSupport = true)
+    public function rebuildContainerWordCount(Entity $container, bool $threadmarkSupport = true): void
     {
         if (!($container instanceof IContainerWordCount) || !$container->exists())
         {
             return;
         }
-
 
         $addOns = \XF::app()->container('addon.cache');
         if ($threadmarkSupport && isset($addOns['SV/Threadmarks']) && \is_callable([$container, 'updateThreadmarkDataCache']))

@@ -6,7 +6,7 @@ use SV\WordCountSearch\Entity\IContentWordCount;
 use XF\Mvc\Entity\Structure;
 
 /**
- * Extends \SV\Threadmarks\Entity\Threadmark
+ * @Extends \SV\Threadmarks\Entity\Threadmark
  */
 class Threadmark extends XFCP_Threadmark
 {
@@ -50,6 +50,7 @@ class Threadmark extends XFCP_Threadmark
     /**
      * @param Structure $structure
      * @return Structure
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public static function getStructure(Structure $structure)
     {

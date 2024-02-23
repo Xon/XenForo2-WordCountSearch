@@ -8,19 +8,16 @@ use XF\Mvc\Entity\Structure;
 
 /**
  * COLUMNS
- * @property int post_id
- * @property int word_count
+ * @property int $post_id
+ * @property int $word_count
  *
  * RELATIONS
- * @property PostEntity Post
+ * @property-read ?PostEntity $Post
  */
 class PostWords extends Entity
 {
-    /**
-     * @param Structure $structure
-     * @return Structure
-     */
-    public static function getStructure(Structure $structure)
+    /** @noinspection PhpMissingParentCallCommonInspection */
+    public static function getStructure(Structure $structure): Structure
     {
         $structure->table = 'xf_post_words';
         $structure->shortName = 'SV\ContentRatings:PostWords';
@@ -40,11 +37,5 @@ class PostWords extends Entity
         ];
 
         return $structure;
-    }
-
-    protected function getWordCountRepo(): \SV\WordCountSearch\Repository\WordCount
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->repository('SV\WordCountSearch:WordCount');
     }
 }

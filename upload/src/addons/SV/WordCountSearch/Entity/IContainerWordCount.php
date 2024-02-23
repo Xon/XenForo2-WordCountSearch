@@ -3,24 +3,19 @@
 namespace SV\WordCountSearch\Entity;
 
 /**
- * Extends \XF\Entity\Post
- *
  * @property int|null word_count
  * @property int|null word_count_
  *
- * @property string    WordCount
- * @property int|null  RawWordCount
+ * @property-read string    $WordCount
+ * @property-read int|null  $RawWordCount
  */
 interface IContainerWordCount
 {
     public function getWordCount(int $categoryId = null): string;
 
-    /**
-     * @return int|null
-     */
-    public function getRawWordCount();
+    public function getRawWordCount(): ?int;
 
     public function getWordContentType(): string;
 
-    public function rebuildWordCount(bool $doSave = true, bool $searchUpdate = true);
+    public function rebuildWordCount(bool $doSave = true, bool $searchUpdate = true): void;
 }

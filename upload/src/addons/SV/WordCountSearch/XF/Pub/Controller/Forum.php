@@ -1,6 +1,12 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\WordCountSearch\XF\Pub\Controller;
+
+use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
+use XF\Finder\Thread as ThreadFinder;
 
 /**
  * Class Forum
@@ -26,10 +32,7 @@ class Forum extends XFCP_Forum
     {
         $filters = parent::getForumFilterInput($forum);
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
-        if ($wordCountRepo->isThreadWordCountSupported($forum))
+        if (WordCountRepo::get()->isThreadWordCountSupported($forum))
         {
             $input = $this->filter([
                 'min_word_count' => 'int',
@@ -51,18 +54,15 @@ class Forum extends XFCP_Forum
     }
 
     /**
-     * @param \XF\Entity\Forum  $forum
-     * @param \XF\Finder\Thread $threadFinder
-     * @param array             $filters
+     * @param \XF\Entity\Forum $forum
+     * @param ThreadFinder     $threadFinder
+     * @param array            $filters
      */
-    protected function applyForumFilters(\XF\Entity\Forum $forum, \XF\Finder\Thread $threadFinder, array $filters)
+    protected function applyForumFilters(\XF\Entity\Forum $forum, ThreadFinder $threadFinder, array $filters)
     {
         parent::applyForumFilters($forum, $threadFinder, $filters);
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
-        if ($wordCountRepo->isThreadWordCountSupported($forum))
+        if (WordCountRepo::get()->isThreadWordCountSupported($forum))
         {
             if (!empty($filters['min_word_count']))
             {

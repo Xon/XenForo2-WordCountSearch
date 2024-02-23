@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\WordCountSearch\XF\Entity;
 
@@ -6,15 +9,16 @@ use SV\WordCountSearch\Entity\IContainerWordCount;
 use SV\WordCountSearch\Entity\IContentWordCount;
 use SV\WordCountSearch\Entity\PostWords;
 use SV\Threadmarks\Entity\Threadmark;
+use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\Mvc\Entity\Structure;
 
 /**
- * Extends \XF\Entity\Post
+ * @Extends \XF\Entity\Post
  *
- * @property string WordCount
- * @property int    RawWordCount
+ * @property-read string $WordCount
+ * @property-read int    $RawWordCount
  *
- * @property PostWords Words
+ * @property-read PostWords $Words
  */
 class Post extends XFCP_Post implements  IContentWordCount
 {
@@ -37,9 +41,7 @@ class Post extends XFCP_Post implements  IContentWordCount
             return false;
         }
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        $defaultCategoryId = $wordCountRepo->getDefaultThreadmarkCategoryId();
+        $defaultCategoryId = WordCountRepo::get()->getDefaultThreadmarkCategoryId();
 
         if ($threadmark->isChanged('threadmark_category_id') && $threadmark->getPreviousValue('threadmark_category_id') === $defaultCategoryId)
         {
@@ -51,10 +53,7 @@ class Post extends XFCP_Post implements  IContentWordCount
 
     public function getWordCount(): string
     {
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
-        return $wordCountRepo->roundWordCount($this->RawWordCount);
+        return WordCountRepo::get()->roundWordCount($this->RawWordCount);
     }
 
     public function getRawWordCount(): int
@@ -64,17 +63,13 @@ class Post extends XFCP_Post implements  IContentWordCount
             return $this->Words->word_count;
         }
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
-        return $wordCountRepo->getTextWordCount($this->message);
+        return WordCountRepo::get()->getTextWordCount($this->message);
     }
 
-    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true)
+    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true): void
     {
         $changes = false;
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+        $wordCountRepo = WordCountRepo::get();
 
         if ($wordCount === null)
         {
@@ -124,12 +119,9 @@ class Post extends XFCP_Post implements  IContentWordCount
 
     protected function _preSave()
     {
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
         if ($this->isChanged('message') || ($this->isInsert() && !$this->Words))
         {
-            $this->_wordCount = $wordCountRepo->getTextWordCount($this->message);
+            $this->_wordCount = WordCountRepo::get()->getTextWordCount($this->message);
         }
         else
         {

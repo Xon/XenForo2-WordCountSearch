@@ -8,7 +8,7 @@ namespace SV\WordCountSearch\XFES\Search\Source;
 use XF\Search\Query;
 
 /**
- * Extends \XFES\Search\Source\Elasticsearch
+ * @Extends \XFES\Search\Source\Elasticsearch
  */
 class Elasticsearch extends XFCP_Elasticsearch
 {

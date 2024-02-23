@@ -2,6 +2,9 @@
 
 namespace SV\WordCountSearch\Job;
 
+use SV\StandardLib\Helper;
+use SV\WordCountSearch\XF\Entity\Thread as ExtendedThreadEntity;
+use XF\Entity\Thread as ThreadEntity;
 use XF\Job\AbstractRebuildJob;
 
 /**
@@ -11,21 +14,16 @@ use XF\Job\AbstractRebuildJob;
  */
 class ThreadWordCount extends AbstractRebuildJob
 {
-    protected function setupData(array $data)
-    {
-        $this->defaultData = array_merge([
-            'threadmarks-only' => false,
-        ], $this->defaultData);
-
-        return parent::setupData($data);
-    }
+    protected $defaultData = [
+        'threadmarks-only' => false,
+    ];
 
     /**
-     * @param $start
-     * @param $batch
+     * @param int $start
+     * @param int $batch
      * @return array
      */
-    protected function getNextIds($start, $batch)
+    protected function getNextIds($start, $batch): array
     {
         $db = $this->app->db();
 
@@ -33,39 +31,41 @@ class ThreadWordCount extends AbstractRebuildJob
         if (isset($addOns['SV/Threadmarks']) && $this->data['threadmarks-only'])
         {
             return $db->fetchAllColumn($db->limit(
-                "
+                '
 				SELECT thread_id
 				FROM xf_thread
 				WHERE thread_id > ? AND threadmark_count > 0
 				ORDER BY thread_id
-			", $batch
+			', $batch
             ), $start);
         }
 
         return $db->fetchAllColumn($db->limit(
-            "
+            '
             SELECT thread_id
             FROM xf_thread
             WHERE thread_id > ?
             ORDER BY thread_id
-        ", $batch
+        ', $batch
         ), $start);
     }
 
     /**
      * @param int $id
      */
-    protected function rebuildById($id)
+    protected function rebuildById($id): void
     {
-        /** @var \SV\WordCountSearch\XF\Entity\Thread $thread */
-        $thread = \XF::app()->find('XF:Thread', $id);
-        if ($thread !== null)
+        $thread = Helper::find(ThreadEntity::class, $id);
+        if ($thread === null)
         {
-            $thread->rebuildWordCount();
+            return;
         }
+
+        /** @var ExtendedThreadEntity $thread */
+        $thread->rebuildWordCount();
     }
 
-    protected function getStatusType()
+    protected function getStatusType(): string
     {
         return \XF::phrase('svWordCountSearch_x_word_count', ['contentType' => \XF::app()->getContentTypePhrase('thread')])->render();
     }

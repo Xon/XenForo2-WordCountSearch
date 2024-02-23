@@ -2,10 +2,8 @@
 
 namespace SV\WordCountSearch\XF\Repository;
 
-
-
 /**
- * Extends \XF\Repository\Thread
+ * @extends \XF\Repository\Thread
  */
 class Thread extends XFCP_Thread
 {

@@ -3,6 +3,7 @@
 namespace SV\WordCountSearch\Job;
 
 use XF\Job\AbstractJob;
+use XF\Job\JobResult;
 
 /**
  * Class PostWordCount
@@ -11,21 +12,19 @@ use XF\Job\AbstractJob;
  */
 class PrunePostWordCount extends AbstractJob
 {
-    protected $rebuildDefaultData = [
+    protected $defaultData = [
         'steps' => 0,
         'start' => 0,
         'batch' => 1000,
         'max'   => null,
     ];
 
-    protected function setupData(array $data)
-    {
-        $this->defaultData = array_merge($this->rebuildDefaultData, $this->defaultData);
-
-        return parent::setupData($data);
-    }
-
-    public function run($maxRunTime)
+    /**
+     * @param float $maxRunTime
+     * @return JobResult
+     * @noinspection PhpDocMissingThrowsInspection
+     */
+    public function run($maxRunTime): JobResult
     {
         $db = $this->app->db();
         $startTime = microtime(true);
@@ -51,12 +50,12 @@ class PrunePostWordCount extends AbstractJob
             $next = $start + $batchSize;
             $this->data['start'] = $next;
 
-            $db->query("
+            $db->query('
                 DELETE words
                 FROM xf_post_words AS words
                 LEFT JOIN xf_post AS post ON (words.post_id = post.post_id)
                 WHERE words.post_id >= ? AND words.post_id < ? AND post.post_id IS NULL
-            ", [$start, $next]);
+            ', [$start, $next]);
 
             $done += $batchSize;
 
@@ -72,7 +71,7 @@ class PrunePostWordCount extends AbstractJob
         return $this->resume();
     }
 
-    public function getStatusMessage()
+    public function getStatusMessage(): string
     {
         $actionPhrase = \XF::phrase('rebuilding');
         $typePhrase = \XF::phrase('svWordCountSearch_x_word_count', ['contentType' => \XF::app()->getContentTypePhrase('post')])->render();
@@ -80,12 +79,12 @@ class PrunePostWordCount extends AbstractJob
         return sprintf('%s... %s (%s)', $actionPhrase, $typePhrase, $this->data['start']);
     }
 
-    public function canCancel()
+    public function canCancel(): bool
     {
         return true;
     }
 
-    public function canTriggerByChoice()
+    public function canTriggerByChoice(): bool
     {
         return true;
     }

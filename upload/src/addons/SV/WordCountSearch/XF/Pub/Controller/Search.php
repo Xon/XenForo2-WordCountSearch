@@ -1,20 +1,24 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\WordCountSearch\XF\Pub\Controller;
 
 use SV\SearchImprovements\XF\Search\Query\Constraints\RangeConstraint;
+use XF\Http\Request;
+use XF\Search\Query\Query;
 use XF\Search\Query\SqlOrder;
 
 /**
- * Extends \XF\Pub\Controller\Search
- *
+ * @Extends \XF\Pub\Controller\Search
  */
 class Search extends XFCP_Search
 {
     /**
      * @param array $data
      * @param array $urlConstraints
-     * @return \XF\Search\Query\Query
+     * @return Query
      */
     protected function prepareSearchQuery(array $data, &$urlConstraints = [])
     {
@@ -25,7 +29,7 @@ class Search extends XFCP_Search
         {
             $urlConstraints['word_count'] = [];
         }
-        $searchRequest = new \XF\Http\Request($this->app->inputFilterer(), $data, [], []);
+        $searchRequest = new Request($this->app->inputFilterer(), $data, [], []);
         $input = $searchRequest->filter([
             'c.word_count.lower' => 'uint',
             'c.word_count.upper' => 'uint',

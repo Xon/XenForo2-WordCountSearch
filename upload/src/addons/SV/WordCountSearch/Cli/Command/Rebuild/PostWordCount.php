@@ -2,27 +2,29 @@
 
 namespace SV\WordCountSearch\Cli\Command\Rebuild;
 
+use SV\WordCountSearch\Job\PostWordCount as PostWordCountJob;
 use Symfony\Component\Console\Input\InputOption;
 use XF\Cli\Command\Rebuild\AbstractRebuildCommand;
 
 class PostWordCount extends AbstractRebuildCommand
 {
-    protected function getRebuildName()
+    protected function getRebuildName(): string
     {
         return 'word-count-post';
     }
 
-    protected function getRebuildDescription()
+    protected function getRebuildDescription(): string
     {
         return 'Rebuild post word counts';
     }
 
-    protected function getRebuildClass()
+    protected function getRebuildClass(): string
     {
-        return 'SV\WordCountSearch:PostWordCount';
+        return PostWordCountJob::class;
     }
 
-    protected function configureOptions()
+    /** @noinspection PhpMissingParentCallCommonInspection */
+    protected function configureOptions(): void
     {
         $this
             ->addOption(

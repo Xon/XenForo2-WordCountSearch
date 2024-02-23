@@ -1,21 +1,25 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\WordCountSearch\XF\Entity;
 
 use SV\WordCountSearch\Entity\IContainerWordCount;
+use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\Mvc\Entity\Structure;
 
 /**
- * Extends \XF\Entity\Thread
+ * @Extends \XF\Entity\Thread
  *
  * COLUMNS
- * @property int|null word_count
- * @property int|null word_count_
+ * @property int|null $word_count
+ * @property int|null $word_count_
  *
  * GETTERS
- * @property string    WordCount
- * @property int|null  RawWordCount
- * @property bool      hasThreadmarks
+ * @property-read string    $WordCount
+ * @property-read int|null  $RawWordCount
+ * @property-read bool      $hasThreadmarks
  */
 class Thread extends XFCP_Thread implements IContainerWordCount
 {
@@ -32,11 +36,9 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         $this->wordCountThreadmarkCacheRebuild();
     }
 
-    protected function wordCountThreadmarkCacheRebuild()
+    protected function wordCountThreadmarkCacheRebuild(): void
     {
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        $wordCount = $wordCountRepo->getThreadWordCountFromEntity($this);
+        $wordCount = WordCountRepo::get()->getThreadWordCountFromEntity($this);
 
         $this->set('word_count', $wordCount, ['forceSet' => true]);
         $this->clearCache('WordCount');
@@ -44,7 +46,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
         $this->clearCache('hasThreadmarks');
     }
 
-    public function getWordCount(int $categoryId = null): string
+    public function getWordCount(?int $categoryId = null): string
     {
         $categoryId = (int)$categoryId;
         if ($categoryId && $this->hasOption('hasThreadmarks'))
@@ -58,35 +60,24 @@ class Thread extends XFCP_Thread implements IContainerWordCount
             $wordCount = $this->word_count_;
         }
 
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
-        return $wordCountRepo->roundWordCount($wordCount);
+        return WordCountRepo::get()->roundWordCount((int)$wordCount);
     }
 
-    /**
-     * @return int|null
-     */
-    public function getRawWordCount()
+    public function getRawWordCount(): ?int
     {
         return $this->word_count_;
     }
 
-    /**
-     * @return bool
-     */
-    public function getHasThreadmarks()
+    public function getHasThreadmarks(): bool
     {
         /** @noinspection PhpUndefinedMethodInspection */
         return !empty($this->threadmark_count) && $this->canViewThreadmarks();
     }
 
-    public function rebuildWordCount(bool $doSave = true, bool $searchUpdate = true)
+    public function rebuildWordCount(bool $doSave = true, bool $searchUpdate = true): void
     {
         $oldWordCount = (int)$this->word_count;
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-        $wordCountRepo->rebuildContainerWordCount($this);
+        WordCountRepo::get()->rebuildContainerWordCount($this);
         $newWordCount = (int)$this->word_count;
         if ($doSave)
         {
@@ -129,6 +120,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
     /**
      * @param Structure $structure
      * @return Structure
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public static function getStructure(Structure $structure)
     {

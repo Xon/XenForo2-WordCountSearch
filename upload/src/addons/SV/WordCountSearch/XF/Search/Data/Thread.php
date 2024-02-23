@@ -1,7 +1,11 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\WordCountSearch\XF\Search\Data;
 
+use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\Search\MetadataStructure;
 
 /**
@@ -42,7 +46,7 @@ class Thread extends XFCP_Thread
             return $metadata;
         }
 
-        $wordCountRepo = $this->getWordCountRepo();
+        $wordCountRepo = WordCountRepo::get();
         $wordCount = $post->RawWordCount;
         if ($wordCount !== 0)
         {
@@ -75,11 +79,5 @@ class Thread extends XFCP_Thread
     {
         parent::setupMetadataStructure($structure);
         $structure->addField('word_count', MetadataStructure::INT);
-    }
-
-    protected function getWordCountRepo(): \SV\WordCountSearch\Repository\WordCount
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return \XF::app()->repository('SV\WordCountSearch:WordCount');
     }
 }

@@ -2,6 +2,9 @@
 
 namespace SV\WordCountSearch\Job;
 
+use SV\StandardLib\Helper;
+use SV\WordCountSearch\XF\Entity\Post as ExtenedPostEntity;
+use XF\Entity\Post as PostEntity;
 use XF\Job\AbstractRebuildJob;
 
 /**
@@ -11,22 +14,17 @@ use XF\Job\AbstractRebuildJob;
  */
 class PostWordCount extends AbstractRebuildJob
 {
-    protected function setupData(array $data)
-    {
-        $this->defaultData = array_merge([
-            'threadmarks-only' => false,
-            'rebuild'          => false,
-        ], $this->defaultData);
-
-        return parent::setupData($data);
-    }
+    protected $defaultData = [
+        'threadmarks-only' => false,
+        'rebuild' => false,
+    ];
 
     /**
-     * @param $start
-     * @param $batch
+     * @param int $start
+     * @param int $batch
      * @return array
      */
-    protected function getNextIds($start, $batch)
+    protected function getNextIds($start, $batch): array
     {
         $db = $this->app->db();
         $sql = '';
@@ -69,19 +67,19 @@ class PostWordCount extends AbstractRebuildJob
         ), $start);
     }
 
-    protected function rebuildById($id)
+    protected function rebuildById($id): void
     {
-        /** @var \SV\WordCountSearch\XF\Entity\Post|null $post */
-        $post = $this->app->em()->find('XF:Post', $id);
-        if ($post !== null)
+        $post = Helper::find(PostEntity::class, $id);
+        if ($post === null)
         {
             return;
         }
 
+        /** @var ExtenedPostEntity $post */
         $post->rebuildWordCount();
     }
 
-    protected function getStatusType()
+    protected function getStatusType(): string
     {
         return \XF::phrase('svWordCountSearch_x_word_count', ['contentType' => \XF::app()->getContentTypePhrase('post')])->render();
     }

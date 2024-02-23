@@ -3,10 +3,8 @@
 namespace SV\WordCountSearch\Entity;
 
 /**
- * Extends \XF\Entity\Post
- *
- * @property string    WordCount
- * @property int|null  RawWordCount
+ * @property-read string    $WordCount
+ * @property-read int|null  $RawWordCount
  */
 interface IContentWordCount
 {
@@ -16,5 +14,5 @@ interface IContentWordCount
 
     public function hasWordCount(): bool;
 
-    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true);
+    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true): void;
 }

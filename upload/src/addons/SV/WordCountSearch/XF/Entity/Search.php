@@ -5,11 +5,10 @@
 
 namespace SV\WordCountSearch\XF\Entity;
 
-use XF\Mvc\Entity\Entity;
-use XF\Mvc\Entity\Structure;
+use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 
 /**
- * Extends \XF\Entity\Search
+ * @Extends \XF\Entity\Search
  */
 class Search extends XFCP_Search
 {
@@ -18,10 +17,7 @@ class Search extends XFCP_Search
         // ElasticSearch Essentials field
         if ($key === 'word_count_lower' || $key === 'word_count_upper')
         {
-            /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-            $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
-
-            return $wordCountRepo->roundWordCount($value);
+            return WordCountRepo::get()->roundWordCount((int)$value);
         }
 
         return parent::formatConstraintValue($key, $value);

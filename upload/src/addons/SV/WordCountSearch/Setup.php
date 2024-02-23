@@ -3,12 +3,16 @@
 namespace SV\WordCountSearch;
 
 use SV\StandardLib\InstallerHelper;
+use SV\WordCountSearch\Job\PostWordCount as PostWordCountJob;
+use SV\WordCountSearch\Job\ThreadWordCount as ThreadWordCountJob;
+use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
 use XF\Db\Schema\Create;
+use XF\Job\Atomic as AtomicJob;
 
 /**
  * Class Setup
@@ -22,7 +26,7 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
-    public function installStep1()
+    public function installStep1(): void
     {
         $sm = $this->schemaManager();
 
@@ -34,7 +38,7 @@ class Setup extends AbstractSetup
     }
 
     /** @noinspection SqlConstantExpression */
-    public function installStep2()
+    public function installStep2(): void
     {
         // legacy support, in-case XF1 version was uninstalled and columns not removed
         $db = $this->db();
@@ -53,17 +57,17 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function upgrade2010000Step1()
+    public function upgrade2010000Step1(): void
     {
         $this->installStep1();
     }
 
-    public function upgrade2010000Step2()
+    public function upgrade2010000Step2(): void
     {
         $this->installStep2();
     }
 
-    public function uninstallStep1()
+    public function uninstallStep1(): void
     {
         $sm = $this->schemaManager();
 
@@ -73,7 +77,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function uninstallStep2()
+    public function uninstallStep2(): void
     {
         $sm = $this->schemaManager();
 
@@ -83,10 +87,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function getTables()
+    protected function getTables(): array
     {
         $tables = [];
 
@@ -99,10 +100,7 @@ class Setup extends AbstractSetup
         return $tables;
     }
 
-    /**
-     * @return array
-     */
-    protected function getAlterTables()
+    protected function getAlterTables(): array
     {
         $tables = [];
 
@@ -117,10 +115,7 @@ class Setup extends AbstractSetup
         return $tables;
     }
 
-    /**
-     * @return array
-     */
-    protected function getRemoveAlterTables()
+    protected function getRemoveAlterTables(): array
     {
         $tables = [];
 
@@ -135,7 +130,7 @@ class Setup extends AbstractSetup
         return $tables;
     }
 
-    protected function rebuildWordCount()
+    protected function rebuildWordCount(): void
     {
         $this->app->jobManager()->enqueueUnique(
             'svWCSPostWordCountRebuild',
@@ -143,37 +138,32 @@ class Setup extends AbstractSetup
         );
     }
 
-    /**
-     * @param array $stateChanges
-     */
-    public function postInstall(array &$stateChanges)
+    public function postInstall(array &$stateChanges): void
     {
+        parent::postInstall($stateChanges);
         $this->rebuildWordCount();
     }
 
-    /**
-     * @param       $previousVersion
-     * @param array $stateChanges
-     */
-    public function postUpgrade($previousVersion, array &$stateChanges)
+    public function postUpgrade($previousVersion, array &$stateChanges): void
     {
+        $previousVersion = (int)$previousVersion;
+        parent::postUpgrade($previousVersion, $stateChanges);
         if ($previousVersion < 2060500)
         {
             \XF::app()->jobManager()->enqueueUnique('pruneWordCount', 'SV\WordCountSearch:PrunePostWordCount');
         }
 
         $atomicJobs = [];
-        /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
-        $wordCountRepo = $this->app->repository('SV\WordCountSearch:WordCount');
+        $wordCountRepo = WordCountRepo::get();
         if ($wordCountRepo->isThreadWordCountSupported())
         {
             if ($previousVersion < 2040402)
             {
-                $atomicJobs[] = ['SV\WordCountSearch:PostWordCount', ['threadmarks-only' => true]];
+                $atomicJobs[] = [PostWordCountJob::class, ['threadmarks-only' => true]];
             }
             if ($previousVersion < 2060701)
             {
-                $atomicJobs[] = ['SV\WordCountSearch:ThreadWordCount', ['threadmarks-only' => true]];
+                $atomicJobs[] = [ThreadWordCountJob::class, ['threadmarks-only' => true]];
             }
         }
 
@@ -181,7 +171,7 @@ class Setup extends AbstractSetup
         {
             \XF::app()->jobManager()->enqueueUnique(
                 'threadmark-installer',
-                'XF:Atomic', ['execute' => $atomicJobs]
+                AtomicJob::class, ['execute' => $atomicJobs]
             );
         }
     }
