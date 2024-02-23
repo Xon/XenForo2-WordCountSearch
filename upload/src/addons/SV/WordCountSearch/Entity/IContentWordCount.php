@@ -16,5 +16,5 @@ interface IContentWordCount
 
     public function hasWordCount(): bool;
 
-    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool$searchUpdate = true);
+    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true);
 }

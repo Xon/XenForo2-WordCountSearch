@@ -20,7 +20,6 @@ class Forum extends XFCP_Forum
 
     /**
      * @param \XF\Entity\Forum $forum
-     *
      * @return array
      */
     protected function getForumFilterInput(\XF\Entity\Forum $forum)

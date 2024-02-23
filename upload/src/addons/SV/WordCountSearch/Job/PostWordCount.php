@@ -15,7 +15,7 @@ class PostWordCount extends AbstractRebuildJob
     {
         $this->defaultData = array_merge([
             'threadmarks-only' => false,
-            'rebuild' => false,
+            'rebuild'          => false,
         ], $this->defaultData);
 
         return parent::setupData($data);
@@ -24,7 +24,6 @@ class PostWordCount extends AbstractRebuildJob
     /**
      * @param $start
      * @param $batch
-     *
      * @return array
      */
     protected function getNextIds($start, $batch)

@@ -7,23 +7,23 @@ use XF\Cli\Command\Rebuild\AbstractRebuildCommand;
 
 class PostWordCount extends AbstractRebuildCommand
 {
-	protected function getRebuildName()
-	{
-		return 'word-count-post';
-	}
+    protected function getRebuildName()
+    {
+        return 'word-count-post';
+    }
 
-	protected function getRebuildDescription()
-	{
-		return 'Rebuild post word counts';
-	}
+    protected function getRebuildDescription()
+    {
+        return 'Rebuild post word counts';
+    }
 
-	protected function getRebuildClass()
-	{
-		return 'SV\WordCountSearch:PostWordCount';
-	}
+    protected function getRebuildClass()
+    {
+        return 'SV\WordCountSearch:PostWordCount';
+    }
 
-	protected function configureOptions()
-	{
+    protected function configureOptions()
+    {
         $this
             ->addOption(
                 'threadmarks-only',
@@ -38,5 +38,5 @@ class PostWordCount extends AbstractRebuildCommand
                 InputOption::VALUE_NONE,
                 'Fully-rebuild word-count instead of just missing word counts. Default: false'
             );
-	}
+    }
 }

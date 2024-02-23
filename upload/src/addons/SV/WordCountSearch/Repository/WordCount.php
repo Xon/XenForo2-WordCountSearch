@@ -38,7 +38,7 @@ class WordCount extends Repository
     public function hasRangeQuery()
     {
         //$this->app()->search()->getQuery();
-        if (self::$hasElasticSearch  === null)
+        if (self::$hasElasticSearch === null)
         {
             self::$hasElasticSearch = false;
             self::$hasMySQLSearch = true;
@@ -47,9 +47,9 @@ class WordCount extends Repository
         return self::$hasElasticSearch || self::$hasMySQLSearch;
     }
 
-    /** @var bool|null  */
+    /** @var bool|null */
     protected static $hasElasticSearch = null;
-    protected static $hasMySQLSearch = true;
+    protected static $hasMySQLSearch   = true;
 
     /**
      * @return mixed
@@ -79,6 +79,7 @@ class WordCount extends Repository
         $strippedText = $this->app()->stringFormatter()->stripBbCode($message, ['stripQuote' => true]);
         // remove non-visible placeholders
         $strippedText = str_replace('[*]', ' ', $strippedText);
+
         return $this->str_word_count_utf8($strippedText);
     }
 

@@ -20,6 +20,7 @@ class Search extends XFCP_Search
         {
             /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
             $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+
             return $wordCountRepo->roundWordCount($value);
         }
 

@@ -14,12 +14,11 @@ class Search extends XFCP_Search
     /**
      * @param array $data
      * @param array $urlConstraints
-     *
      * @return \XF\Search\Query\Query
      */
     protected function prepareSearchQuery(array $data, &$urlConstraints = [])
     {
-        $query = parent::prepareSearchQuery( $data, $urlConstraints);
+        $query = parent::prepareSearchQuery($data, $urlConstraints);
 
         $urlConstraints['word_count'] = $urlConstraints['word_count'] ?? [];
         if (!is_array($urlConstraints['word_count']))

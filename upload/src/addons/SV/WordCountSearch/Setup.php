@@ -18,9 +18,9 @@ use XF\Db\Schema\Create;
 class Setup extends AbstractSetup
 {
     use InstallerHelper;
-	use StepRunnerInstallTrait;
-	use StepRunnerUpgradeTrait;
-	use StepRunnerUninstallTrait;
+    use StepRunnerInstallTrait;
+    use StepRunnerUpgradeTrait;
+    use StepRunnerUninstallTrait;
 
     public function installStep1()
     {
@@ -39,13 +39,13 @@ class Setup extends AbstractSetup
         // legacy support, in-case XF1 version was uninstalled and columns not removed
         $db = $this->db();
         $sm = $this->schemaManager();
-        if ($sm->columnExists('xf_thread','word_count'))
+        if ($sm->columnExists('xf_thread', 'word_count'))
         {
-            $db->query('update xf_thread set word_count = 0 where word_count is null');
+            $db->query('UPDATE xf_thread SET word_count = 0 WHERE word_count IS NULL');
         }
-        if ($sm->columnExists('xf_search_index','word_count'))
+        if ($sm->columnExists('xf_search_index', 'word_count'))
         {
-            $db->query('update xf_search_index set word_count = 0 where word_count is null');
+            $db->query('UPDATE xf_search_index SET word_count = 0 WHERE word_count IS NULL');
         }
         foreach ($this->getAlterTables() as $tableName => $callback)
         {
@@ -92,8 +92,8 @@ class Setup extends AbstractSetup
 
         $tables['xf_post_words'] = function ($table) {
             /** @var Create|Alter $table */
-            $this->addOrChangeColumn($table,'post_id','int')->primaryKey();
-            $this->addOrChangeColumn($table,'word_count', 'int');
+            $this->addOrChangeColumn($table, 'post_id', 'int')->primaryKey();
+            $this->addOrChangeColumn($table, 'word_count', 'int');
         };
 
         return $tables;
@@ -107,11 +107,11 @@ class Setup extends AbstractSetup
         $tables = [];
 
         $tables['xf_thread'] = function (Alter $table) {
-            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0)->nullable(false);
+            $this->addOrChangeColumn($table, 'word_count', 'int')->setDefault(0)->nullable(false);
         };
 
         $tables['xf_search_index'] = function (Alter $table) {
-            $this->addOrChangeColumn($table,'word_count', 'int')->setDefault(0)->nullable(false);
+            $this->addOrChangeColumn($table, 'word_count', 'int')->setDefault(0)->nullable(false);
         };
 
         return $tables;

@@ -60,6 +60,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
 
         /** @var \SV\WordCountSearch\Repository\WordCount $wordCountRepo */
         $wordCountRepo = $this->repository('SV\WordCountSearch:WordCount');
+
         return $wordCountRepo->roundWordCount($wordCount);
     }
 
@@ -127,7 +128,6 @@ class Thread extends XFCP_Thread implements IContainerWordCount
 
     /**
      * @param Structure $structure
-     *
      * @return Structure
      */
     public static function getStructure(Structure $structure)

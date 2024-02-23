@@ -13,7 +13,6 @@ class Thread extends XFCP_Thread
 {
     /**
      * @param bool $forView
-     *
      * @return array
      */
     public function getEntityWith($forView = false)
@@ -27,7 +26,6 @@ class Thread extends XFCP_Thread
 
     /**
      * @param \XF\Entity\Thread $entity
-     *
      * @return array
      */
     protected function getMetaData(\XF\Entity\Thread $entity)

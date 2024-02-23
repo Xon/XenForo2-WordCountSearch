@@ -14,7 +14,6 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
 {
     /**
      * @param Entity $container
-     *
      * @return array
      */
     public function getThreadmarkCategoryData(Entity $container)

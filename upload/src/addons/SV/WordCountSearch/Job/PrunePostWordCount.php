@@ -15,7 +15,7 @@ class PrunePostWordCount extends AbstractJob
         'steps' => 0,
         'start' => 0,
         'batch' => 1000,
-        'max' => null,
+        'max'   => null,
     ];
 
     protected function setupData(array $data)
@@ -34,7 +34,7 @@ class PrunePostWordCount extends AbstractJob
 
         if (!isset($this->data['max']))
         {
-            $this->data['max'] = (int)$db->fetchOne('select max(post_id) from xf_post_words');
+            $this->data['max'] = (int)$db->fetchOne('SELECT MAX(post_id) FROM xf_post_words');
         }
 
         if (!$this->data['max'] || $this->data['start'] > $this->data['max'])
@@ -65,7 +65,7 @@ class PrunePostWordCount extends AbstractJob
                 break;
             }
         }
-        while($this->data['start'] <= $this->data['max']);
+        while ($this->data['start'] <= $this->data['max']);
 
         $this->data['batch'] = $this->calculateOptimalBatch($this->data['batch'], $done, $startTime, $maxRunTime, 50000);
 
@@ -76,6 +76,7 @@ class PrunePostWordCount extends AbstractJob
     {
         $actionPhrase = \XF::phrase('rebuilding');
         $typePhrase = \XF::phrase('svWordCountSearch_x_word_count', ['contentType' => \XF::app()->getContentTypePhrase('post')])->render();
+
         return sprintf('%s... %s (%s)', $actionPhrase, $typePhrase, $this->data['start']);
     }
 

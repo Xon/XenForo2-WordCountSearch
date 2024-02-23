@@ -26,16 +26,16 @@ class PostWords extends Entity
         $structure->shortName = 'SV\ContentRatings:PostWords';
         $structure->primaryKey = 'post_id';
         $structure->columns = [
-            'post_id'       => ['type' => self::UINT],
-            'word_count'    => ['type' => self::UINT],
+            'post_id'    => ['type' => self::UINT],
+            'word_count' => ['type' => self::UINT],
         ];
         $structure->getters = [];
         $structure->relations = [
             'Post' => [
-                'entity' => 'XF:Post',
-                'type' => self::TO_ONE,
+                'entity'     => 'XF:Post',
+                'type'       => self::TO_ONE,
                 'conditions' => 'post_id',
-                'primary' => true
+                'primary'    => true
             ],
         ];
 
