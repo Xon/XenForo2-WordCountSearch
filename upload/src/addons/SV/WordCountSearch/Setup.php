@@ -51,12 +51,12 @@ class Setup extends AbstractSetup
         $this->applyLegacySchemaUpdates();
     }
 
-    public function upgrade1709053102Step1(): void
+    public function upgrade1709054097Step1(): void
     {
         $this->applySchemaUpdates();
     }
 
-    public function upgrade1709053103Step2(array $stepParams): ?array
+    public function upgrade1709054097Step2(array $stepParams): ?array
     {
         $position = $stepParams[0] ?? 0;
         $stepData = $stepParams[2] ?? [];
