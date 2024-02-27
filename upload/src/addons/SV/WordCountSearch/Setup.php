@@ -51,19 +51,53 @@ class Setup extends AbstractSetup
         $this->applyLegacySchemaUpdates();
     }
 
-    public function upgrade1708684595Step1(): void
+    public function upgrade1709053102Step1(): void
     {
         $this->applySchemaUpdates();
     }
 
-    public function upgrade1708684595Step2(): void
+    public function upgrade1709053103Step2(array $stepParams): ?array
     {
-        $this->db()->query('
+        $position = $stepParams[0] ?? 0;
+        $stepData = $stepParams[2] ?? [];
+
+        $db = $this->db();
+
+        $maxId = $stepData['max'] ?? null;
+        if ($maxId === null)
+        {
+            $stepData['max'] = $db->fetchOne("
+                SELECT max(threadmark.content_id)
+                FROM xf_sv_threadmark as threadmark
+                join xf_post_words as postWords on threadmark.content_id = postWords.post_id
+                where threadmark.content_type = 'post' and threadmark.word_count is null
+            ");
+        }
+
+        if ($position > $maxId)
+        {
+            return null;
+        }
+
+        $next = $position + 50000;
+        $db->query('
             update xf_sv_threadmark as threadmark
             join xf_post_words as postWords on threadmark.content_id = postWords.post_id
             set threadmark.word_count = postWords.word_count
-            where threadmark.content_type = \'post\'
-        ');
+            where threadmark.content_type = \'post\' 
+              and threadmark.content_id > ? and threadmark.content_id < ? 
+              and postWords.post_id > ? and postWords.post_id < ?
+              and threadmark.word_count is null
+        ', [
+            $position, $next,
+            $position, $next,
+        ]);
+
+        return [
+            $next,
+            "{$next} / {$stepData['max']}",
+            $stepData
+        ];
     }
 
     public function uninstallStep1(): void
