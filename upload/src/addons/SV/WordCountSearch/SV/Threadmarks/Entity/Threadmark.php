@@ -62,6 +62,20 @@ class Threadmark extends XFCP_Threadmark
         return 0;
     }
 
+    public function updateWordCount(int $wordCount): void
+    {
+        if (!$this->exists())
+        {
+            $this->set('word_count', $wordCount, ['forceSet' => true]);
+        }
+        else
+        {
+            $this->fastUpdate('word_count', $wordCount);
+        }
+        $this->_getterCache['RawWordCount'] = $wordCount;
+        $this->clearCache('WordCount');
+    }
+
     /**
      * @param Structure $structure
      * @return Structure

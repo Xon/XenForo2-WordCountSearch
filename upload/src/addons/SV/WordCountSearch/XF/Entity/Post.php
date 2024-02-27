@@ -122,24 +122,12 @@ class Post extends XFCP_Post implements  IContentWordCount
     {
         if ($this->hasRelation('Threadmark'))
         {
-            /** @var \SV\Threadmarks\XF\Entity\Post $post */
-            $post = $this;
-            $threadmark = $post->Threadmark;
-            if ($threadmark === null)
+            /** @var \SV\WordCountSearch\SV\Threadmarks\Entity\Threadmark|null $threadmark */
+            $threadmark = $this->get('Threadmark');
+            if ($threadmark !== null)
             {
-                return;
+                $threadmark->updateWordCount($wordCount);
             }
-
-            if (!$threadmark->exists())
-            {
-                $threadmark->set('word_count', $wordCount, ['forceSet' => true]);
-            }
-            else
-            {
-                $threadmark->fastUpdate('word_count', $wordCount);
-            }
-            $threadmark->_getterCache['RawWordCount'] = $wordCount;
-            $threadmark->clearCache('WordCount');
         }
     }
 
@@ -166,7 +154,6 @@ class Post extends XFCP_Post implements  IContentWordCount
 
         parent::_preSave();
     }
-
 
     protected function _postSave()
     {
