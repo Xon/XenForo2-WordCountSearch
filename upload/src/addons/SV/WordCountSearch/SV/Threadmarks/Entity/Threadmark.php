@@ -17,13 +17,21 @@ class Threadmark extends XFCP_Threadmark
 {
     protected function _postSave()
     {
-        if ($this->isInsert())
+        $madeVisible = $this->isStateChanged('message_state', 'visible');
+        if ($this->isInsert() || $madeVisible === 'enter')
         {
             $content = $this->Content;
-            if ($content instanceof IContentWordCount && !$content->hasWordCount())
+            if ($content instanceof IContentWordCount)
             {
                 // handle case where a threadmark is added to content, and needs it's word-count rebuilt
-                $content->rebuildWordCount();
+                if (!$content->hasWordCount())
+                {
+                    $content->rebuildWordCount();
+                }
+                else
+                {
+                    $this->updateWordCount($content->getRawWordCount());
+                }
             }
         }
 
@@ -64,7 +72,7 @@ class Threadmark extends XFCP_Threadmark
 
     public function updateWordCount(int $wordCount): void
     {
-        if (!$this->exists())
+        if (!$this->exists() && !$this->_writeRunning)
         {
             $this->set('word_count', $wordCount, ['forceSet' => true]);
         }
