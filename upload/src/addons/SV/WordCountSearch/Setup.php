@@ -121,7 +121,10 @@ class Setup extends AbstractSetup
 
         foreach ($this->getRemoveAlterTables() as $tableName => $callback)
         {
-            $sm->alterTable($tableName, $callback);
+            if ($sm->tableExists($tableName))
+            {
+                $sm->alterTable($tableName, $callback);
+            }
         }
     }
 
