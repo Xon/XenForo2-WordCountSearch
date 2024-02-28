@@ -58,6 +58,11 @@ class Setup extends AbstractSetup
 
     public function upgrade1709054098Step2(array $stepParams): ?array
     {
+        if (!\XF::isAddOnActive('SV/Threadmarks'))
+        {
+            return null;
+        }
+
         $position = $stepParams[0] ?? 0;
         $stepData = $stepParams[2] ?? [];
 
