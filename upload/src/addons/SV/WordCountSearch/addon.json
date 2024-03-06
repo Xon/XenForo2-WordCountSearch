@@ -3,7 +3,7 @@
     "title": "Word count search",
     "description": "Word-count range searches",
     "version_id": 1709087885,
-    "version_string": "2.10.2",
+    "version_string": "2.11.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
@@ -32,13 +32,13 @@
     },
     "require-soft": {
         "XFES": [
-            2020070,
+            "2.2.0",
             "XenForo Enhanced Search v2.2.0+",
             true
         ],
         "SV/Threadmarks": [
-            2020000,
-            "Threadmarks v2.2.0",
+            "2.19.0",
+            "Threadmarks v2.19.0",
             false
         ]
     },
