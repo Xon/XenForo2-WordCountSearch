@@ -20,7 +20,7 @@ use XF\Mvc\Entity\Structure;
  *
  * @property-read PostWords $Words
  */
-class Post extends XFCP_Post implements  IContentWordCount
+class Post extends XFCP_Post implements IContentWordCount
 {
     public function hasWordCount(): bool
     {
@@ -66,7 +66,7 @@ class Post extends XFCP_Post implements  IContentWordCount
         return WordCountRepo::get()->getTextWordCount($this->message);
     }
 
-    public function rebuildWordCount(int $wordCount = null, bool $doSave = true, bool $searchUpdate = true): void
+    public function rebuildWordCount(?int $wordCount = null, bool $doSave = true, bool $searchUpdate = true): void
     {
         $changes = false;
         $wordCountRepo = WordCountRepo::get();
@@ -91,7 +91,7 @@ class Post extends XFCP_Post implements  IContentWordCount
             }
             $this->hydrateRelation('Words', $words);
         }
-        else if ($this->Words)
+        elseif ($this->Words)
         {
             if ($this->Words->exists())
             {
@@ -111,7 +111,8 @@ class Post extends XFCP_Post implements  IContentWordCount
             // word-count has changed, ensure search is updated!
             \XF::runOnce(
                 'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
-                function () {
+                function ()
+                {
                     $this->app()->search()->index($this->getEntityContentType(), $this);
                 }
             );
