@@ -26,7 +26,7 @@ class PrunePostWordCount extends AbstractJob
      */
     public function run($maxRunTime): JobResult
     {
-        $db = $this->app->db();
+        $db = \XF::app()->db();
         $startTime = microtime(true);
 
         $this->data['steps']++;

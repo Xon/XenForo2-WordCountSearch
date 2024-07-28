@@ -221,7 +221,7 @@ class Setup extends AbstractSetup
 
     protected function rebuildWordCount(): void
     {
-        $this->app->jobManager()->enqueueUnique(
+        \XF::app()->jobManager()->enqueueUnique(
             'svWCSPostWordCountRebuild',
             'SV\WordCountSearch:PostWordCount'
         );

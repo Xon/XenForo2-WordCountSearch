@@ -17,7 +17,7 @@ class Thread extends XFCP_Thread
         parent::rebuildById($id);
 
         /** @var \SV\WordCountSearch\XF\Entity\Thread|null $thread */
-        $thread = \XF::app()->find('XF:Thread', $id);
+        $thread = \SV\StandardLib\Helper::find(\XF\Entity\Thread::class, $id);
         if ($thread !== null)
         {
             $thread->rebuildWordCount();

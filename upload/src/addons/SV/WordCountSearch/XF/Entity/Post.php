@@ -113,7 +113,7 @@ class Post extends XFCP_Post implements IContentWordCount
                 'searchIndex-' . $this->getEntityContentType() . $this->getEntityId(),
                 function ()
                 {
-                    $this->app()->search()->index($this->getEntityContentType(), $this);
+                    \XF::app()->search()->index($this->getEntityContentType(), $this);
                 }
             );
         }

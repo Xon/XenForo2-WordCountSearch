@@ -29,7 +29,7 @@ class Search extends XFCP_Search
         {
             $urlConstraints['word_count'] = [];
         }
-        $searchRequest = new Request($this->app->inputFilterer(), $data, [], []);
+        $searchRequest = new Request(\XF::app()->inputFilterer(), $data, [], []);
         $input = $searchRequest->filter([
             'c.word_count.lower' => 'uint',
             'c.word_count.upper' => 'uint',

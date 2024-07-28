@@ -40,7 +40,7 @@ class WordCount extends Repository
 
     public function hasRangeQuery(): bool
     {
-        //$this->app()->search()->getQuery();
+        //\XF::app()->search()->getQuery();
         if (self::$hasElasticSearch === null)
         {
             self::$hasElasticSearch = false;
@@ -76,7 +76,7 @@ class WordCount extends Repository
 
     public function getTextWordCount(string $message): int
     {
-        $strippedText = $this->app()->stringFormatter()->stripBbCode($message, ['stripQuote' => true]);
+        $strippedText = \XF::app()->stringFormatter()->stripBbCode($message, ['stripQuote' => true]);
         // remove non-visible placeholders
         $strippedText = str_replace('[*]', ' ', $strippedText);
 
