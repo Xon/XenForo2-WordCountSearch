@@ -25,7 +25,7 @@ class ThreadmarkCategory extends XFCP_ThreadmarkCategory
         }
 
         $contentType = $container->getWordContentType();
-        $db = $this->db();
+        $db = \XF::db();
 
         return $db->fetchAllKeyed('
             SELECT threadmark_category_id, MAX(threadmark.position) AS position, CAST(SUM(COALESCE(post_word.word_count, 0)) AS SIGNED) AS word_count

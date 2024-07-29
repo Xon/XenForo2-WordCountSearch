@@ -178,7 +178,7 @@ class WordCount extends Repository
             return 0;
         }
 
-        return intval($this->db()->fetchOne('
+        return intval(\XF::db()->fetchOne('
                 SELECT IFNULL(SUM(post_words.word_count), 0)
                 FROM xf_sv_threadmark AS threadmark 
                 INNER JOIN xf_post_words AS post_words ON (post_words.post_id = threadmark.content_id AND threadmark.content_type = ?)

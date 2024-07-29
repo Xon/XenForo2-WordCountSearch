@@ -112,7 +112,7 @@ class Thread extends XFCP_Thread implements IContainerWordCount
     {
         parent::_postDeletePosts($postIds);
 
-        $db = $this->db();
+        $db = \XF::db();
 
         $db->delete('xf_post_words', 'post_id IN (' . $db->quote($postIds) . ')');
     }
