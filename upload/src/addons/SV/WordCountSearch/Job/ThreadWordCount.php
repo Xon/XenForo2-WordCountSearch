@@ -25,7 +25,7 @@ class ThreadWordCount extends AbstractRebuildJob
      */
     protected function getNextIds($start, $batch): array
     {
-        $db = \XF::app()->db();
+        $db = \XF::db();
 
         $addOns = \XF::app()->container('addon.cache');
         if (isset($addOns['SV/Threadmarks']) && $this->data['threadmarks-only'])

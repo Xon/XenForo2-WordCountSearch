@@ -4,6 +4,7 @@ namespace SV\WordCountSearch;
 
 use SV\StandardLib\InstallerHelper;
 use SV\WordCountSearch\Job\PostWordCount as PostWordCountJob;
+use SV\WordCountSearch\Job\PrunePostWordCount as PrunePostWordCountJob;
 use SV\WordCountSearch\Job\ThreadWordCount as ThreadWordCountJob;
 use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\AddOn\AbstractSetup;
@@ -237,12 +238,13 @@ class Setup extends AbstractSetup
     {
         $previousVersion = (int)$previousVersion;
         parent::postUpgrade($previousVersion, $stateChanges);
-        if ($previousVersion < 2060500)
-        {
-            \XF::app()->jobManager()->enqueueUnique('pruneWordCount', 'SV\WordCountSearch:PrunePostWordCount');
-        }
 
         $atomicJobs = [];
+        if ($previousVersion < 2060500)
+        {
+            $atomicJobs[] = PrunePostWordCountJob::class;
+        }
+
         $wordCountRepo = WordCountRepo::get();
         if ($wordCountRepo->isThreadWordCountSupported())
         {

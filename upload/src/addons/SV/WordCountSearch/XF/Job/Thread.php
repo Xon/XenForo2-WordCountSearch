@@ -2,6 +2,9 @@
 
 namespace SV\WordCountSearch\XF\Job;
 
+use SV\StandardLib\Helper;
+use XF\Entity\Thread as ThreadEntity;
+
 /**
  * Class Thread
  *
@@ -17,7 +20,7 @@ class Thread extends XFCP_Thread
         parent::rebuildById($id);
 
         /** @var \SV\WordCountSearch\XF\Entity\Thread|null $thread */
-        $thread = \SV\StandardLib\Helper::find(\XF\Entity\Thread::class, $id);
+        $thread = Helper::find(ThreadEntity::class, $id);
         if ($thread !== null)
         {
             $thread->rebuildWordCount();
