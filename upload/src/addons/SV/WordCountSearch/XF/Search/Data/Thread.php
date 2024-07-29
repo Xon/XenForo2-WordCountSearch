@@ -9,9 +9,7 @@ use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\Search\MetadataStructure;
 
 /**
- * Class Thread
- *
- * @package SV\WordCountSearch\XF\Search\Data
+ * @Extends \XF\Search\Data\Thread
  */
 class Thread extends XFCP_Thread
 {

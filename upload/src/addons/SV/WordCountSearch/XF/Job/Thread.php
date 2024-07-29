@@ -6,9 +6,7 @@ use SV\StandardLib\Helper;
 use XF\Entity\Thread as ThreadEntity;
 
 /**
- * Class Thread
- *
- * @package SV\WordCountSearch\XF\Job
+ * @Extends \XF\Job\Thread
  */
 class Thread extends XFCP_Thread
 {

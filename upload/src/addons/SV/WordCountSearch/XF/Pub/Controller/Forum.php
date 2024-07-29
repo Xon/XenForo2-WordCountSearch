@@ -9,9 +9,7 @@ use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\Finder\Thread as ThreadFinder;
 
 /**
- * Class Forum
- *
- * @package SV\WordCountSearch\XF\Pub\Controller
+ * @Extends \XF\Pub\Controller\Forum
  */
 class Forum extends XFCP_Forum
 {

@@ -9,9 +9,7 @@ use XF\Search\IndexRecord;
 use XF\Search\MetadataStructure;
 
 /**
- * Class Post
- *
- * @package SV\WordCountSearch\XF\Search\Data
+ * @Extends \XF\Search\Data\Post
  */
 class Post extends XFCP_Post
 {
