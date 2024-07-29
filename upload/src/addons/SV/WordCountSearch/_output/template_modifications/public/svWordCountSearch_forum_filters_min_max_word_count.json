@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<!--[XF:above_sort_by]-->",
-    "replace": "<xf:macro template=\"svWordCountSearch_macros\" name=\"filter_inputs\" arg-filters=\"{{ $filters }}\" arg-contentParent=\"{{ $forum }}\"/>\n\n$0"
+    "replace": "<xf:macro name=\"svWordCountSearch_macros::filter_inputs\" arg-filters=\"{{ $filters }}\" arg-contentParent=\"{{ $forum }}\"/>\n\n$0"
 }

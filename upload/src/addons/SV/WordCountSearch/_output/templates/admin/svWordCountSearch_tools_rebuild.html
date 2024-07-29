@@ -1,4 +1,4 @@
-<xf:macro template="tools_rebuild" name="rebuild_job"
+<xf:macro name="tools_rebuild::rebuild_job"
 		  arg-header="{{ phrase('svWordCountSearch_rebuild_posts_word_count') }}"
 		  arg-job="SV\WordCountSearch:PostWordCount" />
 <!--[XF:SV/WordCountSearch:after_posts_word_count]-->
@@ -8,7 +8,7 @@
 	<xf:inforow>{{ phrase('svWordCountSearch_it_is_recommended_to_rebuild_posts_word_count_before_rebuilding_threads_word_count') }}</xf:inforow>
 </xf:set>
 
-<xf:macro template="tools_rebuild" name="rebuild_job"
+<xf:macro name="tools_rebuild::rebuild_job"
 		  arg-header="{{ phrase('svWordCountSearch_rebuild_threads_word_count') }}"
 		  arg-body="{$threadWordCountBody}"
 		  arg-job="SV\WordCountSearch:ThreadWordCount" />

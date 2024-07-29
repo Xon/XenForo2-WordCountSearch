@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#(<!--\\[XF:search_menu:above_member\\]-->.*?)(\\s*<div class=\"menu-footer\">)#si",
-    "replace": "$1\n<xf:macro template=\"search_form_macros_word_count\" name=\"word_count_quick\" />\n$2"
+    "replace": "$1\n<xf:macro name=\"search_form_macros_word_count::word_count_quick\" />\n$2"
 }
