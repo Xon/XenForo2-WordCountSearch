@@ -18,7 +18,7 @@ use XF\Mvc\Entity\Structure;
  * @property-read string $WordCount
  * @property-read int    $RawWordCount
  *
- * @property-read PostWords $Words
+ * @property-read ?PostWords $Words
  */
 class Post extends XFCP_Post implements IContentWordCount
 {
