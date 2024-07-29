@@ -7,3 +7,5 @@ Requires Search Improvements (free) add-on for range searches.
 
 Works with the following Content Types:
 - Posts
+
+Recommend adding `pcre.jit=1` to php.ini
