@@ -1,9 +1,9 @@
 {
     "template": "search_form_post",
-    "description": "Inject Word count filter (XF2.2)",
+    "description": "Inject Word count filter (XF2.3)",
     "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
-    "find": "<xf:macro template=\"search_form_macros\" name=\"date\" arg-input=\"{$input}\" />",
+    "find": "<xf:macro id=\"search_form_macros::date\" arg-input=\"{$input}\" />",
     "replace": "$0\n<xf:macro name=\"search_form_macros_word_count::word_count\" arg-input=\"{$input}\" />"
 }

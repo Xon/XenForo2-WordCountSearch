@@ -1,6 +1,6 @@
 {
     "template": "search_form_all",
-    "description": "Inject Word count filter",
+    "description": "Inject Word count filter (XF2.2)",
     "execution_order": 5652,
     "enabled": true,
     "action": "str_replace",
