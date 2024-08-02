@@ -5,8 +5,6 @@ use XF\Search\IndexRecord;
 
 /**
  * @extends \XF\Search\Source\MySqlFt
- *
- * @package SV\WordCountSearch\XF\Search\Source
  */
 class MySqlFt extends XFCP_MySqlFt
 {
