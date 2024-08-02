@@ -52,3 +52,8 @@ namespace SV\WordCountSearch\XF\Search\Data
 	class XFCP_Post extends \XF\Search\Data\Post {}
 	class XFCP_Thread extends \XF\Search\Data\Thread {}
 }
+
+namespace SV\WordCountSearch\XF\Search\Source
+{
+	class XFCP_MySqlFt extends \XF\Search\Source\MySqlFt {}
+}
