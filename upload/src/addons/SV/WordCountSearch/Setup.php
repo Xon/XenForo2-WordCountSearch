@@ -231,6 +231,8 @@ class Setup extends AbstractSetup
     public function postInstall(array &$stateChanges): void
     {
         parent::postInstall($stateChanges);
+
+        $this->checkElasticSearchOptimizableState();
         $this->rebuildWordCount();
     }
 
@@ -239,6 +241,7 @@ class Setup extends AbstractSetup
         $previousVersion = (int)$previousVersion;
         parent::postUpgrade($previousVersion, $stateChanges);
 
+        $this->checkElasticSearchOptimizableState();
         $atomicJobs = [];
         if ($previousVersion < 2060500)
         {
