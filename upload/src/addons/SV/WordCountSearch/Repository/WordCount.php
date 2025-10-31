@@ -11,10 +11,13 @@ use XF\Entity\Forum as ForumEntity;
 use XF\Entity\Thread as ThreadEntity;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
+use function count;
+use function intval;
+use function is_callable;
+use function max;
+use function preg_split;
 use function round;
 use function str_replace;
-use function stripos;
-use function substr;
 
 /**
  * Class WordCount
@@ -240,7 +243,7 @@ class WordCount extends Repository
         }
 
         $addOns = \XF::app()->container('addon.cache');
-        if ($threadmarkSupport && isset($addOns['SV/Threadmarks']) && \is_callable([$container, 'updateThreadmarkDataCache']))
+        if ($threadmarkSupport && isset($addOns['SV/Threadmarks']) && is_callable([$container, 'updateThreadmarkDataCache']))
         {
             // calls getThreadmarkCategoryData/wordCountThreadmarkCacheRebuild
             $container->updateThreadmarkDataCache();

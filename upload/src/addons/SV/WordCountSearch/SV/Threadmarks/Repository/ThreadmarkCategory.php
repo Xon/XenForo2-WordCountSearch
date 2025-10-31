@@ -6,9 +6,7 @@ use SV\WordCountSearch\Entity\IContainerWordCount;
 use XF\Mvc\Entity\Entity;
 
 /**
- * Class ThreadmarkCategory
- *
- * @package SV\WordCountSearch\SV\Threadmarks\Repository
+ * @extends \SV\Threadmarks\Repository\ThreadmarkCategory
  */
 class ThreadmarkCategory extends XFCP_ThreadmarkCategory
 {

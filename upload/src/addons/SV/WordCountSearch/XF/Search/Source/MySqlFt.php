@@ -2,6 +2,9 @@
 namespace SV\WordCountSearch\XF\Search\Source;
 
 use XF\Search\IndexRecord;
+use function end;
+use function key;
+use function reset;
 
 /**
  * @extends \XF\Search\Source\MySqlFt

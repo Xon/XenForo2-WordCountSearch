@@ -9,6 +9,7 @@ use SV\SearchImprovements\XF\Search\Query\Constraints\RangeConstraint;
 use XF\Http\Request;
 use XF\Search\Query\Query;
 use XF\Search\Query\SqlOrder;
+use function is_array;
 
 /**
  * @Extends \XF\Pub\Controller\Search
