@@ -13,6 +13,7 @@ use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
 use function round;
 use function str_replace;
+use function stripos;
 use function substr;
 
 /**
@@ -89,7 +90,6 @@ class WordCount extends Repository
     public function roundWordCount(int $wordCount): string
     {
         $phrase = null;
-
         if ($wordCount >= 1000000000) // 1B
         {
             $inexactWordCount = round($wordCount / 1000000000, 0);
@@ -148,6 +148,13 @@ class WordCount extends Repository
         if ($phrase === null)
         {
             return $inexactWordCount;
+        }
+
+        $language = \XF::app()->language();
+        $decimalPoint = $language['decimal_point'];
+        if ($decimalPoint !== '.')
+        {
+            $inexactWordCount = str_replace('.', $decimalPoint, $inexactWordCount);
         }
 
         return \XF::phrase($phrase, [
