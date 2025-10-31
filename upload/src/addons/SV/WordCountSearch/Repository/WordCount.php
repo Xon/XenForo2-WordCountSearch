@@ -63,7 +63,7 @@ class WordCount extends Repository
 
     protected function getWordCountThreshold(): int
     {
-        return (int)(\XF::app()->options()->wordcountThreshold ?? 20);
+        return \XF::options()->wordcountThreshold ?? 20;
     }
 
     public function shouldRecordPostWordCount(Post $post, int $wordCount): bool
