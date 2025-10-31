@@ -11,6 +11,9 @@ use XF\Entity\Forum as ForumEntity;
 use XF\Entity\Thread as ThreadEntity;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Repository;
+use function round;
+use function str_replace;
+use function substr;
 
 /**
  * Class WordCount
@@ -85,25 +88,32 @@ class WordCount extends Repository
 
     public function roundWordCount(int $wordCount): string
     {
-        if ($wordCount >= 1000000000)
+        $phrase = null;
+
+        if ($wordCount >= 1000000000) // 1B
         {
-            $inexactWordCount = round($wordCount / 1000000000, 1) . 'b';
+            $inexactWordCount = round($wordCount / 1000000000, 0);
+            $phrase = 'svWordCount_inexact_word_count.b';
         }
-        else if ($wordCount >= 1000000)
+        else if ($wordCount >= 10000000) // 10M - 999M
         {
-            $inexactWordCount = round($wordCount / 1000000, 1) . 'm';
+            $inexactWordCount = round($wordCount / 1000000, 0);
+            $phrase = 'svWordCount_inexact_word_count.m';
         }
-        else if ($wordCount >= 100000)
+        else if ($wordCount >= 1000000) // 1M - 9M
         {
-            $inexactWordCount = round($wordCount / 100000, 1) * 100 . 'k';
+            $inexactWordCount = round($wordCount / 1000000, 1); // allow 1 decimal place, ie 1.2m
+            $phrase = 'svWordCount_inexact_word_count.m';
         }
-        else if ($wordCount >= 10000)
+        else if ($wordCount >= 10000) // 10K-999K
         {
-            $inexactWordCount = round($wordCount / 10000, 1) * 10 . 'k';
+            $inexactWordCount = round($wordCount / 1000, 0);
+            $phrase = 'svWordCount_inexact_word_count.k';
         }
-        else if ($wordCount >= 1000)
+        else if ($wordCount >= 1000) // 1K-9K
         {
-            $inexactWordCount = round($wordCount / 1000, 1) . 'k';
+            $inexactWordCount = round($wordCount / 1000, 1); // allow 1 decimal place, ie 1.2k
+            $phrase = 'svWordCount_inexact_word_count.k';
         }
         else if ($wordCount >= 100)
         {
@@ -113,16 +123,21 @@ class WordCount extends Repository
         {
             $inexactWordCount = round($wordCount / 10, 1) * 10;
         }
-        else if ($wordCount < 0)
-        {
-            $inexactWordCount = '0';
-        }
         else
         {
-            $inexactWordCount = $wordCount;
+            $inexactWordCount = (int)max(0, round($wordCount, 0));
         }
 
-        return strval($inexactWordCount);
+        $inexactWordCount = (string)$inexactWordCount;
+
+        if ($phrase === null)
+        {
+            return $inexactWordCount;
+        }
+
+        return \XF::phrase($phrase, [
+            'number' => $inexactWordCount,
+        ])->render();
     }
 
     public function checkThreadmarkWordCountForRebuild(ThreadEntity $thread): ?int
