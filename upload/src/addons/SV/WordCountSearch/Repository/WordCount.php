@@ -5,7 +5,7 @@ namespace SV\WordCountSearch\Repository;
 use SV\StandardLib\Helper;
 use SV\Threadmarks\XF\Entity\Forum as ThreadmarkForumEntity;
 use SV\WordCountSearch\Entity\IContainerWordCount;
-use SV\WordCountSearch\XF\Entity\Post;
+use SV\WordCountSearch\XF\Entity\Post as ExtendedPostEntity;
 use SV\WordCountSearch\XF\Entity\Thread as ExtendedThreadEntity;
 use XF\Entity\Forum as ForumEntity;
 use XF\Entity\Thread as ThreadEntity;
@@ -66,7 +66,7 @@ class WordCount extends Repository
         return \XF::options()->wordcountThreshold ?? 20;
     }
 
-    public function shouldRecordPostWordCount(Post $post, int $wordCount): bool
+    public function shouldRecordPostWordCount(ExtendedPostEntity $post, int $wordCount): bool
     {
         if ($wordCount >= $this->getWordCountThreshold())
         {

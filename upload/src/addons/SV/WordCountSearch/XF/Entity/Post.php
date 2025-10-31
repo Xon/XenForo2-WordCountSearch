@@ -7,18 +7,16 @@ namespace SV\WordCountSearch\XF\Entity;
 
 use SV\WordCountSearch\Entity\IContainerWordCount;
 use SV\WordCountSearch\Entity\IContentWordCount;
-use SV\WordCountSearch\Entity\PostWords;
-use SV\Threadmarks\Entity\Threadmark;
+use SV\WordCountSearch\Entity\PostWords as PostWordsEntity;
+use SV\Threadmarks\Entity\Threadmark as ThreadmarkEntity;
 use SV\WordCountSearch\Repository\WordCount as WordCountRepo;
 use XF\Mvc\Entity\Structure;
 
 /**
  * @Extends \XF\Entity\Post
- *
- * @property-read string $WordCount
- * @property-read int    $RawWordCount
- *
- * @property-read ?PostWords $Words
+ * @property-read string           $WordCount
+ * @property-read int              $RawWordCount
+ * @property-read ?PostWordsEntity $Words
  */
 class Post extends XFCP_Post implements IContentWordCount
 {
@@ -34,7 +32,7 @@ class Post extends XFCP_Post implements IContentWordCount
             return false;
         }
 
-        /** @var Threadmark|null $threadmark */
+        /** @var ThreadmarkEntity|null $threadmark */
         $threadmark = $this->get('Threadmark');
         if ($threadmark === null || !$threadmark->exists())
         {
@@ -79,7 +77,7 @@ class Post extends XFCP_Post implements IContentWordCount
 
         if ($wordCountRepo->shouldRecordPostWordCount($this, $wordCount))
         {
-            /** @var PostWords $words */
+            /** @var PostWordsEntity $words */
             $words = $this->getRelationOrDefault('Words', false);
             $words->word_count = $wordCount;
             if ($doSave && $words->hasChanges())
