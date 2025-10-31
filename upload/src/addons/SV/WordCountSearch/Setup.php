@@ -224,7 +224,7 @@ class Setup extends AbstractSetup
     {
         \XF::app()->jobManager()->enqueueUnique(
             'svWCSPostWordCountRebuild',
-            'SV\WordCountSearch:PostWordCount'
+            PostWordCountJob::class
         );
     }
 
