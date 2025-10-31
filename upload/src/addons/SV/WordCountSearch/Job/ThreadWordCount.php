@@ -27,8 +27,7 @@ class ThreadWordCount extends AbstractRebuildJob
     {
         $db = \XF::db();
 
-        $addOns = \XF::app()->container('addon.cache');
-        if (isset($addOns['SV/Threadmarks']) && $this->data['threadmarks-only'])
+        if (Helper::isAddOnActive('SV/Threadmarks') && $this->data['threadmarks-only'])
         {
             return $db->fetchAllColumn($db->limit(
                 '

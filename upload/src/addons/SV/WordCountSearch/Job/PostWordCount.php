@@ -30,8 +30,7 @@ class PostWordCount extends AbstractRebuildJob
         $sql = '';
         $where = '';
 
-        $addOns = \XF::app()->container('addon.cache');
-        if (isset($addOns['SV/Threadmarks']) && $this->data['threadmarks-only'])
+        if (Helper::isAddOnActive('SV/Threadmarks') && $this->data['threadmarks-only'])
         {
             if (!$this->data['rebuild'])
             {

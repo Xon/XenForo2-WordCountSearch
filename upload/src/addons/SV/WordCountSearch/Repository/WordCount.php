@@ -242,8 +242,7 @@ class WordCount extends Repository
             return;
         }
 
-        $addOns = \XF::app()->container('addon.cache');
-        if ($threadmarkSupport && isset($addOns['SV/Threadmarks']) && is_callable([$container, 'updateThreadmarkDataCache']))
+        if ($threadmarkSupport && Helper::isAddOnActive('SV/Threadmarks') && is_callable([$container, 'updateThreadmarkDataCache']))
         {
             // calls getThreadmarkCategoryData/wordCountThreadmarkCacheRebuild
             $container->updateThreadmarkDataCache();
