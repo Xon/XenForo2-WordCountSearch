@@ -99,6 +99,11 @@ class WordCount extends Repository
         {
             $inexactWordCount = round($wordCount / 1000000, 0);
             $phrase = 'svWordCount_inexact_word_count.m';
+            if ($inexactWordCount >= 1000)
+            {
+                $inexactWordCount = 1;
+                $phrase = 'svWordCount_inexact_word_count.b';
+            }
         }
         else if ($wordCount >= 1000000) // 1M - 9M
         {
@@ -109,6 +114,11 @@ class WordCount extends Repository
         {
             $inexactWordCount = round($wordCount / 1000, 0);
             $phrase = 'svWordCount_inexact_word_count.k';
+            if ($inexactWordCount >= 1000)
+            {
+                $inexactWordCount = 1;
+                $phrase = 'svWordCount_inexact_word_count.m';
+            }
         }
         else if ($wordCount >= 1000) // 1K-9K
         {
@@ -118,6 +128,11 @@ class WordCount extends Repository
         else if ($wordCount >= 100)
         {
             $inexactWordCount = round($wordCount / 100, 1) * 100;
+            if ($inexactWordCount >= 1000)
+            {
+                $inexactWordCount = 1;
+                $phrase = 'svWordCount_inexact_word_count.k';
+            }
         }
         else if ($wordCount >= 10)
         {
